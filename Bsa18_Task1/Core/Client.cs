@@ -40,7 +40,7 @@ namespace Core
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public Dictionary<int, string> Get(int userId)
+        public Dictionary<int, string> GetTodos(int userId)
         {
             return null;
         }
