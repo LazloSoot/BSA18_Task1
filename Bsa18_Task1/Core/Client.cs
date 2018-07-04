@@ -176,8 +176,18 @@ namespace Core
         //Самый популярный пост пользователя(там где больше всего лайков)
         public object GetUserInfo(int userId)
         {
-            //return users.Select(user => user.)
-            return null;
+
+            return users.Where(user => user.Id == userId)
+               .Select(user =>
+                           (
+                           User: user,
+                           LastPost: user.Posts.Where(post => post.CreatedAt == user.Posts.Max(p => p.CreatedAt)).FirstOrDefault(),
+                           LastPostCommentsCount: 0,
+                           UnfinishedTasksCount: user.Todos.Where(todo => !todo.IsComplete).Count(),
+                           MostPopComment: user.Posts.OrderBy(post => post.Comments.Where(comment => comment.Body.Length > 80)).First(),
+                           //user.Posts.Where(post => post.Comments.Where(comment => comment.Body.Length > 80).Count == post.Comments.Max(comment => comment.Body.Length)
+                           BestPost: user.Posts.Where(post => post.Likes == user.Posts.Max(p => p.Likes)).FirstOrDefault()
+                           ));
         }
 
         //        Получить следующую структуру(передать Id поста в параметры)
@@ -185,16 +195,24 @@ namespace Core
         //Пост
 
         //Самый длинный коммент поста
-
+        
         //Самый залайканный коммент поста
 
         //Количество комментов под постом где или 0 лайков или длина текста< 80
-        public object GetPostInfo(int userId)
+        public object GetPostInfo(int postId)
         {
-            return null;
+            return users.SelectMany(user => user.Posts
+                                    .Where(post => post.Id == postId))
+                                    .Select(post => 
+                                    (
+                                            Post: post,
+                                            LongestComment: post.Comments.Where(comment => String.Equals(comment.Body, post.Comments.Max(c => c.Body))).FirstOrDefault(),
+                                            BestComment: post.Comments.Where(comment => comment.Likes == post.Comments.Max(c => c.Likes)).FirstOrDefault(),
+                                            CommentsCount: post.Comments.Where(comment => comment.Likes == 0 || comment.Body.Length < 80).Count()
+                                    ));
         }
 
-
+       
 
     }
 }
