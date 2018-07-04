@@ -1,10 +1,7 @@
 ﻿using Core.Entities;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Net;
 using Core.Types;
@@ -165,22 +162,16 @@ namespace Core
                 .ToList();
         }
 
+
         //        Получить следующую структуру(передать Id пользователя в параметры)
-
         //User
-
         //Последний пост пользователя(по дате)
-
         //Количество комментов под последним постом
-
         //Количество невыполненных тасков для пользователя
-
         //Самый популярный пост пользователя(там где больше всего комментов с длиной текста больше 80 символов)
-
         //Самый популярный пост пользователя(там где больше всего лайков)
         public UserInfo GetUserInfo(int userId)
         {
-            // 97
              return users.Where(user => user.Id == userId)
                .Select(user => new UserInfo()
                            {
@@ -188,27 +179,19 @@ namespace Core
                            LastPost = user.Posts.Where(post => post.CreatedAt == user.Posts.Max(p => p.CreatedAt)).FirstOrDefault(),
                            LastPostCommentsCount = 0,
                            UnfinishedTasksCount = user.Todos.Where(todo => !todo.IsComplete).Count(),
-                           //MostPopComment = user.Posts.Where(post => post.Comments.Max(c => c.Id))
                            MostPopComment = user.Posts.OrderBy(post => post.Comments.Where(comment => comment.Body.Length > 80).Count()).FirstOrDefault(),
-                           //MostPopComment = user.Posts.Where(post => post.Comments.Where(comment => comment.Body.Length > 80).Count == post.Comments.Max(comment => comment.Body.Length),
                    BestPost = user.Posts.Where(post => post.Likes == user.Posts.Max(p => p.Likes)).FirstOrDefault()
                            })
                            .FirstOrDefault();
         }
 
         //        Получить следующую структуру(передать Id поста в параметры)
-
         //Пост
-
         //Самый длинный коммент поста
-        
         //Самый залайканный коммент поста
-
         //Количество комментов под постом где или 0 лайков или длина текста< 80
-
         public PostInfo GetPostInfo(int postId)
         {
-            //7
             return users.SelectMany(user => user.Posts
                                     .Where(post => post.Id == postId))
                                     .Select(post => new PostInfo()
@@ -220,8 +203,5 @@ namespace Core
                                     })
                                     .FirstOrDefault();
         }
-
-       
-
     }
 }
