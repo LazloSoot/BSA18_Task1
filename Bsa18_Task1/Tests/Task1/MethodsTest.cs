@@ -21,7 +21,7 @@ namespace Tests.Task1
         private static IEnumerable<Post> posts = LoadData<Post>(Endpoint.posts);
         private static IEnumerable<Comment> comments = LoadData<Comment>(Endpoint.comments);
         private static IEnumerable<Todo> todos = LoadData<Todo>(Endpoint.todos);
-        private const int targetUserId = 21;
+        private const int targetUserId = 97;
 
         [Test]
         public void GetCommentsCountTest()
@@ -48,7 +48,7 @@ namespace Tests.Task1
         [Test]
         public void GetCommentsListTest()
         {
-            IEnumerable<Comment> result = client.GetCommentsList(targetUserId);
+            List<Comment> result = client.GetCommentsList(targetUserId).ToList();
             Assert.NotNull(result);
 
             List<Post> targetPosts = posts.Where(post => post.UserId == targetUserId).ToList();
@@ -57,12 +57,12 @@ namespace Tests.Task1
 
             foreach (var post in targetPosts)
             {
-                expectedComments = comments.Where(c => c.PostId == post.Id).ToList();
+                expectedComments = comments.Where(c => c.PostId == post.Id && c.Body.Length < 50).ToList();
                 totalCommentsCount += expectedComments.Count();
 
                 foreach (var comment in expectedComments)
                 {
-                    result.Contains(comment);
+                    Assert.IsTrue(result.Contains(comment));
                 }
             }
 
