@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Core;
+using Core.Entities;
 
 namespace UI
 {
@@ -32,6 +33,7 @@ namespace UI
 
         private static bool isExit = false;
         private readonly static Client client = Client.Instance;
+        private readonly static List<User> users = client.Users;
 
         static void Main(string[] args)
         {
@@ -56,36 +58,98 @@ namespace UI
 
                 while (!inputCorrect)
                 {
+                    int inputId = 0;
                     if (int.TryParse(Console.ReadKey().KeyChar.ToString(), out inputNumber))
                     {
                         switch (inputNumber) // выбираем пункты меню
                         {
                             case 1:
-                                
+
+                                Console.Clear();
+                                ShowAllHierarhy();
                                 inputCorrect = true;
                                 break;
                             case 2:
-                                
+                                Console.Clear();
+                                Console.WriteLine("Введите id пользователя : ");
+                                if (int.TryParse(Console.ReadLine().ToString(), out inputId) && inputId > 0 )
+                                {
+                                    Console.Clear();
+                                    ShowGetCommentsCount(inputId);
+                                }
+                                else
+                                {
+                                    ShowInputError("Ошибка ввода, попробуйте еще раз.");
+                                    Console.ReadKey();
+                                }
                                 inputCorrect = true;
                                 break;
                             case 3:
-                                
+                                Console.Clear();
+                                Console.WriteLine("Введите id пользователя : ");
+                                if (int.TryParse(Console.ReadLine().ToString(), out inputId) && inputId > 0)
+                                {
+                                    Console.Clear();
+                                    ShowGetCommentsList(inputId);
+                                }
+                                else
+                                {
+                                    ShowInputError("Ошибка ввода, попробуйте еще раз.");
+                                    Console.ReadKey();
+                                }
+                                    
                                 inputCorrect = true;
                                 break;
                             case 4:
-                                
+                                Console.Clear();
+                                Console.WriteLine("Введите id пользователя : ");
+                                if (int.TryParse(Console.ReadLine().ToString(), out inputId) && inputId > 0)
+                                {
+                                    Console.Clear();
+                                    ShowGetTodos(inputId);
+                                }
+                                else
+                                {
+                                    ShowInputError("Ошибка ввода, попробуйте еще раз.");
+                                    Console.ReadKey();
+                                }
+
                                 inputCorrect = true;
                                 break;
                             case 5:
-                                
+                                Console.Clear();
+                                ShowGetOrderedUserList();
+
                                 inputCorrect = true;
                                 break;
                             case 6:
-                                
+                                Console.Clear();
+                                Console.WriteLine("Введите id пользователя : ");
+                                if (int.TryParse(Console.ReadLine().ToString(), out inputId) && inputId > 0)
+                                {
+                                    Console.Clear();
+                                    ShowGetUserInfo(inputId);
+                                }
+                                else
+                                {
+                                    ShowInputError("Ошибка ввода, попробуйте еще раз.");
+                                    Console.ReadKey();
+                                }
                                 inputCorrect = true;
                                 break;
                             case 7:
-
+                                Console.Clear();
+                                Console.WriteLine("Введите id пользователя : ");
+                                if (int.TryParse(Console.ReadLine().ToString(), out inputId) && inputId > 0)
+                                {
+                                    Console.Clear();
+                                    ShowGetPostInfo(inputId);
+                                }
+                                else
+                                {
+                                    ShowInputError("Ошибка ввода, попробуйте еще раз.");
+                                    Console.ReadKey();
+                                }
                                 inputCorrect = true;
                                 break;
                             case 8:
@@ -133,15 +197,213 @@ namespace UI
 
         public static void ShowAllHierarhy()
         {
-            Console.WriteLine("    Панель управления зоопарком\n\n" +
-                    "\t\t1. Добавить животное\n" +
-                    "\t\t2. Покормить животное\n" +
-                    "\t\t3. Вылечить животное\n" +
-                    "\t\t4. Удалить животное\n" +
-                    "\t\t5. Автозаполнение зоопарка\n" +
-                    "\t\t6. Показать информаицю о животных\n" +
-                    "\t\t7. Выйти\n");
-            Console.Write("  Введите цифру соответствующую номеру пункта меню : ");
+            User userTemp;
+            Post postTemp;
+
+            foreach (var user in users)
+            {
+                userTemp = user;
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine(userTemp);
+                Console.ResetColor();
+                foreach (var post in userTemp.Posts)
+                {
+                    postTemp = post;
+                    Console.WriteLine("   " + postTemp);
+                    foreach (var comment in postTemp.Comments)
+                    {
+                        Console.WriteLine("      " + comment);
+                    }
+                    Console.WriteLine();
+                }
+                //Console.WriteLine();
+
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                foreach (var todo in userTemp.Todos)
+                {
+                    
+                    Console.WriteLine("   " + todo);
+                }
+                Console.WriteLine();
+                Console.ResetColor();
+                Console.WriteLine(new string('=', Console.BufferWidth));
+            }
+
+            Console.ReadKey();
+        }
+
+        public static void ShowGetCommentsCount(int userId)
+        {
+            var result = client.GetCommentsCount(userId);
+
+            foreach (var item in result)
+            {
+                Console.WriteLine(item.Key);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Количество комментов : {item.Value}");
+                Console.ResetColor();
+                Console.WriteLine();
+                foreach (var comment in item.Key.Comments)
+                {
+                    Console.WriteLine(comment);
+                }
+                Console.WriteLine();
+                Console.WriteLine(new string('=', 100));
+                Console.WriteLine();
+            }
+
+            Console.ReadKey();
+        }
+
+        public static void ShowGetCommentsList(int userId)
+        {
+            var result = client.GetCommentsList(userId);
+
+            foreach (var comment in result)
+            {
+                Console.WriteLine(comment);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"\t\tКоличество символов : {comment.Body.Length}");
+                Console.ResetColor();
+                Console.WriteLine();
+            }
+
+
+            Console.ReadKey();
+        }
+
+        public static void ShowGetTodos(int userId)
+        {
+            var result = client.GetTodos(userId);
+
+            foreach (var todo in result)
+            {
+                Console.WriteLine(todo.Key + "  " + todo.Value); 
+                Console.WriteLine();
+            }
+
+            Console.ReadKey();
+        }
+
+        public static void ShowGetOrderedUserList()
+        {
+            var result = client.GetOrderedUserList();
+
+            foreach (var user in result)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"\t\tИмя : {user.Name}");
+                Console.ResetColor();
+                Console.WriteLine(user);
+                Console.WriteLine("\t\tTodos");
+                foreach (var todo in user.Todos)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.WriteLine("\t\t" + todo.Name);
+                    Console.ResetColor();
+                }
+                Console.WriteLine();
+            }
+
+
+            Console.ReadKey();
+        }
+
+        public static void ShowGetUserInfo(int inputId)
+        {
+            var result = client.GetUserInfo(inputId);
+
+            Console.WriteLine(result.User);
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("\t\tСписок постов пользователя");
+            Console.ResetColor();
+            Console.WriteLine(new string('-', 100));
+
+            foreach (var post in result.User.Posts)
+            {
+                if (post.Equals(result.LastPost) || post.Equals(result.BestPost) || post.Equals(result.MostPopComment))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    if (post.Equals(result.LastPost))
+                    {
+                        Console.WriteLine("\tПоследний пост");
+                        Console.WriteLine($"\tКоличество комментов под последним постом : {result.LastPostCommentsCount}");
+                    }
+                    if (post.Equals(result.MostPopComment))
+                        Console.WriteLine("\tСамый популярный пост(больше всего комментов с длиной текста больше 80 символов)");
+                    if (post.Equals(result.BestPost))
+                        Console.WriteLine("Самый популярный пост пользователя(больше всего лайков)");
+                    Console.WriteLine(new string('-', 82));
+                    Console.ResetColor();
+                    Console.WriteLine(post);
+                    Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(new string('-', 82));
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.WriteLine(post);
+                }
+                
+            }
+
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("\t\tСписок тасков пользователя");
+            Console.ResetColor();
+            Console.WriteLine(new string('-', 100));
+            foreach (var todo in result.User.Todos)
+            {
+                Console.WriteLine(todo);
+            }
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Количество невыполненных тасков : {result.UnfinishedTasksCount}");
+            Console.ResetColor();
+            Console.ReadKey();
+        }
+
+
+        public static void ShowGetPostInfo(int inputId)
+        {
+            var result = client.GetPostInfo(inputId);
+
+            Console.WriteLine(result.Post);
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("\t\tСписок комментов пользователя");
+            Console.ResetColor();
+            Console.WriteLine(new string('-', 100));
+
+            foreach (var comment in result.Post.Comments)
+            {
+                if (comment.Equals(result.LongestComment) || comment.Equals(result.BestComment))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    if (comment.Equals(result.LongestComment))
+                        Console.WriteLine($"\tСамый длинный коммент поста");
+                    if (comment.Equals(result.BestComment))
+                        Console.WriteLine("\tСамый залайканный коммент поста");
+
+                    Console.WriteLine(new string('-', 82));
+                    Console.ResetColor();
+                    Console.WriteLine(comment);
+                    Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(new string('-', 82));
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.WriteLine(comment);
+                }
+
+            }
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Количество комментов под постом где или 0 лайков или длина текста< 80 : {result.CommentsCount}");
+            Console.ResetColor();
+            Console.ReadKey();
+
         }
 
         static void ShowInputError(string message)

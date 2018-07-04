@@ -33,7 +33,10 @@ namespace Core.Entities
 
         public override string ToString()
         {
-            return $"id:{Id}| postId:{PostId}| userId:{UserId}| likes:{Likes}|\n  {Body}\n\t createdAt{CreatedAt.ToString()}"; 
+
+            return "\t\t" + new string('-', 84) +
+                $"\n\t\tid:{Id}| postId:{PostId}| userId:{UserId}| likes:{Likes}|\n\t\t{Body}\n\t\t {CreatedAt.ToString()}\n" +
+                "\t\t" + new string('-', 84);
         }
     }
 }
