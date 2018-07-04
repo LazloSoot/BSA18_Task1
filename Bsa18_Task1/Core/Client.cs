@@ -104,24 +104,12 @@ namespace Core
         /// <returns></returns>
         public Dictionary<Post, int> GetCommentsCount(int userId)
         {
-            var a = users.Select(user => user.Posts
-                                                .Where(post => post.UserId == user.Id)
-                                                .Select(post => new
-                                                {
-                                                    Post = post,
-                                                    CommentsCount = post.Comments.Count()
-                                                }));
-
-
-            var b = users.FirstOrDefault(user => user.Id == userId)
+            return users.FirstOrDefault(user => user.Id == userId)
                                                 .Posts
-                                                .Select(post => new
-                                                {
-                                                    Post = post,
-                                                    CommentsCount = post.Comments.Count()
-                                                });
-
-            return null;
+                                                .Select(post => 
+                                                new KeyValuePair<Post, int>(post, post.Comments.Count())
+                                                )
+                                                .ToDictionary(mc => mc.Key, mc => mc.Value);
         }
 
         /// <summary>
@@ -131,11 +119,10 @@ namespace Core
         /// <returns></returns>
         public IEnumerable<Comment> GetCommentsList(int userId)
         {
-            var a = users.FirstOrDefault(user => user.Id == userId)
+            return users.FirstOrDefault(user => user.Id == userId)
                                     .Posts
-                                    .Select(post => post.Comments
+                                    .SelectMany(post => post.Comments
                                                         .Where(comment => comment.Body.Length < 50));
-            return null;
         }
 
         /// <summary>
