@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using Core;
 using Core.Entities;
@@ -22,67 +20,82 @@ namespace Tests.Task1
         private static IEnumerable<Comment> comments = LoadData<Comment>(Endpoint.comments);
         private static IEnumerable<Todo> todos = LoadData<Todo>(Endpoint.todos);
         private const int targetUserId = 97;
+        private const int maxIdValue = 100;
+        private const int minIdValue = 1;
 
         [Test]
         public void GetCommentsCountTest()
         {
-            Dictionary<Post, int> result = client.GetCommentsCount(targetUserId);
-            Assert.NotNull(result);
+            Dictionary<Post, int> currentResult;
 
-            List<Post> expectedPosts = posts.Where(post => post.UserId == targetUserId).ToList();
-            int expectedCommentsCount = 0;
-
-            
-            foreach (var post in expectedPosts)
+            for (int currentUserId = minIdValue; currentUserId <= maxIdValue; currentUserId++)
             {
-                Assert.IsTrue(result.ContainsKey(post));
-                expectedCommentsCount = comments
-                    .Select(c => c)
-                    .Where(c => c.PostId == post.Id)
-                    .Count();
+                currentResult = client.GetCommentsCount(currentUserId);
+                Assert.NotNull(currentResult);
 
-                Assert.AreEqual(expectedCommentsCount, result[post]);
+                List<Post> expectedPosts = posts.Where(post => post.UserId == currentUserId).ToList();
+                int expectedCommentsCount = 0;
+
+
+                foreach (var post in expectedPosts)
+                {
+                    Assert.IsTrue(currentResult.ContainsKey(post));
+                    expectedCommentsCount = comments
+                        .Select(c => c)
+                        .Where(c => c.PostId == post.Id)
+                        .Count();
+
+                    Assert.AreEqual(expectedCommentsCount, currentResult[post]);
+                }
             }
         }
 
         [Test]
         public void GetCommentsListTest()
         {
-            List<Comment> result = client.GetCommentsList(targetUserId).ToList();
-            Assert.NotNull(result);
+            List<Comment> currentResult;
 
-            List<Post> targetPosts = posts.Where(post => post.UserId == targetUserId).ToList();
-            List<Comment> expectedComments = null;
-            int totalCommentsCount = 0;
-
-            foreach (var post in targetPosts)
+            for (int currentUserId = minIdValue; currentUserId <= maxIdValue; currentUserId++)
             {
-                expectedComments = comments.Where(c => c.PostId == post.Id && c.Body.Length < 50).ToList();
-                totalCommentsCount += expectedComments.Count();
+                currentResult = client.GetCommentsList(currentUserId).ToList();
+                Assert.NotNull(currentResult);
 
-                foreach (var comment in expectedComments)
+                List<Post> targetPosts = posts.Where(post => post.UserId == currentUserId).ToList();
+                List<Comment> expectedComments = null;
+                int totalCommentsCount = 0;
+
+                foreach (var post in targetPosts)
                 {
-                    Assert.IsTrue(result.Contains(comment));
-                }
-            }
+                    expectedComments = comments.Where(c => c.PostId == post.Id && c.Body.Length < 50).ToList();
+                    totalCommentsCount += expectedComments.Count();
 
-            Assert.AreEqual(totalCommentsCount, result.Count());
+                    foreach (var comment in expectedComments)
+                    {
+                        Assert.IsTrue(currentResult.Contains(comment));
+                    }
+                }
+
+                Assert.AreEqual(totalCommentsCount, currentResult.Count());
+            }
         }
 
         [Test]
         public void GetTodosTest()
         {
-            Dictionary<int, string> result = client.GetTodos(targetUserId);
-            Assert.NotNull(result);
-
-            List<Todo> expectedTodos = todos.Where(t => t.UserId == targetUserId && t.IsComplete).ToList();
-            Assert.AreEqual(expectedTodos.Count, result.Count);
-
-            foreach (var todo in expectedTodos)
+            for (int currentUserId = minIdValue; currentUserId <= maxIdValue; currentUserId++)
             {
-                Assert.IsTrue(result.ContainsKey(todo.Id));
-                Assert.IsTrue(todo.IsComplete);
-                Assert.IsTrue(String.Equals(result[todo.Id], todo.Name));
+                Dictionary<int, string> result = client.GetTodos(currentUserId);
+                Assert.NotNull(result);
+
+                List<Todo> expectedTodos = todos.Where(t => t.UserId == currentUserId && t.IsComplete).ToList();
+                Assert.AreEqual(expectedTodos.Count, result.Count);
+
+                foreach (var todo in expectedTodos)
+                {
+                    Assert.IsTrue(result.ContainsKey(todo.Id));
+                    Assert.IsTrue(todo.IsComplete);
+                    Assert.IsTrue(String.Equals(result[todo.Id], todo.Name));
+                }
             }
         }
 
@@ -90,24 +103,24 @@ namespace Tests.Task1
         [Test]
         public void GetOrderedUserListTest()
         {
-            List<User> result = client.GetOrderedUserList().ToList();
-            Assert.NotNull(result);
+                List<User> result = client.GetOrderedUserList().ToList();
+                Assert.NotNull(result);
 
-            List<User> expectedUsers = users.OrderBy(user => user.Name).ToList();
-            Assert.AreEqual(expectedUsers.Count, result.Count);
+                List<User> expectedUsers = users.OrderBy(user => user.Name).ToList();
+                Assert.AreEqual(expectedUsers.Count, result.Count);
 
-            List<Todo> expectedTodods = null;
-            for (int i = 0; i < expectedUsers.Count; i++)
-            {
-                Assert.AreEqual(expectedUsers[i], result[i]);
-                expectedTodods = todos.Where(t => t.UserId == result[i].Id).OrderBy(todo => todo.Name.Length).ToList();
-                Assert.AreEqual(expectedTodods.Count, result[i].Todos.Count);
-
-                for (int j = 0; j < expectedTodods.Count; j++)
+                List<Todo> expectedTodods = null;
+                for (int i = 0; i < expectedUsers.Count; i++)
                 {
-                    Assert.AreEqual(expectedTodods[j], result[i].Todos[j]);
+                    Assert.AreEqual(expectedUsers[i], result[i]);
+                    expectedTodods = todos.Where(t => t.UserId == result[i].Id).OrderBy(todo => todo.Name.Length).ToList();
+                    Assert.AreEqual(expectedTodods.Count, result[i].Todos.Count);
+
+                    for (int j = 0; j < expectedTodods.Count; j++)
+                    {
+                        Assert.AreEqual(expectedTodods[j], result[i].Todos[j]);
+                    }
                 }
-            }
         }
 
         [Test]
