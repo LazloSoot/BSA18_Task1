@@ -109,7 +109,7 @@ namespace Core
                                                 .Select(post => 
                                                 new KeyValuePair<Post, int>(post, post.Comments.Count())
                                                 )
-                                                .ToDictionary(mc => mc.Key, mc => mc.Value);
+                                                .ToDictionary(post => post.Key, commentsCount => commentsCount.Value);
         }
 
         /// <summary>
@@ -132,14 +132,12 @@ namespace Core
         /// <returns></returns>
         public Dictionary<int, string> GetTodos(int userId)
         {
-            var a = users.FirstOrDefault(user => user.Id == userId)
-                ?.Todos.Select(todo => new
-                {
-                    Id = todo.Id,
-                    Name = todo.Name
-                });
-
-            return null;
+            return users.FirstOrDefault(user => user.Id == userId)
+                .Todos
+                .Select(todo =>
+                new KeyValuePair<int, string>(todo.Id, todo.Name)
+                )
+                .ToDictionary(id => id.Key, name => name.Value);
         }
 
 
