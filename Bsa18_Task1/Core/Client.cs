@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Net;
 using Core.Types;
+using Core.Helpers;
 
 namespace Core
 {
@@ -19,6 +20,8 @@ namespace Core
         private static readonly Uri baseUri;
 
         public static Client Instance => instance.Value;
+
+        public List<User> Users { get => users;}
 
         static Client()
         {
@@ -175,20 +178,22 @@ namespace Core
         //Самый популярный пост пользователя(там где больше всего комментов с длиной текста больше 80 символов)
 
         //Самый популярный пост пользователя(там где больше всего лайков)
-        public object GetUserInfo(int userId)
+        public UserInfo GetUserInfo(int userId)
         {
-
-            return users.Where(user => user.Id == userId)
-               .Select(user =>
-                           (
-                           User: user,
-                           LastPost: user.Posts.Where(post => post.CreatedAt == user.Posts.Max(p => p.CreatedAt)).FirstOrDefault(),
-                           LastPostCommentsCount: 0,
-                           UnfinishedTasksCount: user.Todos.Where(todo => !todo.IsComplete).Count(),
-                           MostPopComment: user.Posts.OrderBy(post => post.Comments.Where(comment => comment.Body.Length > 80)).First(),
-                           //user.Posts.Where(post => post.Comments.Where(comment => comment.Body.Length > 80).Count == post.Comments.Max(comment => comment.Body.Length)
-                           BestPost: user.Posts.Where(post => post.Likes == user.Posts.Max(p => p.Likes)).FirstOrDefault()
-                           ));
+            // 97
+             return users.Where(user => user.Id == userId)
+               .Select(user => new UserInfo()
+                           {
+                           User = user,
+                           LastPost = user.Posts.Where(post => post.CreatedAt == user.Posts.Max(p => p.CreatedAt)).FirstOrDefault(),
+                           LastPostCommentsCount = 0,
+                           UnfinishedTasksCount = user.Todos.Where(todo => !todo.IsComplete).Count(),
+                           //MostPopComment = user.Posts.Where(post => post.Comments.Max(c => c.Id))
+                           MostPopComment = user.Posts.OrderBy(post => post.Comments.Where(comment => comment.Body.Length > 80).Count()).FirstOrDefault(),
+                           //MostPopComment = user.Posts.Where(post => post.Comments.Where(comment => comment.Body.Length > 80).Count == post.Comments.Max(comment => comment.Body.Length),
+                   BestPost = user.Posts.Where(post => post.Likes == user.Posts.Max(p => p.Likes)).FirstOrDefault()
+                           })
+                           .FirstOrDefault();
         }
 
         //        Получить следующую структуру(передать Id поста в параметры)
@@ -200,17 +205,20 @@ namespace Core
         //Самый залайканный коммент поста
 
         //Количество комментов под постом где или 0 лайков или длина текста< 80
-        public object GetPostInfo(int postId)
+
+        public PostInfo GetPostInfo(int postId)
         {
+            //7
             return users.SelectMany(user => user.Posts
                                     .Where(post => post.Id == postId))
-                                    .Select(post => 
-                                    (
-                                            Post: post,
-                                            LongestComment: post.Comments.Where(comment => String.Equals(comment.Body, post.Comments.Max(c => c.Body))).FirstOrDefault(),
-                                            BestComment: post.Comments.Where(comment => comment.Likes == post.Comments.Max(c => c.Likes)).FirstOrDefault(),
-                                            CommentsCount: post.Comments.Where(comment => comment.Likes == 0 || comment.Body.Length < 80).Count()
-                                    ));
+                                    .Select(post => new PostInfo()
+                                    {
+                                            Post = post,
+                                            LongestComment = post.Comments.Where(comment => String.Equals(comment.Body, post.Comments.Max(c => c.Body))).FirstOrDefault(),
+                                            BestComment = post.Comments.Where(comment => comment.Likes == post.Comments.Max(c => c.Likes)).FirstOrDefault(),
+                                            CommentsCount = users.SelectMany(u => u.Posts.Where(p => p.Likes == 0 || p.Body.Length < 80)).FirstOrDefault().Comments.Count
+                                    })
+                                    .FirstOrDefault();
         }
 
        
