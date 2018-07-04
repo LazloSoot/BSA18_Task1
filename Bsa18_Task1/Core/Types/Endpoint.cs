@@ -2,6 +2,7 @@
 {
     public enum Endpoint
     {
+        none,
         users,
         posts,
         comments,
