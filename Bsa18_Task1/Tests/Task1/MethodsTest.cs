@@ -7,6 +7,7 @@ using Core.Entities;
 using System.Net;
 using Core.Types;
 using Newtonsoft.Json;
+using Core.Helpers;
 
 namespace Tests.Task1
 {
@@ -130,11 +131,36 @@ namespace Tests.Task1
             Assert.NotNull(result);
         }
 
-       
+
+        
+        [Test]
         public void GetPostInfoTest()
         {
-            var result = client.GetPostInfo(0);
-            Assert.NotNull(result);
+            PostInfo currentResult;
+            for (int currentPostId = minIdValue; currentPostId <= maxIdValue; currentPostId++)
+            {
+                currentResult = client.GetPostInfo(currentPostId);
+                Assert.NotNull(currentResult);
+
+                Post expectedPost = posts.FirstOrDefault(post => post.Id == currentPostId);
+                Assert.AreEqual(expectedPost, currentResult.Post);
+
+                Comment expectedLongestComment = comments
+                    .Where(c => c.PostId == currentPostId && c.Body.Length == comments.Where(cc => cc.PostId == currentPostId).Max(cc => cc.Body.Length))
+                    .FirstOrDefault();
+                Assert.AreEqual(expectedLongestComment?.Body.Length, currentResult.LongestComment?.Body.Length);
+
+                Comment expectedBestComment = comments
+                    .Where(c => c.PostId == currentPostId && c.Likes == comments.Where(cc => cc.PostId == currentPostId).Max(cc => cc.Likes))
+                    .FirstOrDefault();
+                Assert.AreEqual(expectedBestComment?.Likes, currentResult.BestComment?.Likes);
+
+                int expectedCommentsCount = comments
+                    .Where(c => c.PostId == currentPostId && (c.Likes == 0 || c.Body.Length < 80))
+                    .Count();
+                Assert.AreEqual(expectedCommentsCount, currentResult.CommentsCount);
+            }
+            
         }
 
         static IEnumerable<T> LoadData<T>(Endpoint endpoint) where T : class, new()
