@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public class Comment
+    public class Comment : IEquatable<Comment>
     {
         public int Id { get; set; }
 
@@ -19,5 +19,16 @@ namespace Core.Entities
         public int PostId { get; set; }
 
         public int Likes { get; set; }
+
+        public bool Equals(Comment other)
+        {
+            if (other is null)
+                return false;
+            if (ReferenceEquals(this, other))
+                return true;
+
+            return Id == other.Id && UserId == other.UserId
+                && PostId == other.PostId && String.Equals(Body, other.Body) && DateTime.Equals(CreatedAt, other.CreatedAt);
+        }
     }
 }

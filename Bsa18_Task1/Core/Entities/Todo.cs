@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public class Todo
+    public class Todo : IEquatable<Todo>
     {
         public int Id { get; set; }
 
@@ -17,5 +13,16 @@ namespace Core.Entities
         public bool IsComplete { get; set; }
 
         public int UserId { get; set; }
+
+        public bool Equals(Todo other)
+        {
+            if (other == null)
+                return false;
+            if (ReferenceEquals(this, other))
+                return true;
+
+            return Id == other.Id && DateTime.Equals(CreatedAt, other.CreatedAt) && String.Equals(Name, other.Name)
+                && UserId == other.UserId && IsComplete == other.IsComplete;
+        }
     }
 }
