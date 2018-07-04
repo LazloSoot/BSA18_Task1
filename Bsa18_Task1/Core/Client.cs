@@ -145,10 +145,19 @@ namespace Core
         /// Получить список пользователей по алфавиту(по возрастанию) с отсортированными todo items по длине name(по убыванию)
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<User> GetUserList()
+        public IEnumerable<User> GetOrderedUserList()
         {
-           // var a = users.Select(user => user.Todos.OrderBy(todo => todo.Name.Max()))
-            return null;
+            return users.OrderBy(user => user.Name)
+                .Select(user => new User()
+                {
+                    Avatar = user.Avatar,
+                    Name = user.Name,
+                    CreatedAt = user.CreatedAt,
+                    Email = user.Email,
+                    Id = user.Id,
+                    Posts = user.Posts,
+                    Todos = user.Todos.OrderBy(todo => todo.Name.Length).ToList()
+                });
         }
 
         //        Получить следующую структуру(передать Id пользователя в параметры)
