@@ -70,7 +70,7 @@ namespace UI
                             case 2:
                                 Console.Clear();
                                 Console.WriteLine("Введите id пользователя : ");
-                                if (int.TryParse(Console.ReadLine().ToString(), out inputId) && inputId > 0 )
+                                if (int.TryParse(Console.ReadLine().ToString(), out inputId) && inputId > 0 && inputId <= 100)
                                 {
                                     Console.Clear();
                                     ShowGetCommentsCount(inputId);
@@ -85,7 +85,7 @@ namespace UI
                             case 3:
                                 Console.Clear();
                                 Console.WriteLine("Введите id пользователя : ");
-                                if (int.TryParse(Console.ReadLine().ToString(), out inputId) && inputId > 0)
+                                if (int.TryParse(Console.ReadLine().ToString(), out inputId) && inputId > 0 && inputId <= 100)
                                 {
                                     Console.Clear();
                                     ShowGetCommentsList(inputId);
@@ -101,7 +101,7 @@ namespace UI
                             case 4:
                                 Console.Clear();
                                 Console.WriteLine("Введите id пользователя : ");
-                                if (int.TryParse(Console.ReadLine().ToString(), out inputId) && inputId > 0)
+                                if (int.TryParse(Console.ReadLine().ToString(), out inputId) && inputId > 0 && inputId <= 100)
                                 {
                                     Console.Clear();
                                     ShowGetTodos(inputId);
@@ -123,7 +123,7 @@ namespace UI
                             case 6:
                                 Console.Clear();
                                 Console.WriteLine("Введите id пользователя : ");
-                                if (int.TryParse(Console.ReadLine().ToString(), out inputId) && inputId > 0)
+                                if (int.TryParse(Console.ReadLine().ToString(), out inputId) && inputId > 0 && inputId <= 100)
                                 {
                                     Console.Clear();
                                     ShowGetUserInfo(inputId);
@@ -138,7 +138,7 @@ namespace UI
                             case 7:
                                 Console.Clear();
                                 Console.WriteLine("Введите id поста : ");
-                                if (int.TryParse(Console.ReadLine().ToString(), out inputId) && inputId > 0)
+                                if (int.TryParse(Console.ReadLine().ToString(), out inputId) && inputId > 0 && inputId <= 100)
                                 {
                                     Console.Clear();
                                     ShowGetPostInfo(inputId);
@@ -398,7 +398,7 @@ namespace UI
             }
 
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"Количество комментов под постом где или 0 лайков или длина текста< 80 : {result.CommentsCount}");
+            Console.WriteLine($"Количество комментов под постом, у которых или 0 лайков или длина текста< 80 : {result.CommentsCount}");
             Console.ResetColor();
             Console.ReadKey();
 
