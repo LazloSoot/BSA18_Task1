@@ -157,7 +157,8 @@ namespace Core
                     Id = user.Id,
                     Posts = user.Posts,
                     Todos = user.Todos.OrderBy(todo => todo.Name.Length).ToList()
-                });
+                })
+                .ToList();
         }
 
         //        Получить следующую структуру(передать Id пользователя в параметры)
