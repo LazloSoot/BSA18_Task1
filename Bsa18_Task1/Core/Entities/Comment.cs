@@ -30,5 +30,10 @@ namespace Core.Entities
             return Id == other.Id && UserId == other.UserId
                 && PostId == other.PostId && String.Equals(Body, other.Body) && DateTime.Equals(CreatedAt, other.CreatedAt);
         }
+
+        public override string ToString()
+        {
+            return $"id:{Id}| postId:{PostId}| userId:{UserId}| likes:{Likes}|\n  {Body}\n\t createdAt{CreatedAt.ToString()}"; 
+        }
     }
 }

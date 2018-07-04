@@ -46,5 +46,10 @@ namespace Core.Entities
         {
             return this.Id * 21 * Name.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return $"id:{Id}| Name:{Name}| Email:{Email}|\n\t createdAt{CreatedAt.ToString()}";
+        }
     }
 }

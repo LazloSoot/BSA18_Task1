@@ -24,5 +24,10 @@ namespace Core.Entities
             return Id == other.Id && DateTime.Equals(CreatedAt, other.CreatedAt) && String.Equals(Name, other.Name)
                 && UserId == other.UserId && IsComplete == other.IsComplete;
         }
+
+        public override string ToString()
+        {
+            return $"id:{Id}| userId:{UserId}| \n{Name}\n\t is complete:{IsComplete}\n\t createdAt{CreatedAt.ToString()}";
+        }
     }
 }

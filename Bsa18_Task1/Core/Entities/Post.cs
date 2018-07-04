@@ -36,5 +36,10 @@ namespace Core.Entities
         {
             return this.Id * 18 * this.UserId.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return $"id:{Id}| userId:{UserId}| likes:{Likes}|\n\t\t{Title}\n  {Body}\n\t createdAt{CreatedAt.ToString()}";
+        }
     }
 }
