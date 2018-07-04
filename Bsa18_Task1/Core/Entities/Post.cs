@@ -29,6 +29,11 @@ namespace Core.Entities
 
         public bool Equals(Post other)
         {
+            if (other == null)
+                return false;
+            if (ReferenceEquals(this, other))
+                return true;
+
             return this.Id == other.Id && this.UserId == other.UserId;
         }
 
@@ -39,7 +44,9 @@ namespace Core.Entities
 
         public override string ToString()
         {
-            return $"id:{Id}| userId:{UserId}| likes:{Likes}|\n\t\t{Title}\n  {Body}\n\t createdAt{CreatedAt.ToString()}";
+            return  "\t"+ new string('-', 92) +
+                $"\n\tid:{Id}| userId:{UserId}| likes:{Likes}|\n\n\t   {Title}\n\t{Body}\n\t  {CreatedAt.ToString()}\n"
+                + "\t" + new string('-', 92);
         }
     }
 }

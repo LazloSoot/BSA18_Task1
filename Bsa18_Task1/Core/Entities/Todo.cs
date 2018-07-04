@@ -27,7 +27,10 @@ namespace Core.Entities
 
         public override string ToString()
         {
-            return $"id:{Id}| userId:{UserId}| \n{Name}\n\t is complete:{IsComplete}\n\t createdAt{CreatedAt.ToString()}";
+            string state = this.IsComplete ? "completed" : "uncompleted";
+            return "\t" + new string('-', 92) +
+                $"\n\tid:{Id}| userId:{UserId}| \n\t{Name}  -  {state}\n\t createdAt{CreatedAt.ToString()}\n"
+                + "\t" + new string('-', 92);
         }
     }
 }

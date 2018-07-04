@@ -49,7 +49,9 @@ namespace Core.Entities
 
         public override string ToString()
         {
-            return $"id:{Id}| Name:{Name}| Email:{Email}|\n\t createdAt{CreatedAt.ToString()}";
+            return new string('-', 100) +
+                $"\nid:{Id}| Name:{Name}| Email:{Email}| createdAt{CreatedAt.ToString()}\n" +
+                new string('-', 100);
         }
     }
 }
