@@ -134,6 +134,7 @@ namespace Core
         {
             return users.FirstOrDefault(user => user.Id == userId)
                 .Todos
+                .Where(todo => todo.IsComplete)
                 .Select(todo =>
                 new KeyValuePair<int, string>(todo.Id, todo.Name)
                 )
