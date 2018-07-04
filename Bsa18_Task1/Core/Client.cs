@@ -199,7 +199,10 @@ namespace Core
                                             Post = post,
                                             LongestComment = post.Comments.Where(comment => comment.Body.Length == post.Comments.Max(c => c.Body.Length)).FirstOrDefault(),
                                             BestComment = post.Comments.Where(comment => comment.Likes == post.Comments.Max(c => c.Likes)).FirstOrDefault(),
-                                            CommentsCount = users.SelectMany(u => u.Posts.Where(p => p.Likes == 0 || p.Body.Length < 80)).FirstOrDefault().Comments.Count
+                                            //Количество комментов под постом, у которых или 0 лайков или длина текста< 80
+                                            CommentsCount = post.Comments.Where(comment => comment.Likes == 0 || comment.Body.Length < 80).Count()
+                                            //Количество комментов под постом где или 0 лайков или длина текста< 80
+                                            // CommentsCount = users.SelectMany(u => u.Posts.Where(p => p.Likes == 0 || p.Body.Length < 80)).FirstOrDefault().Comments.Count
                                     })
                                     .FirstOrDefault();
         }
