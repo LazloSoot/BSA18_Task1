@@ -197,7 +197,7 @@ namespace Core
                                     .Select(post => new PostInfo()
                                     {
                                             Post = post,
-                                            LongestComment = post.Comments.Where(comment => String.Equals(comment.Body, post.Comments.Max(c => c.Body))).FirstOrDefault(),
+                                            LongestComment = post.Comments.Where(comment => comment.Body.Length == post.Comments.Max(c => c.Body.Length)).FirstOrDefault(),
                                             BestComment = post.Comments.Where(comment => comment.Likes == post.Comments.Max(c => c.Likes)).FirstOrDefault(),
                                             CommentsCount = users.SelectMany(u => u.Posts.Where(p => p.Likes == 0 || p.Body.Length < 80)).FirstOrDefault().Comments.Count
                                     })
