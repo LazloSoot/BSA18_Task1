@@ -43,7 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client.cs" />
+    <Compile Include="Entities\Comment.cs" />
+    <Compile Include="Entities\Post.cs" />
+    <Compile Include="Entities\Todo.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="Helpers\UserInfo.cs" />
+    <Compile Include="Helpers\PostInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Types\Endpoint.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
