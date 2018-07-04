@@ -180,7 +180,7 @@ namespace Core
                            LastPostCommentsCount = user.Posts.Where(post => post.CreatedAt == user.Posts.Max(p => p.CreatedAt)).FirstOrDefault().Comments.Count(),
                            UnfinishedTasksCount = user.Todos.Where(todo => !todo.IsComplete).Count(),
                            MostPopComment = user.Posts.OrderBy(post => post.Comments.Where(comment => comment.Body.Length > 80).Count()).FirstOrDefault(),
-                   BestPost = user.Posts.Where(post => post.Likes == user.Posts.Max(p => p.Likes)).FirstOrDefault()
+                           BestPost = user.Posts.Where(post => post.Likes == user.Posts.Max(p => p.Likes)).FirstOrDefault()
                            })
                            .FirstOrDefault();
         }

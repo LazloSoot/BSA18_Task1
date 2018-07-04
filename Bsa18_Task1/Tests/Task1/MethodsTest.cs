@@ -127,11 +127,46 @@ namespace Tests.Task1
         [Test]
         public void GetUserInfoTest()
         {
-            var result = client.GetUserInfo(0);
-            Assert.NotNull(result);
+            UserInfo currentResult;
+            for (int currentUserId = minIdValue; currentUserId <= maxIdValue; currentUserId++)
+            {
+                currentResult = client.GetUserInfo(currentUserId);
+                Assert.NotNull(currentResult);
+
+                User expectedUser = users
+                    .FirstOrDefault(u => u.Id == currentUserId);
+                Assert.AreEqual(expectedUser, currentResult.User);
+
+                Post expectedLastPost = posts
+                    .Where(p => p.UserId == currentUserId)
+                    .OrderByDescending(p => p.CreatedAt)
+                    .FirstOrDefault();
+                var lastPos = currentResult.LastPost ?? null;
+                Assert.AreEqual(expectedLastPost?.CreatedAt, lastPos?.CreatedAt);
+
+                if(expectedLastPost != null)
+                {
+                    int expectedLastPostCommentsCount = comments.Where(c => c.PostId == expectedLastPost.Id)
+                        .Count();
+                    Assert.AreEqual(expectedLastPostCommentsCount, currentResult.LastPostCommentsCount);
+                }
+
+                int expectedUnfinishedTasksCount = todos
+                    .Where(t => t.UserId == currentUserId && !t.IsComplete)
+                    .Count();
+                Assert.AreEqual(expectedUnfinishedTasksCount, currentResult.UnfinishedTasksCount);
+
+                //там где больше всего комментов с длиной текста больше 80 символов)
+                //  Post expectedMostPopComment = posts.Where(p => p.UserId == currentUserId && p.Id == comments.Where))
+
+                Post expectedBestPost = posts
+                    .Where(p => p.UserId == currentUserId && p.Likes == posts.Where(pp => pp.UserId == currentUserId).Max(ppp => ppp.Likes))
+                    .FirstOrDefault();
+                Assert.AreEqual(expectedBestPost?.Likes, currentResult.BestPost?.Likes);
+
+            }
+
         }
-
-
         
         [Test]
         public void GetPostInfoTest()
