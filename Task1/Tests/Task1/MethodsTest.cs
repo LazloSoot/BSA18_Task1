@@ -7,6 +7,7 @@ using Core.Entities;
 using System.Net;
 using Core.Types;
 using Newtonsoft.Json;
+using Core.Helpers;
 
 namespace Tests.Task1
 {
@@ -126,15 +127,75 @@ namespace Tests.Task1
         [Test]
         public void GetUserInfoTest()
         {
-            var result = client.GetUserInfo(0);
-            Assert.NotNull(result);
-        }
+            UserInfo currentResult;
+            for (int currentUserId = minIdValue; currentUserId <= maxIdValue; currentUserId++)
+            {
+                currentResult = client.GetUserInfo(currentUserId);
+                Assert.NotNull(currentResult);
 
-       
+                User expectedUser = users
+                    .FirstOrDefault(u => u.Id == currentUserId);
+                Assert.AreEqual(expectedUser, currentResult.User);
+
+                Post expectedLastPost = posts
+                    .Where(p => p.UserId == currentUserId)
+                    .OrderByDescending(p => p.CreatedAt)
+                    .FirstOrDefault();
+                var lastPos = currentResult.LastPost ?? null;
+                Assert.AreEqual(expectedLastPost?.CreatedAt, lastPos?.CreatedAt);
+
+                if(expectedLastPost != null)
+                {
+                    int expectedLastPostCommentsCount = comments.Where(c => c.PostId == expectedLastPost.Id)
+                        .Count();
+                    Assert.AreEqual(expectedLastPostCommentsCount, currentResult.LastPostCommentsCount);
+                }
+
+                int expectedUnfinishedTasksCount = todos
+                    .Where(t => t.UserId == currentUserId && !t.IsComplete)
+                    .Count();
+                Assert.AreEqual(expectedUnfinishedTasksCount, currentResult.UnfinishedTasksCount);
+
+                //там где больше всего комментов с длиной текста больше 80 символов)
+                //  Post expectedMostPopComment = posts.Where(p => p.UserId == currentUserId && p.Id == comments.Where))
+
+                Post expectedBestPost = posts
+                    .Where(p => p.UserId == currentUserId && p.Likes == posts.Where(pp => pp.UserId == currentUserId).Max(ppp => ppp.Likes))
+                    .FirstOrDefault();
+                Assert.AreEqual(expectedBestPost?.Likes, currentResult.BestPost?.Likes);
+
+            }
+
+        }
+        
+        [Test]
         public void GetPostInfoTest()
         {
-            var result = client.GetPostInfo(0);
-            Assert.NotNull(result);
+            PostInfo currentResult;
+            for (int currentPostId = minIdValue; currentPostId <= maxIdValue; currentPostId++)
+            {
+                currentResult = client.GetPostInfo(currentPostId);
+                Assert.NotNull(currentResult);
+
+                Post expectedPost = posts.FirstOrDefault(post => post.Id == currentPostId);
+                Assert.AreEqual(expectedPost, currentResult.Post);
+
+                Comment expectedLongestComment = comments
+                    .Where(c => c.PostId == currentPostId && c.Body.Length == comments.Where(cc => cc.PostId == currentPostId).Max(cc => cc.Body.Length))
+                    .FirstOrDefault();
+                Assert.AreEqual(expectedLongestComment?.Body.Length, currentResult.LongestComment?.Body.Length);
+
+                Comment expectedBestComment = comments
+                    .Where(c => c.PostId == currentPostId && c.Likes == comments.Where(cc => cc.PostId == currentPostId).Max(cc => cc.Likes))
+                    .FirstOrDefault();
+                Assert.AreEqual(expectedBestComment?.Likes, currentResult.BestComment?.Likes);
+
+                int expectedCommentsCount = comments
+                    .Where(c => c.PostId == currentPostId && (c.Likes == 0 || c.Body.Length < 80))
+                    .Count();
+                Assert.AreEqual(expectedCommentsCount, currentResult.CommentsCount);
+            }
+            
         }
 
         static IEnumerable<T> LoadData<T>(Endpoint endpoint) where T : class, new()
