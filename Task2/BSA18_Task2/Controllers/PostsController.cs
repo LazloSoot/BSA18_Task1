@@ -22,6 +22,13 @@ namespace BSA18_Task2.Controllers
             return View();
         }
 
+        // GET: Posts/{id}
+        public ActionResult GetPost(int id)
+        {
+            var post = userDataService.GetPost(id);
+            return View(post);
+        }
+
         // POST: Posts/GetPostInfo/
         [HttpPost]
         public ActionResult GetPostInfo(int postId)

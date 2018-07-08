@@ -145,7 +145,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\AdressesController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
@@ -213,6 +212,8 @@
     <Content Include="Views\Users\GetAllUsers.cshtml" />
     <Content Include="Views\Users\GetOrderedUserList.cshtml" />
     <Content Include="Views\Users\GetUserInfo.cshtml" />
+    <Content Include="Views\Users\GetUsers.cshtml" />
+    <Content Include="Views\Posts\GetPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

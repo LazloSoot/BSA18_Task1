@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Core;
 using Core.Entities;
 using Core.Helpers;
@@ -41,6 +42,10 @@ namespace BSA18_Task2.Services
             return userDataClient.GetUserInfo(userId);
         }
 
+        public User GetUser(int userId)
+        {
+            return userDataClient.Users?.Find(u => u.Id == userId);
+        }
 
         #endregion
 
@@ -75,6 +80,17 @@ namespace BSA18_Task2.Services
             return userDataClient.Users.Find(user => user.Id == userId)?.Posts;
         }
 
+        public Post GetPost(int postId)
+        {
+            Post result = null;
+            foreach (var user in userDataClient.Users)
+            {
+                result = user.Posts.FirstOrDefault(p => p.Id == postId);
+                if (result != null)
+                    break;
+            }
+            return result;
+        }
         #endregion
 
         #region Todos

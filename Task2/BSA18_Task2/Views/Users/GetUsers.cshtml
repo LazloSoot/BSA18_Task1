@@ -1,0 +1,22 @@
+﻿@model Core.Entities.User
+
+<h2>@Model.Name</h2>
+
+<section class="functionalityPanel">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Avatar</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Created at</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    @Html.Partial("_User", @Model)
+                </tr>
+        </tbody>
+    </table>
+</section>

@@ -1,0 +1,23 @@
+﻿@model Core.Entities.Post
+
+<h2>Target post </h2>
+
+<section class="functionalityPanel">
+    <table class="table" title="Target post">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Body</th>
+                <th>Likes</th>
+                <th>Created at</th>
+                <th>User id</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                @Html.Partial("_Post", @Model)
+            </tr>
+        </tbody>
+    </table>
+</section>

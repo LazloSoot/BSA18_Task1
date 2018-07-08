@@ -22,6 +22,13 @@ namespace BSA18_Task2.Controllers
             return View();
         }
 
+        // GET: Users/id={0}
+        public ActionResult GetUsers(int id)
+        {
+            var user = userDataService.GetUser(id);
+            return View(user);
+        }
+
         // GET: Users/GetAllUsers/
         public ActionResult GetAllUsers()
         {
