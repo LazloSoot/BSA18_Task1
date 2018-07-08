@@ -1,14 +1,16 @@
 ﻿@model Core.Entities.User
 
-
-<tr>
+@{ 
+    string dataTarget = $"order{Model.Id}";
+    int idTemp = 0;
+}
+<tr data-toggle="collapse" data-target=".@dataTarget">
     <td>@Html.ActionLink(@Model.Id.ToString(), "GetUser", new { id = @Model.Id }, new { @class = "link" }) </td>
-    <td><img src="@Model.Avatar" alt="username" /></td>
+    <td><img src="@Model.Avatar" alt="@Model.Name" /></td>
     <td>@Html.ActionLink(@Model.Name, "GetUser", new { id = @Model.Id }, new { @class = "link" })</td>
     <td>@Model.Email</td>
     <td>@Model.CreatedAt</td>
     @{
-        int idTemp = 0;
         if (@Model.Posts.Count > 0)
         {
             idTemp = @Model.Posts[0].Id;
@@ -36,7 +38,7 @@
     for (int i = 1; i < Model.Posts.Count; i++)
     {
         idTemp = @Model.Posts[i].Id;
-<tr>
+<tr class="collapse @dataTarget subrow">
     <td> ----- </td>
     <td> ----- </td>
     <td> ----- </td>
@@ -45,7 +47,7 @@
     <td>@Html.ActionLink($"Post {idTemp}", "GetPost", "Posts", new { id = idTemp }, new { @class = "link" })</td>
     @if (i < @Model.Todos.Count)
     {
-        idTemp = @Model.Todos[i].Id;
+            idTemp = @Model.Todos[i].Id;
         <td>@Html.ActionLink($"Todo {idTemp}", "GetTodo", "Todos", new { id = idTemp }, new { @class = "link" })</td>
     }
     else

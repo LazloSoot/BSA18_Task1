@@ -2,8 +2,34 @@
 
 <h2>All users</h2>
 
-<section class="functionalityPanel">
-    <table class="table">
+
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css" />
+@{ 
+    foreach (var user in @Model)
+    {
+        foreach (var post in user.Posts)
+        {
+            @Html.Partial("_UserPost", new Tuple<Core.Entities.User, Core.Entities.Post>(user, post));
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<section class="functionalityPanel">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>Id</th>
@@ -24,4 +50,4 @@
             }
         </tbody>
     </table>
-</section>
+</section>*@

@@ -1,8 +1,4 @@
 ﻿using BSA18_Task2.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace BSA18_Task2.Controllers
@@ -43,10 +39,16 @@ namespace BSA18_Task2.Controllers
             return View(users);
         }
 
-        // GET: Users/GetUserInfo/
-        public ActionResult GetUserInfo(int userId)
+        // POST: Users/GetUserInfo/
+        [HttpPost]
+        public ActionResult GetUserInfo(int Id)
         {
-            var userInfo = userDataService.GetUserInfo(userId);
+            if(Id < 1)
+            {
+                ModelState.AddModelError("Id", "Id value must be greater than zero");
+                return View("Index");
+            }
+            var userInfo = userDataService.GetUserInfo(Id);
             return View(userInfo);
         }
     }

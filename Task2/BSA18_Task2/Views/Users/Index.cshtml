@@ -1,14 +1,19 @@
-﻿@{
+﻿@model Core.Entities.User
+
+@{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2 class="page-header">Users</h2>
 
 <section class="functionalityPanel panel panel-default">
 
-    @Html.ActionLink("Get all users", "GetAllUsers", null, new { @class = "btn btn-default" })
+    <div class="btn-group btn-group-vertical">
+        @Html.ActionLink("Get all users", "GetAllUsers", null, new { @class = "btn btn-default" })
 
-    @Html.ActionLink("Get ordered user list", "GetOrderedUserList", null, new { @class = "btn btn-default" })
+        @Html.ActionLink("Get ordered user list", "GetOrderedUserList", null, new { @class = "btn btn-default" })
+    </div>
+    
 
     @using (Html.BeginForm("GetUserInfo", "Users", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
@@ -18,9 +23,10 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
                 <div class="col-md-10">
-                    <label class="col-md-2 control-label">Target user id</label>
+                    @Html.LabelFor(u => u.Id, "Target user id: ", new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">
-                        <input type="number" name="userId" placeholder="User id" class="form-control" />
+                        @Html.EditorFor(u => u.Id)
+                        @Html.ValidationMessageFor(u => u.Id)
                     </div>
                 </div>
             </div>
