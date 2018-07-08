@@ -1,38 +1,30 @@
 ﻿@model Core.Entities.Post
-<tr>
+@{
+    string dataTarget = $"order{Model.Id}";
+    int idTemp = 0;
+}
+<tr data-toggle="collapse" data-target=".@dataTarget">
     <td>@Html.ActionLink(@Model.Id.ToString(), "GetPost", "Posts", new { id = @Model.Id }, new { @class = "link" })</td>
     <td>@Model.Title</td>
     <td>@Model.Body</td>
     <td>@Model.Likes</td>
     <td>@Model.CreatedAt</td>
     <td>@Html.ActionLink($"User {@Model.UserId.ToString()}", "GetUser", "Users", new { id = @Model.UserId }, new { @class = "link" })</td>
-    @{
-        int idTemp = 0;
-        if (@Model.Comments.Count > 0)
-        {
-            idTemp = @Model.Comments[0].Id;
-            <td>@Html.ActionLink($"Comment {idTemp}", "GetComment", "Comments", new { id = idTemp }, new { @class = "link" })</td>
-        }
-        else
-        {
-            <td> ----- </td>
-
-        }
-    }
+    <td>Count : @Model.Comments.Count</td>
 </tr>
 
 @{
-    for (int i = 1; i < Model.Comments.Count; i++)
+    for (int i = 0; i < Model.Comments.Count; i++)
     {
         idTemp = @Model.Comments[i].Id;
-<tr>
-    <td> ----- </td>
-    <td> ----- </td>
-    <td> ----- </td>
-    <td> ----- </td>
-    <td> ----- </td>
-    <td> ----- </td>
-    <td>@Html.ActionLink($"Comment {idTemp}", "GetComment", "Comments", new { id = idTemp }, new { @class = "link" })</td>
-</tr>
+        <tr  class="collapse @dataTarget sub-row">
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>@Html.ActionLink($"Comment {idTemp}", "GetComment", "Comments", new { id = idTemp }, new { @class = "link" })</td>
+        </tr>
     }
 }

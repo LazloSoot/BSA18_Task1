@@ -10,40 +10,20 @@
     <td>@Html.ActionLink(@Model.Name, "GetUser", new { id = @Model.Id }, new { @class = "link" })</td>
     <td>@Model.Email</td>
     <td>@Model.CreatedAt</td>
-    @{
-        if (@Model.Posts.Count > 0)
-        {
-            idTemp = @Model.Posts[0].Id;
-            <td>@Html.ActionLink($"Post {idTemp}", "GetPost", "Posts", new { id = idTemp }, new { @class = "link" })</td>
-        }
-        else
-        {
-            <td> ----- </td>
-
-        }
-
-        if (@Model.Todos.Count > 0)
-        {
-            idTemp = @Model.Todos[0].Id;
-            <td>@Html.ActionLink($"Todo {idTemp}", "GetTodo", "Todos", new { id = idTemp }, new { @class = "link" })</td>
-        }
-        else
-        {
-            <td> ----- </td>
-        }
-    }
+    <td>Count : @Model.Posts.Count</td>
+    <td>Count : @Model.Todos.Count</td>
 </tr>
 
 @{
-    for (int i = 1; i < Model.Posts.Count; i++)
+    for (int i = 0; i < Model.Posts.Count; i++)
     {
         idTemp = @Model.Posts[i].Id;
-<tr class="collapse @dataTarget subrow">
-    <td> ----- </td>
-    <td> ----- </td>
-    <td> ----- </td>
-    <td> ----- </td>
-    <td> ----- </td>
+<tr class="collapse @dataTarget sub-row">
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
     <td>@Html.ActionLink($"Post {idTemp}", "GetPost", "Posts", new { id = idTemp }, new { @class = "link" })</td>
     @if (i < @Model.Todos.Count)
     {
