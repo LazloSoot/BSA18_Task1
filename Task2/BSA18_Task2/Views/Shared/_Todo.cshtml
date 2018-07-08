@@ -1,0 +1,12 @@
+﻿@model Core.Entities.Todo
+
+
+            <td>@Model.Id</td>
+            <td>@Model.UserId</td>
+            <td>@Model.CreatedAt</td>
+            <td>@Model.Name</td>
+            @{
+                var state = @Model.IsComplete ? "completed" : "uncompleted";
+                <td>@state</td>
+            }
+
