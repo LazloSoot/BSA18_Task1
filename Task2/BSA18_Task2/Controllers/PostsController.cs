@@ -1,8 +1,4 @@
 ﻿using BSA18_Task2.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace BSA18_Task2.Controllers
@@ -31,17 +27,27 @@ namespace BSA18_Task2.Controllers
 
         // POST: Posts/GetPostInfo/
         [HttpPost]
-        public ActionResult GetPostInfo(int postId)
+        public ActionResult GetPostInfo(int Id)
         {
-            var postInfo = userDataService.GetPostInfo(postId);
+            if (Id < 1)
+            {
+                ModelState.AddModelError("Id", "Id value must be greater than zero");
+                return View("Index");
+            }
+            var postInfo = userDataService.GetPostInfo(Id);
             return View(postInfo);
         }
 
         // POST: Posts/GetUserPostsList/
         [HttpPost]
-        public ActionResult GetUserPostsList(int userId)
+        public ActionResult GetUserPostsList(int Id)
         {
-            var post = userDataService.GetUserPostsList(userId);
+            if (Id < 1)
+            {
+                ModelState.AddModelError("Id", "Id value must be greater than zero");
+                return View("Index");
+            }
+            var post = userDataService.GetUserPostsList(Id);
             return View(post);
         }
     }

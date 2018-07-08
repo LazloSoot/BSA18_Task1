@@ -1,8 +1,9 @@
-﻿@{
+﻿@model Core.Entities.Post
+@{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2 class="page-header">Posts</h2>
 
 <section class="functionalityPanel panel panel-default">
 
@@ -14,9 +15,10 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
                 <div class="col-md-10">
-                    <label class="col-md-2 control-label">Target user id</label>
+                    @Html.LabelFor(u => u.Id, "Target user id: ", new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">
-                        <input type="number" name="userId" placeholder="User id" class="form-control" />
+                        @Html.EditorFor(u => u.Id)
+                        @Html.ValidationMessageFor(u => u.Id)
                     </div>
                 </div>
             </div>
@@ -36,9 +38,10 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
                 <div class="col-md-10">
-                    <label class="col-md-2 control-label">Target post id</label>
+                    @Html.LabelFor(u => u.Id, "Target post id: ", new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">
-                        <input type="number" name="postId" placeholder="Post id" class="form-control" />
+                        @Html.EditorFor(u => u.Id)
+                        @Html.ValidationMessageFor(u => u.Id)
                     </div>
                 </div>
             </div>
