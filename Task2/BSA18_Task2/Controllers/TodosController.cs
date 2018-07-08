@@ -1,8 +1,4 @@
 ﻿using BSA18_Task2.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace BSA18_Task2.Controllers
@@ -38,17 +34,27 @@ namespace BSA18_Task2.Controllers
 
         //POST: Todos/GetCompletedUserTodos
         [HttpPost]
-        public ActionResult GetCompletedUserTodos(int userId)
+        public ActionResult GetCompletedUserTodos(int Id)
         {
-            var todos = userDataService.GetCompletedUserTodos(userId);
+            if (Id < 1)
+            {
+                ModelState.AddModelError("Id", "Id value must be greater than zero");
+                return View("Index");
+            }
+            var todos = userDataService.GetCompletedUserTodos(Id);
             return View(todos);
         }
 
         //POST: Todos/GetUserTodos
         [HttpPost]
-        public ActionResult GetUserTodos(int userId)
+        public ActionResult GetUserTodos(int Id)
         {
-            var todos = userDataService.GetUserTodos(userId);
+            if (Id < 1)
+            {
+                ModelState.AddModelError("Id", "Id value must be greater than zero");
+                return View("Index");
+            }
+            var todos = userDataService.GetUserTodos(Id);
             return View(todos);
         }
     }
