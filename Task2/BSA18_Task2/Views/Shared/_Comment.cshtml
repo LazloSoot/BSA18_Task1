@@ -1,8 +1,9 @@
 ﻿@model Core.Entities.Comment
-
-        <td>@Model.Id</td>
-        <td>@Model.Body</td>
-        <td>@Model.Likes</td>
-        <td>@Model.CreatedAt</td>
-        <td>@Model.UserId</td>
-        <td>@Model.PostId</td>
+<tr>
+    <td>@Html.ActionLink(@Model.Id.ToString(), "GetComment", "Comments", new { id = @Model.Id }, new { @class = "link" })</td>
+    <td>@Model.Body</td>
+    <td>@Model.Likes</td>
+    <td>@Model.CreatedAt</td>
+    <td>@Html.ActionLink($"User {@Model.UserId.ToString()}", "GetUser", "Users", new { id = @Model.UserId }, new { @class = "link" })</td>
+    <td>@Html.ActionLink($"Post {@Model.PostId.ToString()}", "GetPost", "Posts", new { id = @Model.PostId }, new { @class = "link" })</td>
+</tr>

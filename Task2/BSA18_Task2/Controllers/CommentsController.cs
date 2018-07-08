@@ -22,6 +22,13 @@ namespace BSA18_Task2.Controllers
             return View();
         }
 
+        // GET: Comment/GetComment/{id}
+        public ActionResult GetComment(int id)
+        {
+            var comment = userDataService.GetComment(id);
+            return View(comment);
+        }
+
         // POST: Comments/GetShortCommentsList/
         [HttpPost]
         public ActionResult GetShortCommentsList(int userId)
