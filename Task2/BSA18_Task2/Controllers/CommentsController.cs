@@ -1,8 +1,4 @@
 ﻿using BSA18_Task2.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace BSA18_Task2.Controllers
@@ -31,25 +27,40 @@ namespace BSA18_Task2.Controllers
 
         // POST: Comments/GetShortCommentsList/
         [HttpPost]
-        public ActionResult GetShortCommentsList(int userId)
+        public ActionResult GetShortCommentsList(int Id)
         {
-            var comments = userDataService.GetCommentsList(userId);
+            if (Id < 1)
+            {
+                ModelState.AddModelError("Id", "Id value must be greater than zero");
+                return View("Index");
+            }
+            var comments = userDataService.GetCommentsList(Id);
             return View(comments);
         }
 
         // POST: Comments/GetUserCommentsList/
         [HttpPost]
-        public ActionResult GetUserCommentsList(int userId)
+        public ActionResult GetUserCommentsList(int Id)
         {
-            var comments = userDataService.GetUserCommentsList(userId);
+            if (Id < 1)
+            {
+                ModelState.AddModelError("Id", "Id value must be greater than zero");
+                return View("Index");
+            }
+            var comments = userDataService.GetUserCommentsList(Id);
             return View(comments);
         }
 
         // POST: Comments/GetCommentsCount/
         [HttpPost]
-        public ActionResult GetCommentsCount(int userId)
+        public ActionResult GetCommentsCount(int Id)
         {
-            var comments = userDataService.GetCommentsCount(userId);
+            if (Id < 1)
+            {
+                ModelState.AddModelError("Id", "Id value must be greater than zero");
+                return View("Index");
+            }
+            var comments = userDataService.GetCommentsCount(Id);
             return View(comments);
         }
     }
