@@ -1,12 +1,12 @@
 ﻿@model Core.Entities.Todo
 
-
-            <td>@Model.Id</td>
-            <td>@Model.UserId</td>
-            <td>@Model.CreatedAt</td>
-            <td>@Model.Name</td>
-            @{
-                var state = @Model.IsComplete ? "completed" : "uncompleted";
-                <td>@state</td>
-            }
-
+<tr>
+    <td>@Html.ActionLink(@Model.Id.ToString(), "GetTodo", "Todos", new { id = @Model.Id }, new { @class = "link" })</td>
+    <td>@Html.ActionLink($"User {@Model.UserId.ToString()}", "GetUser", "Users", new { id = @Model.UserId }, new { @class = "link" })</td>
+    <td>@Model.CreatedAt</td>
+    <td>@Model.Name</td>
+    @{
+        var state = @Model.IsComplete ? "completed" : "uncompleted";
+        <td>@state</td>
+    }
+</tr>

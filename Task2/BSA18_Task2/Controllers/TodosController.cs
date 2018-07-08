@@ -22,11 +22,17 @@ namespace BSA18_Task2.Controllers
             return View();
         }
 
+        // GET: Todos/GetTodo/{id}
+        public ActionResult GetTodo(int id)
+        {
+            var todo = userDataService.GetTodo(id);
+            return View(todo);
+        }
 
         //GET: Todos/GetAllTodos
         public ActionResult GetAllTodos()
         {
-            var todos = userDataService.GetUserTodos(27);
+            var todos = userDataService.GetAllTodos();
             return View(todos);
         }
 
