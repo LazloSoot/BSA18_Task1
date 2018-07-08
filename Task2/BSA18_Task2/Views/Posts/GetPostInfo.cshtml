@@ -1,0 +1,57 @@
+﻿@model Core.Helpers.PostInfo
+
+<h2 class="page-header">Post information</h2>
+
+<section class="functionalityPanel">
+    <table class="table" title="Target post">
+        <thead class="panel-heading">Target post</thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Body</th>
+                <th>Likes</th>
+                <th>Created at</th>
+                <th>User id</th>
+                <th>Comments</th>
+            </tr>
+        <tbody>
+                @Html.Partial("_Post", @Model.Post)
+        </tbody>
+    </table>
+
+    <br />
+
+    <table class="table" title="Longest comment">
+        <thead class="panel-heading">Longest comment</thead>
+            <tr>
+                <th>Id</th>
+                <th>Body</th>
+                <th>Likes</th>
+                <th>Created at</th>
+                <th>User id</th>
+                <th>Post id</th>
+            </tr>
+        <tbody>
+                @Html.Partial("_Comment", @Model.LongestComment)
+        </tbody>
+    </table>
+
+    <br />
+
+    <table class="table" title="Best comment">
+        <thead class="panel-heading">Best comment</thead>
+            <tr>
+                <th>Id</th>
+                <th>Body</th>
+                <th>Likes</th>
+                <th>Created at</th>
+                <th>User id</th>
+                <th>Post id</th>
+            </tr>
+        <tbody>
+                @Html.Partial("_Comment", @Model.BestComment)
+        </tbody>
+    </table>
+</section>
+
+

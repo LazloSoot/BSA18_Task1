@@ -1,0 +1,34 @@
+﻿@model Tuple<Core.Entities.Post, string>
+
+<div class="media-body">
+    <h4 class="media-heading">@Model.Item1.Title</h4>
+    <p class="text-right">By @Html.ActionLink(@Model.Item2, "GetUser", "Users", new { id = @Model.Item1.UserId }, new { @class = "link" })</p>
+    <p>
+        @Model.Item1.Body
+    </p>
+    <ul class="list-inline list-unstyled">
+        <li><span><i class="glyphicon glyphicon-calendar"></i> @Model.Item1.CreatedAt </span></li>
+        <li>|</li>
+        <span><i class="glyphicon glyphicon-comment"></i> @Model.Item1.Comments.Count comments</span>
+        <li>|</li>
+        <li>
+            @{
+                for (int i = 0; i < 5; i++)
+                {
+                    if (Model.Item1.Likes/20 >= i)
+                    { 
+                        <span class="glyphicon glyphicon-star"></span>
+                    }
+                    else
+                    {
+                        <span class="glyphicon glyphicon-star-empty"></span>
+                    }
+
+                }
+            }
+            
+        </li>
+    </ul>
+</div>
+
+

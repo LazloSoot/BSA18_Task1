@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Core.Entities.Todo>
+
+<h2>User todos</h2>
+
+<section class="functionalityPanel">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>User ID</th>
+                <th>Created</th>
+                <th>Name</th>
+                <th>State</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var item in @Model)
+                {
+                    <tr>
+                        @Html.Partial("_Todo", item)
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+</section>

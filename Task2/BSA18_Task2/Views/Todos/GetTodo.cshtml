@@ -1,0 +1,22 @@
+﻿@model Core.Entities.Todo
+
+<h2>Target todo</h2>
+
+<section class="functionalityPanel">
+    <table class="table" title="Target todo">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>User id</th>
+                <th>Created at</th>
+                <th>Name</th>
+                <th>State</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                @Html.Partial("_Todo", @Model)
+            </tr>
+        </tbody>
+    </table>
+</section>

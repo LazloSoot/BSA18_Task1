@@ -59,7 +59,10 @@ namespace Core
                                                 //.Where(c => c.UserId == user.Id)
                                                 .ToList()
                                 })
-                                .ToList()
+                                .ToList(),
+                    Comments = commentsTemp
+                            .Where(comment => comment.UserId == user.Id)
+                            .ToList()
                 }
             ).GroupJoin(todosTemp, user => user.Id, todo => todo.UserId,
                 (user, todos) => new User()
@@ -70,6 +73,7 @@ namespace Core
                     CreatedAt = user.CreatedAt,
                     Avatar = user.Avatar,
                     Posts = user.Posts,
+                    Comments = user.Comments,
                     Todos = todos.ToList()
                 }
                 ).ToList();

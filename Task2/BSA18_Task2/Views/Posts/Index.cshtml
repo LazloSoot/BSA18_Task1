@@ -1,0 +1,55 @@
+﻿@model Core.Entities.Post
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="page-header">Posts</h2>
+
+<section class="functionalityPanel panel panel-default">
+
+    @using (Html.BeginForm("GetUserPostsList", "Posts", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.LabelFor(u => u.Id, "Target user id: ", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(u => u.Id)
+                        @Html.ValidationMessageFor(u => u.Id)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-default" value="Get user posts list" />
+                </div>
+            </div>
+        </div>
+    }
+
+    @using (Html.BeginForm("GetPostInfo", "Posts", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.LabelFor(u => u.Id, "Target post id: ", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(u => u.Id)
+                        @Html.ValidationMessageFor(u => u.Id)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-default" value="Get post info" />
+                </div>
+            </div>
+        </div>
+    }
+</section>

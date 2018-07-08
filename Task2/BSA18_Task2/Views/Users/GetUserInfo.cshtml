@@ -1,0 +1,106 @@
+﻿@model Core.Helpers.UserInfo
+
+<h2 class="page-header">Information about <a>@Model.User.Name</a></h2>
+
+    <section class="functionalityPanel">
+        <table class="table table-hover" title="User @Model.User.Name">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Avatar</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Created at</th>
+                    <th>Posts</th>
+                    <th>Todos</th>
+                </tr>
+            </thead>
+            <tbody>
+                    @Html.Partial("_User", @Model.User)
+            </tbody>
+        </table>
+        <div>
+            <p>Unfinished tasks count : @Model.UnfinishedTasksCount</p>
+        </div>
+
+        <br />
+
+        <table class="table table-hover" title="Last post">
+            <thead>Last post</thead>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Body</th>
+                    <th>Likes</th>
+                    <th>Created at</th>
+                    <th>User id</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @Html.Partial("_Post", @Model.LastPost)
+                </tr>
+            </tbody>
+        </table>
+
+        <br />
+
+        <table class="table table-hover" title="Best post">
+            <thead>Best post</thead>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Body</th>
+                    <th>Likes</th>
+                    <th>Created at</th>
+                    <th>User id</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @Html.Partial("_Post", @Model.BestPost)
+                </tr>
+            </tbody>
+        </table>
+
+        <br />
+
+        <table class="table table-hover" title="Most popular post">
+            <thead>Most popular post</thead>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Body</th>
+                    <th>Likes</th>
+                    <th>Created at</th>
+                    <th>User id</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @Html.Partial("_Post", @Model.MostPopComment)
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

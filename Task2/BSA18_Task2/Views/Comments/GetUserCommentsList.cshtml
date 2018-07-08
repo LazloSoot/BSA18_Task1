@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Core.Entities.Comment>
+
+<h2 class="page-header">User comments</h2>
+
+<section class="functionalityPanel">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Body</th>
+                <th>Likes</th>
+                <th>Created at</th>
+                <th>User id</th>
+                <th>Post id</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+
+                            foreach (var item in @Model)
+                            {
+                                <tr>
+                                    @Html.Partial("_Comment", item)
+                                </tr>
+                            }
+            }
+        </tbody>
+    </table>
+
+</section>
