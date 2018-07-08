@@ -32,6 +32,11 @@ namespace BSA18_Task2.Services
             return userDataClient.Users;
         }
 
+        public User GetUser(int userId)
+        {
+            return userDataClient.Users?.Find(u => u.Id == userId);
+        }
+
         public IEnumerable<User> GetOrderedUserList()
         {
             return userDataClient.GetOrderedUserList();
@@ -41,15 +46,23 @@ namespace BSA18_Task2.Services
         {
             return userDataClient.GetUserInfo(userId);
         }
-
-        public User GetUser(int userId)
-        {
-            return userDataClient.Users?.Find(u => u.Id == userId);
-        }
-
+        
         #endregion
 
         #region Comments
+
+        public IEnumerable<Comment> GetAllComments()
+        {
+            return GetAllPosts()
+                .SelectMany(p => p.Comments);
+        }
+
+        public Comment GetComment(int commentId)
+        {
+            return GetAllPosts()
+                .SelectMany(p => p.Comments)
+                .FirstOrDefault(c => c.Id == commentId);
+        }
 
         public IEnumerable<Comment> GetCommentsList(int userId)
         {
@@ -70,6 +83,19 @@ namespace BSA18_Task2.Services
 
         #region Posts
 
+        public IEnumerable<Post> GetAllPosts()
+        {
+            return userDataClient.Users
+                .SelectMany(u => u.Posts);
+        }
+
+        public Post GetPost(int postId)
+        {
+            return userDataClient.Users
+                .SelectMany(u => u.Posts)
+                .FirstOrDefault(p => p.Id == postId);
+        }
+
         public PostInfo GetPostInfo(int postId)
         {
             return userDataClient.GetPostInfo(postId);
@@ -80,26 +106,22 @@ namespace BSA18_Task2.Services
             return userDataClient.Users.Find(user => user.Id == userId)?.Posts;
         }
 
-        public Post GetPost(int postId)
-        {
-            Post result = null;
-            foreach (var user in userDataClient.Users)
-            {
-                result = user.Posts.FirstOrDefault(p => p.Id == postId);
-                if (result != null)
-                    break;
-            }
-            return result;
-        }
+        
+
         #endregion
 
         #region Todos
-
-#warning реализовать getAllTodos
-
+        
         public IEnumerable<Todo> GetAllTodos()
         {
-           return null;
+            return userDataClient.Users.SelectMany(u => u.Todos);
+        }
+
+        public Todo GetTodo(int id)
+        {
+            return userDataClient.Users
+                .SelectMany(u => u.Todos)
+                .FirstOrDefault(t => t.Id == id);
         }
 
         public IEnumerable<Todo> GetUserTodos(int userId)
