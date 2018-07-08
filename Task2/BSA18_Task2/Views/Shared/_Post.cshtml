@@ -1,8 +1,38 @@
 ﻿@model Core.Entities.Post
-
-    <td>@Model.Id</td>
+<tr>
+    <td>@Html.ActionLink(@Model.Id.ToString(), "GetPost", "Posts", new { id = @Model.Id }, new { @class = "link" })</td>
     <td>@Model.Title</td>
     <td>@Model.Body</td>
     <td>@Model.Likes</td>
     <td>@Model.CreatedAt</td>
-    <td>@Model.UserId</td>
+    <td>@Html.ActionLink($"User {@Model.UserId.ToString()}", "GetUser", "Users", new { id = @Model.UserId }, new { @class = "link" })</td>
+    @{
+        int idTemp = 0;
+        if (@Model.Comments.Count > 0)
+        {
+            idTemp = @Model.Comments[0].Id;
+            <td>@Html.ActionLink($"Comment {idTemp}", "GetComment", "Comments", new { id = idTemp }, new { @class = "link" })</td>
+        }
+        else
+        {
+            <td> ----- </td>
+
+        }
+    }
+</tr>
+
+@{
+    for (int i = 1; i < Model.Comments.Count; i++)
+    {
+        idTemp = @Model.Comments[i].Id;
+<tr>
+    <td> ----- </td>
+    <td> ----- </td>
+    <td> ----- </td>
+    <td> ----- </td>
+    <td> ----- </td>
+    <td> ----- </td>
+    <td>@Html.ActionLink($"Comment {idTemp}", "GetComment", "Comments", new { id = idTemp }, new { @class = "link" })</td>
+</tr>
+    }
+}
