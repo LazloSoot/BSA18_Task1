@@ -6,7 +6,10 @@ namespace Core.Entities
     public class User : IEquatable<User>
     {
         public List<Post> Posts { get;  set; }
+
         public List<Todo> Todos { get; set; }
+
+        public List<Comment> Comments { get; set; }
 
         public int Id { get; set; }
 

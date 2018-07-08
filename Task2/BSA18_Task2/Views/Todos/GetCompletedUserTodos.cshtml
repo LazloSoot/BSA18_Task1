@@ -1,0 +1,26 @@
+﻿@model Dictionary<int, string>
+
+<h2>Completed user todos</h2>
+
+<section class="functionalityPanel">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var item in @Model)
+                {
+                    <tr>
+                        <td>@item.Key</td>
+                        <td>@item.Value</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+</section>

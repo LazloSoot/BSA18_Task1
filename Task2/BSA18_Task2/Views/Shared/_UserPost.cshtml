@@ -1,0 +1,15 @@
+﻿@model  Tuple<Core.Entities.User, Core.Entities.Post>
+
+
+
+<div class="container">
+    <div class="well">
+        <div class="media">
+            <a class="pull-left" href="@Url.Action("GetUser","Users", new { id = @Model.Item1.Id })">
+                <img class="media-object" src="@Model.Item1.Avatar" alt="@Model.Item1.Name" />
+            </a>
+            @Html.Partial("_UserPostBody", new Tuple<Core.Entities.Post, string>(Model.Item2, Model.Item1.Name))
+            
+        </div>
+    </div>
+</div>

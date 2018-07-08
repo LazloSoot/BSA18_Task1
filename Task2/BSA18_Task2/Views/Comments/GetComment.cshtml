@@ -1,0 +1,22 @@
+﻿@model Core.Entities.Comment
+
+<h2 class="page-header">Target comment</h2>
+
+<section class="functionalityPanel">
+    <table class="table" title="target comment">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Body</th>
+                <th>Likes</th>
+                <th>Created at</th>
+                <th>User id</th>
+                <th>Post id</th>
+            </tr>
+        </thead>
+        <tbody>
+            @Html.Partial("_Comment", @Model)
+        </tbody>
+    </table>
+
+</section>

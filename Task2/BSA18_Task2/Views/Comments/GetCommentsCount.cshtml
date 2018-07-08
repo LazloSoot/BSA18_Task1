@@ -1,0 +1,26 @@
+﻿@model Dictionary<Core.Entities.Post, int>
+
+<h2 class="page-header">Comments count</h2>
+
+<section class="functionalityPanel">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Post id</th>
+                <th>Comments count</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var item in @Model)
+                {
+                    <tr>
+                        <td>@item.Key.Id</td>
+                        <td>@item.Value</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+</section>
