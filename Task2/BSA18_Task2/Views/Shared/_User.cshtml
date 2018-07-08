@@ -1,9 +1,59 @@
 ﻿@model Core.Entities.User
 
-            <td>@Model.Id</td>
-            <td><img src="@Model.Avatar" alt="username" /></td>
-            <td>@Model.Name</td>
-            <td>@@@Model.Email</td>
-            <td>@Model.CreatedAt</td>
-            <td></td>
+
+<tr>
+    <td>@Html.ActionLink(@Model.Id.ToString(), "GetUser", new { id = @Model.Id }, new { @class = "link" }) </td>
+    <td><img src="@Model.Avatar" alt="username" /></td>
+    <td>@Html.ActionLink(@Model.Name, "GetUser", new { id = @Model.Id }, new { @class = "link" })</td>
+    <td>@Model.Email</td>
+    <td>@Model.CreatedAt</td>
+    @{
+        int idTemp = 0;
+        if (@Model.Posts.Count > 0)
+        {
+            idTemp = @Model.Posts[0].Id;
+            <td>@Html.ActionLink($"Post {idTemp}", "GetPost", "Posts", new { id = idTemp }, new { @class = "link" })</td>
+        }
+        else
+        {
+            <td> ----- </td>
+
+        }
+
+        if (@Model.Todos.Count > 0)
+        {
+            idTemp = @Model.Todos[0].Id;
+            <td>@Html.ActionLink($"Todo {idTemp}", "GetTodo", "Todos", new { id = idTemp }, new { @class = "link" })</td>
+        }
+        else
+        {
+            <td> ----- </td>
+        }
+    }
+</tr>
+
+@{
+    for (int i = 1; i < Model.Posts.Count; i++)
+    {
+        idTemp = @Model.Posts[i].Id;
+<tr>
+    <td> ----- </td>
+    <td> ----- </td>
+    <td> ----- </td>
+    <td> ----- </td>
+    <td> ----- </td>
+    <td>@Html.ActionLink($"Post {idTemp}", "GetPost", "Posts", new { id = idTemp }, new { @class = "link" })</td>
+    @if (i < @Model.Todos.Count)
+    {
+        idTemp = @Model.Todos[i].Id;
+        <td>@Html.ActionLink($"Todo {idTemp}", "GetTodo", "Todos", new { id = idTemp }, new { @class = "link" })</td>
+    }
+    else
+    {
+        <td> ----- </td>
+    }
+
+</tr>
+    }
+}
 

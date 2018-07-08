@@ -214,6 +214,7 @@
     <Content Include="Views\Users\GetUserInfo.cshtml" />
     <Content Include="Views\Users\GetUsers.cshtml" />
     <Content Include="Views\Posts\GetPost.cshtml" />
+    <Content Include="Views\Users\GetUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

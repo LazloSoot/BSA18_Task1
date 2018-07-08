@@ -11,14 +11,16 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Created at</th>
+                <th>Posts</th>
+                <th>Todos</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in @Model)
             {
-                <tr>
+                
                 @Html.Partial("_User", item)
-                </tr>
+                
             }
         </tbody>
     </table>

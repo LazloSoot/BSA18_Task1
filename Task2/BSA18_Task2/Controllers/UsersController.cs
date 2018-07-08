@@ -22,8 +22,8 @@ namespace BSA18_Task2.Controllers
             return View();
         }
 
-        // GET: Users/id={0}
-        public ActionResult GetUsers(int id)
+        // GET: Users/GetUser/{0}
+        public ActionResult GetUser(int id)
         {
             var user = userDataService.GetUser(id);
             return View(user);
@@ -43,8 +43,7 @@ namespace BSA18_Task2.Controllers
             return View(users);
         }
 
-        // POST: Users/GetUserInfo/
-        [HttpPost]
+        // GET: Users/GetUserInfo/
         public ActionResult GetUserInfo(int userId)
         {
             var userInfo = userDataService.GetUserInfo(userId);

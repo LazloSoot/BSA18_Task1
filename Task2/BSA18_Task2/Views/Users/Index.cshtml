@@ -6,13 +6,9 @@
 
 <section class="functionalityPanel panel panel-default">
 
-    <a class="btn">
-        Get all users
-    </a>
+    @Html.ActionLink("Get all users", "GetAllUsers", null, new { @class = "btn btn-default" })
 
-    <a class="btn">
-        Get ordered user list
-    </a>
+    @Html.ActionLink("Get ordered user list", "GetOrderedUserList", null, new { @class = "btn btn-default" })
 
     @using (Html.BeginForm("GetUserInfo", "Users", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {

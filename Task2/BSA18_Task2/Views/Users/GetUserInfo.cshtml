@@ -1,10 +1,9 @@
 ﻿@model Core.Helpers.UserInfo
 
-    <h2>User information</h2>
+<h2>Information about <a>@Model.User.Name</a></h2>
 
     <section class="functionalityPanel">
-        <table class="table" title="User">
-            <thead>User</thead>
+        <table class="table" title="User @Model.User.Name">
             <thead>
                 <tr>
                     <th>Id</th>
@@ -12,16 +11,17 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Created at</th>
-                    <th>Unfinished tasks</th>
+                    <th>Posts</th>
+                    <th>Todos</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
                     @Html.Partial("_User", @Model.User)
-                    <td>@Model.UnfinishedTasksCount</td>
-                </tr>
             </tbody>
         </table>
+        <div>
+            <p>Unfinished tasks count : @Model.UnfinishedTasksCount</p>
+        </div>
 
         <br />
 
