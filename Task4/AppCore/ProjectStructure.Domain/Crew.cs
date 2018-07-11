@@ -4,9 +4,9 @@ using System.Text;
 
 namespace ProjectStructure.Domain
 {
-    public class Crew
+    public class Crew : Entity
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public Pilot Pilot { get; set; }
         public IEnumerable<Stewardess> Stewardesses { get; set; }
     }

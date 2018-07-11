@@ -4,9 +4,9 @@ using System.Text;
 
 namespace ProjectStructure.Domain
 {
-    public class Flight
+    public class Flight : Entity
     {
-        public int Id { get; set; }
+       // public int Id { get; set; }
         public string Departure { get; set; }
         public DateTime DepartureTime { get; set; }
         public string Destination { get; set; }
