@@ -21,7 +21,7 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpGet("departures")]
         public IActionResult GetAllDepartures()
         {
-            var departures = service.GetAllDepartures();
+            var departures = service.GetAllDeparturesInfo();
             return departures == null ? NotFound("No departures found!") as IActionResult : Ok(departures);
         }
 
@@ -29,7 +29,7 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpGet("{id}", Name = "GetDeparture")]
         public IActionResult GetDeparture(int id)
         {
-            var departure = service.GetDeparture(id);
+            var departure = service.GetDepartureInfo(id);
             return departure == null ? NotFound($"Departure with id = {id} not found!") as IActionResult : Ok(departure);
         }
 
@@ -37,15 +37,15 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpPost("departures")]
         public IActionResult AddDeparture([FromBody]Departure departure)
         {
-            var entity = service.AddDeparture(departure);
+            var entity = service.SheduleDeparture(departure);
             return entity == null ? StatusCode(409) as IActionResult : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}", entity);
         }
 
         // PUT: api/flights/:id
         [HttpPut("{id}")]
-        public void ModifyDeparture(int id, [FromBody]Departure departure)
+        public IActionResult ModifyDeparture(int id, [FromBody]Departure departure)
         {
-            var entity = service.ModifyDeparture(departure);
+            var entity = service.UpdateDepartureInfo(departure);
             return entity == null ? StatusCode(304) as IActionResult : Ok(entity);
         }
 
@@ -53,7 +53,7 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteDeparture(int id)
         {
-            var entity = service.DeleteDeparture(id);
+            var entity = service.TryCancelDeparture(id);
             return entity == null ? StatusCode(304) as IActionResult : Ok();
         }
     }

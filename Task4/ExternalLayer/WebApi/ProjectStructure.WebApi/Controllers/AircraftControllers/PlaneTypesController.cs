@@ -26,7 +26,7 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpGet]
         public IActionResult GetAllPlaneTypes()
         {
-            var planeTypes = service.GetAllPlaneTypes();
+            var planeTypes = service.GetAllPlaneTypesInfo();
             return planeTypes == null ? NotFound("There is no information about plane types yet!") as IActionResult : Ok(planeTypes);
         }
 
@@ -34,7 +34,7 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpGet("{id}", Name = "GetPlaneType")]
         public IActionResult GetPlaneType(int id)
         {
-            var planeType = service.GetPlaneType(id);
+            var planeType = service.GetPlaneTypeInfo(id);
             return planeType == null ? NotFound($"Plane type information with id = {id} not found!") as IActionResult : Ok(planeType);
         }
 
@@ -52,7 +52,7 @@ namespace ProjectStructure.WebApi.Controllers
 
         // PUT: api/planes/planeTypes/:id
         [HttpPut("{id}")]
-        public void ModifyPlaneType(int id, [FromBody]PlaneType type)
+        public IActionResult ModifyPlaneType(int id, [FromBody]PlaneType type)
         {
             var entity = service.ModifyPlaneType(id, type);
             return entity == null ? StatusCode(304) as IActionResult : Ok(entity);
@@ -60,9 +60,9 @@ namespace ProjectStructure.WebApi.Controllers
 
         // DELETE: api/planes/planeTypes/:id
         [HttpDelete("{id}")]
-        public void DeletePlaneType(int id)
+        public IActionResult DeletePlaneType(int id)
         {
-            var entity = service.DeletePlaneType(id);
+            var entity = service.TryDeletePlaneType(id);
             return entity == null ? StatusCode(304) as IActionResult : Ok();
         }
     }

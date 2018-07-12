@@ -21,7 +21,7 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpGet]
         public IActionResult GetAllFlights()
         {
-            var flights = service.GetAllFlights();
+            var flights = service.GetAllFlightsInfo();
             return flights == null ? NotFound("No departures found!") as IActionResult : Ok(flights);
         }
 
@@ -29,7 +29,7 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpGet("{id}", Name = "GetFlight")]
         public IActionResult GetFlight(int id)
         {
-            var flight = service.GetFlight(id);
+            var flight = service.GetFlightInfo(id);
             return flight == null ? NotFound($"Flight with id = {id} not found!") as IActionResult : Ok(flight);
         }
 
@@ -43,7 +43,7 @@ namespace ProjectStructure.WebApi.Controllers
 
         // PUT: api/flights/:id
         [HttpPut("{id}")]
-        public void ModifyFlight(int id, [FromBody]Flight flight)
+        public IActionResult ModifyFlight(int id, [FromBody]Flight flight)
         {
             var entity = service.ModifyFlight(flight);
             return entity == null ? StatusCode(304) as IActionResult : Ok(entity);
@@ -53,7 +53,7 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteFlight(int id)
         {
-            var entity = service.DeleteFlight(id);
+            var entity = service.TryCancelFlight(id);
             return entity == null ? StatusCode(304) as IActionResult : Ok();
         }
     }

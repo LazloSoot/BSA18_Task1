@@ -21,7 +21,7 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpGet]
         public IActionResult GetAllPilots()
         {
-            var pilots = service.GetAllPilots();
+            var pilots = service.GetAllPilotsInfo();
             return pilots == null ? NotFound("No pilots found!") as IActionResult : Ok(pilots);
         }
 
@@ -29,7 +29,7 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpGet("{id}", Name = "GetPilot")]
         public IActionResult GetPilot(int id)
         {
-            var pilot = service.GetPilot(id);
+            var pilot = service.GetPilotInfo(id);
             return pilot == null ? NotFound($"Pilot with id = {id} not found!") as IActionResult : Ok(pilot);
         }
 
@@ -37,15 +37,15 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpPost]
         public IActionResult AddPilot([FromBody]Pilot pilot)
         {
-            var entity = service.AddPilot(pilot);
+            var entity = service.HirePilot(pilot);
             return entity == null ? StatusCode(409) as IActionResult : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}", entity);
         }
 
         // PUT: api/crews/pilots/:id
         [HttpPut("{id}")]
-        public void ModifyPilot(int id, [FromBody]Pilot pilot)
+        public IActionResult ModifyPilot(int id, [FromBody]Pilot pilot)
         {
-            var entity = service.ModifyPilot(pilot);
+            var entity = service.UpdatePilotInfo(pilot);
             return entity == null ? StatusCode(304) as IActionResult : Ok(entity);
         }
 
@@ -53,7 +53,7 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeletePilot(int id)
         {
-            var entity = service.DeletePilot(id);
+            var entity = service.TryDismissPilot(id);
             return entity == null ? StatusCode(304) as IActionResult : Ok();
         }
     }

@@ -20,7 +20,7 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpGet]
         public IActionResult GetAllStewardesses()
         {
-            var stewardesses = service.GetAllStewardesses();
+            var stewardesses = service.GetAllStewardessesInfo();
             return stewardesses == null ? NotFound("No stewardesses found!") as IActionResult : Ok(stewardesses);
         }
 
@@ -28,28 +28,32 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpGet("{id}", Name = "GetStewardess")]
         public IActionResult GetStewardess(int id)
         {
-            var stewardess = service.GetStewardess(id);
+            var stewardess = service.GetStewardessInfo(id);
             return stewardess == null ? NotFound($"Stewardess with id = {id} not found!") as IActionResult : Ok(stewardess);
         }
 
         // POST: api/crews/stewardesses
         [HttpPost]
-        public void AddStewardess([FromBody]Stewardess stewardess)
+        public IActionResult AddStewardess([FromBody]Stewardess stewardess)
         {
-            var entity = service.AddStewardess(stewardess);
+            var entity = service.HireStewardess(stewardess);
             return entity == null ? StatusCode(409) as IActionResult : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}", entity);
         }
 
         // PUT: api/crews/stewardesses/:id
         [HttpPut("{id}")]
-        public void ModifyStewardess(int id, [FromBody]string value)
+        public IActionResult ModifyStewardess(int id, [FromBody]Stewardess stewardess)
         {
+            var entity = service.UpdateStewardessInfo(stewardess);
+            return entity == null ? StatusCode(304) as IActionResult : Ok(entity);
         }
 
         // DELETE: api/crews/stewardesses/:id
         [HttpDelete("{id}")]
-        public void DeleteStewardess(int id)
+        public IActionResult DeleteStewardess(int id)
         {
+            var successfuly = service.TryDismissStewardess(id);
+            return successfuly ? StatusCode(304) as IActionResult : Ok();
         }
     }
 }

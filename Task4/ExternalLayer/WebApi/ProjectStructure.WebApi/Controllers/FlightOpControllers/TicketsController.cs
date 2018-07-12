@@ -21,7 +21,7 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpGet("tickets")]
         public IActionResult GetAllTickets()
         {
-            var tickets = service.GetAllTickets();
+            var tickets = service.GetAllTicketsInfo();
             return tickets == null ? NotFound("No tickets found!") as IActionResult : Ok(tickets);
         }
 
@@ -29,7 +29,7 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpGet(RouteConstants.getById + "/tickets", Name ="GetFlightTickets")]
         public IActionResult GetFlightTickets(int id)
         {
-            var tickets = service.GetFlightTickets(id);
+            var tickets = service.GetFlightTicketsInfo(id);
             return tickets == null ? NotFound($"No tickets for flight with id = {id} found!") as IActionResult : Ok(tickets);
         }
 
@@ -37,7 +37,7 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpGet("tickets/{id}", Name = "GetTicket")]
         public IActionResult GetTicket(int id)
         {
-            var ticket = service.GetTicket(id);
+            var ticket = service.GetTicketInfo(id);
             return ticket == null ? NotFound($"Ticket with id = {id} not found!") as IActionResult : Ok(ticket);
         }
 
@@ -51,7 +51,7 @@ namespace ProjectStructure.WebApi.Controllers
 
         // PUT: api/flights/tickets/:id
         [HttpPut("tickets/{id}")]
-        public void ModifyTicket(int id, [FromBody]Ticket ticket)
+        public IActionResult ModifyTicket(int id, [FromBody]Ticket ticket)
         {
             var entity = service.ModifyTicket(ticket);
             return entity == null ? StatusCode(304) as IActionResult : Ok(entity);
