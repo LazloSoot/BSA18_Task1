@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ProjectStructure.Domain
 {
@@ -11,6 +9,11 @@ namespace ProjectStructure.Domain
         public PlaneType Type { get; set; }
         public DateTime ReleaseDate { get; set; }
         public TimeSpan Lifetime { get; set; }
+
+        public Plane(PlaneType type)
+        {
+            this.Type = type;
+        }
     }
 }
     

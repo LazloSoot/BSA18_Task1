@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace ProjectStructure.Domain
 {
@@ -9,5 +7,11 @@ namespace ProjectStructure.Domain
         //public int Id { get; set; }
         public Pilot Pilot { get; set; }
         public IEnumerable<Stewardess> Stewardesses { get; set; }
+
+        public Crew(Pilot pilot, IEnumerable<Stewardess> stewardesses)
+        {
+            this.Pilot = pilot;
+            this.Stewardesses = stewardesses;
+        }
     }
 }

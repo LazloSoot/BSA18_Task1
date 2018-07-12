@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ProjectStructure.Domain
 {
@@ -11,5 +9,11 @@ namespace ProjectStructure.Domain
         public DateTime DepartureTime { get; set; }
         public Crew Crew { get; set; }
         public Plane Plane { get; set; }
+
+        public Departure(Crew crew, Plane plane)
+        {
+            this.Crew = crew;
+            this.Plane = plane;
+        }
     }
 }
