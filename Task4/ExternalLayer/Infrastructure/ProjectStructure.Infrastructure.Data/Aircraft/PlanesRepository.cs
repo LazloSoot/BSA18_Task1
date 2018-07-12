@@ -4,41 +4,36 @@ using System.Text;
 using ProjectStructure.Domain;
 using ProjectStructure.Domain.Interfaces;
 
-namespace ProjectStructure.Infrastructure.Data
+namespace ProjectStructure.Infrastructure.Data.Aircraft
 {
-    public class FlightRepository : IRepository<Flight>
+    public class PlanesRepository : IRepository<Plane>
     {
-        public void Delete(Flight entity)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Delete(long id)
         {
             throw new NotImplementedException();
         }
 
-        public Flight Get(long id)
+        public Plane Get(long id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Flight> GetAll()
+        public IEnumerable<Plane> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public void Insert(Flight entity)
+        public void Insert(Plane entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Remove(Flight entity)
+        public void Remove(Plane entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(Flight entity)
+        public void Update(Plane entity)
         {
             throw new NotImplementedException();
         }
