@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using ProjectStructure.WebApi.Helpers;
+using ProjectStructure.Domain;
+using ProjectStructure.Services.Interfaces;
 
 namespace ProjectStructure.WebApi.Controllers
 {
@@ -8,24 +10,34 @@ namespace ProjectStructure.WebApi.Controllers
     [Route(RouteConstants.crewingRoute + "/stewardesses")]
     public class StewardessesController : Controller
     {
+        private readonly ICrewingService service;
+
+        public StewardessesController(ICrewingService service)
+        {
+            this.service = service;
+        }
         // GET: api/crews/stewardesses
         [HttpGet]
-        public IEnumerable<string> GetAllStewardesses()
+        public IActionResult GetAllStewardesses()
         {
-            return new string[] { "value1", "value2" };
+            var stewardesses = service.GetAllStewardesses();
+            return stewardesses == null ? NotFound("No stewardesses found!") as IActionResult : Ok(stewardesses);
         }
 
         // GET: api/crews/stewardesses/:id
         [HttpGet("{id}", Name = "GetStewardess")]
-        public string GetStewardess(int id)
+        public IActionResult GetStewardess(int id)
         {
-            return "value";
+            var stewardess = service.GetStewardess(id);
+            return stewardess == null ? NotFound($"Stewardess with id = {id} not found!") as IActionResult : Ok(stewardess);
         }
 
         // POST: api/crews/stewardesses
         [HttpPost]
-        public void AddStewardess([FromBody]string value)
+        public void AddStewardess([FromBody]Stewardess stewardess)
         {
+            var entity = service.AddStewardess(stewardess);
+            return entity == null ? StatusCode(409) as IActionResult : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}", entity);
         }
 
         // PUT: api/crews/stewardesses/:id

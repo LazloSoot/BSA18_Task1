@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using ProjectStructure.WebApi.Helpers;
+using ProjectStructure.Domain;
+using ProjectStructure.Services.Interfaces;
 
 namespace ProjectStructure.WebApi.Controllers
 {
@@ -8,36 +10,51 @@ namespace ProjectStructure.WebApi.Controllers
     [Route(RouteConstants.crewingRoute)]
     public class CrewsController : Controller
     {
+        private readonly ICrewingService service;
+
+        public CrewsController(ICrewingService service)
+        {
+            this.service = service;
+        }
+
         // GET: api/crews
         [HttpGet]
-        public IEnumerable<string> GetAllCrews()
+        public IActionResult GetAllCrews()
         {
-            return new string[] { "value1", "value2" };
+            var crews = service.GetAllCrews();
+            return crews == null ? NotFound("No pilots found!") as IActionResult : Ok(crews);
         }
 
         // GET: api/crews/:id
         [HttpGet("{id}", Name = "GetCrew")]
-        public string GetCrew(int id)
+        public IActionResult GetCrew(int id)
         {
-            return "value";
+            var pilot = service.GetCrew(id);
+            return pilot == null ? NotFound($"Pilot with id = {id} not found!") as IActionResult : Ok(pilot);
         }
         
         // POST: api/crews
         [HttpPost]
-        public void AddCrew([FromBody]string value)
+        public IActionResult AddCrew([FromBody]Crew crew)
         {
+            var entity = service.AddCrew(crew);
+            return entity == null ? StatusCode(409) as IActionResult : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}", entity);
         }
         
         // PUT: api/crews/:id
         [HttpPut("{id}")]
-        public void ModifyCrew(int id, [FromBody]string value)
+        public IActionResult ModifyCrew(int id, [FromBody]Crew crew)
         {
+            var entity = service.ModifyCrew(crew);
+            return entity == null ? StatusCode(304) as IActionResult : Ok(entity);
         }
         
         // DELETE: api/crews/:id
         [HttpDelete("{id}")]
-        public void DeleteCrew(int id)
+        public IActionResult DeleteCrew(int id)
         {
+            var entity = service.DeleteCrew(id);
+            return entity == null ? StatusCode(304) as IActionResult : Ok();
         }
     }
 }
