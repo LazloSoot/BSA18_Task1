@@ -8,6 +8,6 @@
 
         public const string flightOperations = "api/flights";
 
-        public const string getById = "/{id:int}";
+        public const string getById = "{id:int}";
     }
 }
