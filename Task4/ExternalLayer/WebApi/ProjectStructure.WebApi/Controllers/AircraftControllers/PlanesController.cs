@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ProjectStructure.Domain;
+using ProjectStructure.Services.Interfaces;
 using ProjectStructure.WebApi.Helpers;
 
 namespace ProjectStructure.WebApi.Controllers
@@ -12,36 +14,51 @@ namespace ProjectStructure.WebApi.Controllers
     [Route(RouteConstants.aircraftRoute)]
     public class PlanesController : Controller
     {
+        private readonly IAircraftService service;
+
+        public PlanesController(IAircraftService service)
+        {
+            this.service = service;
+        }
+
         // GET: api/planes
         [HttpGet]
-        public IEnumerable<string> GetAllPlanes()
+        public IActionResult GetAllPlanes()
         {
-            return new string[] { "value1", "value2" };
+            var planes = service.GetAllPlanes();
+            return planes == null ? NotFound("Hangar is empty!") as IActionResult : Ok(planes);
         }
 
         // GET: api/planes/:id
         [HttpGet("{id}", Name = "GetPlane")]
-        public string GetPlane(int id)
+        public IActionResult GetPlane(int id)
         {
-            return "value";
+            var plane = service.GetPlane();
+            return plane == null ? NotFound($"Plane with id = {id} not found!") as IActionResult : Ok(plane);
         }
         
         // POST: api/planes
         [HttpPost]
-        public void AddPlane([FromBody]string value)
+        public IActionResult AddPlane([FromBody]Plane plane)
         {
+            var entity = service.AddPlane(plane);
+            return entity == null ? StatusCode(409) as IActionResult : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}", entity);
         }
         
         // PUT: api/planes/:id
         [HttpPut("{id}")]
-        public void ModifyPlane(int id, [FromBody]string value)
+        public IActionResult ModifyPlane(int id, [FromBody]Plane plane)
         {
+            var entity = service.ModifyPlane(plane);
+            return entity == null ? StatusCode(304) as IActionResult : Ok(entity);
         }
         
         // DELETE: api/planes/:id
         [HttpDelete("{id}")]
         public void DeletePlane(int id)
         {
+            var entity = service.DeletePlane(id);
+            return entity == null ? StatusCode(304) as IActionResult : Ok();
         }
     }
 }
