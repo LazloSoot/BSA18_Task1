@@ -1,5 +1,4 @@
 ﻿using ProjectStructure.Domain;
-using ProjectStructure.Domain.Interfaces;
 using ProjectStructure.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -8,21 +7,95 @@ namespace ProjectStructure.Services
 {
     public class CrewingService : ICrewingService
     {
-#warning заменить на ICrewRepository?
-        private readonly IRepository<Crew> repository;
+        #region Crews
 
-        public CrewingService(IRepository<Crew> repository)
+        public Crew GetCrewInfo(int id)
         {
-            this.repository = repository;
+            throw new NotImplementedException();
         }
 
-        public void CreateCrew(Pilot pilot, IEnumerable<Stewardess> stewardesses)
+        public IEnumerable<Crew> GetAllCrewsInfo()
         {
-            repository.Insert(new Crew()
-            {
-                Pilot = pilot,
-                Stewardesses = stewardesses
-            });
+            throw new NotImplementedException();
         }
+
+        public Crew AddCrew(Crew crew)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Crew CreateCrew(Pilot pilot, IEnumerable<Stewardess> stewardesses)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Crew ReformCrew(Crew crew)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryDeleteCrew(int id)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region Pilots
+
+        public Pilot GetPilotInfo(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Pilot> GetAllPilotsInfo()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Pilot HirePilot(Pilot pilot)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryDismissPilot(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Pilot UpdatePilotInfo(Pilot pilot)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Stewardesses
+
+        public Stewardess GetStewardessInfo(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Stewardess> GetAllStewardessesInfo()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Stewardess HireStewardess(Stewardess stewardess)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Stewardess UpdateStewardessInfo(Stewardess stewardess)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryDismissStewardess(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

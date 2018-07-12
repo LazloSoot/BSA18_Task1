@@ -48,7 +48,7 @@ namespace ProjectStructure.Services.Interfaces
 
         Ticket ModifyTicket(Ticket ticket);
 
-        Ticket DeleteTicket(int id);
+        bool TryDeleteTicket(int id);
 
         #endregion
     }
