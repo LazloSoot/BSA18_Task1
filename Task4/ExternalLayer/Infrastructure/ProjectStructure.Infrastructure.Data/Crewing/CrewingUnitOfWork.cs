@@ -1,26 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using ProjectStructure.Domain;
 using ProjectStructure.Domain.Interfaces;
 
 namespace ProjectStructure.Infrastructure.Data.Crewing
 {
-    public class CrewingUOW : IUnitOfWork
+    public class CrewingUnitOfWork : ICrewingUnitOfWork
     {
         private readonly object dbContext;
-        private readonly IRepository<Crew> crews;
-        private readonly IRepository<Pilot> pilots;
-        private readonly IRepository<Stewardess> stewardesses;
 
+        public IRepository<Crew> Crews { get; }
 
-        public CrewingUOW(IRepository<Crew> crewsRepository, IRepository<Pilot> pilotsRepository,
+        public IRepository<Pilot> Pilots { get; }
+
+        public IRepository<Stewardess> Stewardesses { get; }
+
+        public CrewingUnitOfWork(IRepository<Crew> crewsRepository, IRepository<Pilot> pilotsRepository,
             IRepository<Stewardess> stewardessesRepository)
         {
-            crews = crewsRepository;
-            pilots = pilotsRepository;
-            stewardesses = stewardessesRepository;
+            Crews = crewsRepository;
+            Pilots = pilotsRepository;
+            Stewardesses = stewardessesRepository;
         }
 
         public void Dispose()

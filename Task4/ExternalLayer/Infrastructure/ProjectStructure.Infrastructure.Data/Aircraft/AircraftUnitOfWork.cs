@@ -1,23 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using ProjectStructure.Domain;
 using ProjectStructure.Domain.Interfaces;
 
 namespace ProjectStructure.Infrastructure.Data.Aircraft
 {
-    public class AircraftUOW : IUnitOfWork
+    public class AircraftUnitOfWork : IAircraftUnitOfWork
     {
         private readonly object DBContext;
-        private readonly IRepository<Plane> planes;
-        private readonly IRepository<PlaneType> planeTypes;
 
-        public AircraftUOW(IRepository<Plane> planesRepository, IRepository<PlaneType> planeTypeRepository)
+        public IRepository<Plane> Planes { get; }
+        public IRepository<PlaneType> PlaneTypes { get; }
+
+        public AircraftUnitOfWork(IRepository<Plane> planesRepository, IRepository<PlaneType> planeTypeRepository)
         {
-            planes = planesRepository;
-            planeTypes = planeTypeRepository;
+            Planes = planesRepository;
+            PlaneTypes = planeTypeRepository;
         }
+
+        
 
         public void Dispose()
         {

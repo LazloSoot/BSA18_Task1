@@ -1,27 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using ProjectStructure.Domain;
 using ProjectStructure.Domain.Interfaces;
 
 namespace ProjectStructure.Infrastructure.Data.FlightOperations
 {
-    public class FlightOperationsUOW : IUnitOfWork
+    public class FlightOperationsUnitOfWork : IFlightOperationsUnitOfWork
     {
         private readonly object dbContext;
-        private readonly IRepository<Flight> flights;
-        private readonly IRepository<Departure> departures;
-        private readonly IRepository<Ticket> tickets;
 
+        public IRepository<Flight> Flights { get; }
+        public IRepository<Ticket> Tickets { get; }
+        public IRepository<Departure> Departures { get; }
 
-        public FlightOperationsUOW(IRepository<Flight> flightsRepository, IRepository<Ticket> ticketsRepository,
+        public FlightOperationsUnitOfWork(IRepository<Flight> flightsRepository, IRepository<Ticket> ticketsRepository,
             IRepository<Departure> departuresRepository)
         {
-            departures = departuresRepository;
-            flights = flightsRepository;
-            tickets = ticketsRepository;
+            Departures = departuresRepository;
+            Flights = flightsRepository;
+            Tickets = ticketsRepository;
         }
+
+
         public void Dispose()
         {
             throw new NotImplementedException();
