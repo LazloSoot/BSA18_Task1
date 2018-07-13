@@ -15,7 +15,7 @@ namespace ProjectStructure.Infrastructure.BL
         }
         #region Crews
 
-        public Crew GetCrewInfo(int id)
+        public Crew GetCrewInfo(long id)
         {
             return uow.Crews.Get(id) ?? null;
         }
@@ -57,7 +57,7 @@ namespace ProjectStructure.Infrastructure.BL
             }
         }
 
-        public bool TryDeleteCrew(int id)
+        public bool TryDeleteCrew(long id)
         {
             if (uow.Crews.Delete(id))
             {
@@ -70,7 +70,7 @@ namespace ProjectStructure.Infrastructure.BL
 
         #region Pilots
 
-        public Pilot GetPilotInfo(int id)
+        public Pilot GetPilotInfo(long id)
         {
             return uow.Pilots.Get(id) ?? null;
         }
@@ -90,7 +90,7 @@ namespace ProjectStructure.Infrastructure.BL
             return item;
         }
 
-        public bool TryDismissPilot(int id)
+        public bool TryDismissPilot(long id)
         {
             if (uow.Pilots.Delete(id))
             {
@@ -116,7 +116,7 @@ namespace ProjectStructure.Infrastructure.BL
 
         #region Stewardesses
 
-        public Stewardess GetStewardessInfo(int id)
+        public Stewardess GetStewardessInfo(long id)
         {
             return uow.Stewardesses.Get(id) ?? null;
         }
@@ -148,7 +148,7 @@ namespace ProjectStructure.Infrastructure.BL
             }
         }
 
-        public bool TryDismissStewardess(int id)
+        public bool TryDismissStewardess(long id)
         {
             if (uow.Stewardesses.Delete(id))
             {
