@@ -33,7 +33,7 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpGet("{id}", Name = "GetPlane")]
         public IActionResult GetPlane(int id)
         {
-            var plane = service.GetPlaneInfo();
+            var plane = service.GetPlaneInfo(id);
             return plane == null ? NotFound($"Plane with id = {id} not found!") as IActionResult : Ok(plane);
         }
         
@@ -41,6 +41,8 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpPost]
         public IActionResult AddPlane([FromBody]Plane plane)
         {
+            if (!ModelState.IsValid)
+                return BadRequest() as IActionResult;
             var entity = service.AddPlane(plane);
             return entity == null ? StatusCode(409) as IActionResult : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}", entity);
         }
@@ -49,6 +51,8 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpPut("{id}")]
         public IActionResult ModifyPlane(int id, [FromBody]Plane plane)
         {
+            if (!ModelState.IsValid)
+                return BadRequest() as IActionResult;
             var entity = service.ModifyPlaneInfo(plane);
             return entity == null ? StatusCode(304) as IActionResult : Ok(entity);
         }

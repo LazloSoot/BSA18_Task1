@@ -12,7 +12,7 @@ using ProjectStructure.WebApi.Helpers;
 namespace ProjectStructure.WebApi.Controllers
 {
     [Produces("application/json")]
-    [Route(RouteConstants.aircraftRoute + "/planeTypes")]
+    [Route(RouteConstants.aircraftRoute)]
     public class PlaneTypesController : Controller
     {
         private readonly IAircraftService service;
@@ -23,7 +23,7 @@ namespace ProjectStructure.WebApi.Controllers
         }
 
         // GET: api/planes/planeTypes
-        [HttpGet]
+        [HttpGet("planeTypes")]
         public IActionResult GetAllPlaneTypes()
         {
             var planeTypes = service.GetAllPlaneTypesInfo();
@@ -31,7 +31,7 @@ namespace ProjectStructure.WebApi.Controllers
         }
 
         // GET: api/planes/planeTypes/:id
-        [HttpGet("{id}", Name = "GetPlaneType")]
+        [HttpGet("planeTypes/{id}", Name = "GetPlaneType")]
         public IActionResult GetPlaneType(int id)
         {
             var planeType = service.GetPlaneTypeInfo(id);
@@ -39,9 +39,11 @@ namespace ProjectStructure.WebApi.Controllers
         }
 
         // POST: api/planes/planeTypes
-        [HttpPost]
+        [HttpPost("planeTypes")]
         public IActionResult AddPlaneType([FromBody]PlaneType type)
         {
+            if (!ModelState.IsValid)
+                return BadRequest() as IActionResult;
             var entity = service.AddPlaneType(type);
             if (entity != null)
             {
@@ -51,19 +53,21 @@ namespace ProjectStructure.WebApi.Controllers
         }
 
         // PUT: api/planes/planeTypes/:id
-        [HttpPut("{id}")]
+        [HttpPut("planeTypes/{id}")]
         public IActionResult ModifyPlaneType(int id, [FromBody]PlaneType type)
         {
-            var entity = service.ModifyPlaneType(id, type);
+            if (!ModelState.IsValid)
+                return BadRequest() as IActionResult;
+            var entity = service.ModifyPlaneType(type);
             return entity == null ? StatusCode(304) as IActionResult : Ok(entity);
         }
 
         // DELETE: api/planes/planeTypes/:id
-        [HttpDelete("{id}")]
+        [HttpDelete("planeTypes/{id}")]
         public IActionResult DeletePlaneType(int id)
         {
             var entity = service.TryDeletePlaneType(id);
-            return entity == null ? StatusCode(304) as IActionResult : Ok();
+            return entity ? StatusCode(304) as IActionResult : Ok();
         }
     }
 }

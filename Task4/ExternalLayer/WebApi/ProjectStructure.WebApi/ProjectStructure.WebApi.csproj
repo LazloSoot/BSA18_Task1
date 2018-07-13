@@ -21,6 +21,8 @@
     <ProjectReference Include="..\..\..\AppCore\ProjectStructure.Domain.Interfaces\ProjectStructure.Domain.Interfaces.csproj" />
     <ProjectReference Include="..\..\..\AppCore\ProjectStructure.Domain\ProjectStructure.Domain.csproj" />
     <ProjectReference Include="..\..\..\AppCore\ProjectStructure.Services.Interfaces\ProjectStructure.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\..\..\ProjectStructure.Infrastructure.BL\ProjectStructure.Infrastructure.BL.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\ProjectStructure.Infrastructure.Data.Memory\ProjectStructure.Infrastructure.Data.Memory.csproj" />
   </ItemGroup>
 
 </Project>

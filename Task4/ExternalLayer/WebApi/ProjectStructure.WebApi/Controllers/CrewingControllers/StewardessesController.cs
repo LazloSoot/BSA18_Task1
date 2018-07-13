@@ -7,7 +7,7 @@ using ProjectStructure.Services.Interfaces;
 namespace ProjectStructure.WebApi.Controllers
 {
     [Produces("application/json")]
-    [Route(RouteConstants.crewingRoute + "/stewardesses")]
+    [Route(RouteConstants.crewingRoute)]
     public class StewardessesController : Controller
     {
         private readonly ICrewingService service;
@@ -17,7 +17,7 @@ namespace ProjectStructure.WebApi.Controllers
             this.service = service;
         }
         // GET: api/crews/stewardesses
-        [HttpGet]
+        [HttpGet("stewardesses")]
         public IActionResult GetAllStewardesses()
         {
             var stewardesses = service.GetAllStewardessesInfo();
@@ -25,7 +25,7 @@ namespace ProjectStructure.WebApi.Controllers
         }
 
         // GET: api/crews/stewardesses/:id
-        [HttpGet("{id}", Name = "GetStewardess")]
+        [HttpGet("stewardesses/{id}", Name = "GetStewardess")]
         public IActionResult GetStewardess(int id)
         {
             var stewardess = service.GetStewardessInfo(id);
@@ -33,23 +33,27 @@ namespace ProjectStructure.WebApi.Controllers
         }
 
         // POST: api/crews/stewardesses
-        [HttpPost]
+        [HttpPost("stewardesses")]
         public IActionResult AddStewardess([FromBody]Stewardess stewardess)
         {
+            if (!ModelState.IsValid)
+                return BadRequest() as IActionResult;
             var entity = service.HireStewardess(stewardess);
             return entity == null ? StatusCode(409) as IActionResult : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}", entity);
         }
 
         // PUT: api/crews/stewardesses/:id
-        [HttpPut("{id}")]
+        [HttpPut("stewardesses/{id}")]
         public IActionResult ModifyStewardess(int id, [FromBody]Stewardess stewardess)
         {
+            if (!ModelState.IsValid)
+                return BadRequest() as IActionResult;
             var entity = service.UpdateStewardessInfo(stewardess);
             return entity == null ? StatusCode(304) as IActionResult : Ok(entity);
         }
 
         // DELETE: api/crews/stewardesses/:id
-        [HttpDelete("{id}")]
+        [HttpDelete("stewardesses/{id}")]
         public IActionResult DeleteStewardess(int id)
         {
             var successfuly = service.TryDismissStewardess(id);

@@ -45,6 +45,8 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpPost("tickets")]
         public IActionResult AddTicket([FromBody]Ticket ticket)
         {
+            if (!ModelState.IsValid)
+                return BadRequest() as IActionResult;
             var entity = service.AddTicket(ticket);
             return entity == null ? StatusCode(409) as IActionResult : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}", entity);
         }
@@ -53,6 +55,8 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpPut("tickets/{id}")]
         public IActionResult ModifyTicket(int id, [FromBody]Ticket ticket)
         {
+            if (!ModelState.IsValid)
+                return BadRequest() as IActionResult;
             var entity = service.ModifyTicket(ticket);
             return entity == null ? StatusCode(304) as IActionResult : Ok(entity);
         }
@@ -61,8 +65,8 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpDelete("tickets/{id}")]
         public IActionResult DeleteTicket(int id)
         {
-            var entity = service.DeleteTicket(id);
-            return entity == null ? StatusCode(304) as IActionResult : Ok();
+            var entity = service.TryDeleteTicket(id);
+            return entity ? StatusCode(304) as IActionResult : Ok();
         }
     }
 }

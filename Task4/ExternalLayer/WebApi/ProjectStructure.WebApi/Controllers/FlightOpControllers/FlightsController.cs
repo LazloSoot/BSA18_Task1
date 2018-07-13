@@ -37,6 +37,8 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpPost]
         public IActionResult AddFlight([FromBody]Flight flight)
         {
+            if (!ModelState.IsValid)
+                return BadRequest() as IActionResult;
             var entity = service.AddFlight(flight);
             return entity == null ? StatusCode(409) as IActionResult : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}", entity);
         }
@@ -45,16 +47,18 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpPut("{id}")]
         public IActionResult ModifyFlight(int id, [FromBody]Flight flight)
         {
+            if (!ModelState.IsValid)
+                return BadRequest() as IActionResult;
             var entity = service.ModifyFlight(flight);
             return entity == null ? StatusCode(304) as IActionResult : Ok(entity);
         }
 
-        // DELETE: api/flights
+        // DELETE: api/flights/:id
         [HttpDelete("{id}")]
         public IActionResult DeleteFlight(int id)
         {
             var entity = service.TryCancelFlight(id);
-            return entity == null ? StatusCode(304) as IActionResult : Ok();
+            return entity ? StatusCode(304) as IActionResult : Ok();
         }
     }
 }

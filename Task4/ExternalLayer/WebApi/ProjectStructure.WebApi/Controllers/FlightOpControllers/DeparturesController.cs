@@ -26,35 +26,47 @@ namespace ProjectStructure.WebApi.Controllers
         }
 
         // GET: api/flights/departures/:id
-        [HttpGet("{id}", Name = "GetDeparture")]
+        [HttpGet("departures/{id}", Name = "GetDeparture")]
         public IActionResult GetDeparture(int id)
         {
             var departure = service.GetDepartureInfo(id);
             return departure == null ? NotFound($"Departure with id = {id} not found!") as IActionResult : Ok(departure);
         }
 
+        // GET: api/flights/:id/departures
+        [HttpGet("{id}/departures", Name = "GetFlightDepartures")]
+        public IActionResult GetFlightDepartures(int id)
+        {
+            var departure = service.GetFlightDepartureInfo(id);
+            return departure == null ? NotFound($"Flight with id = {id} have not departure yet!") as IActionResult : Ok(departure);
+        }
+
         // POST: api/flights/departures
         [HttpPost("departures")]
         public IActionResult AddDeparture([FromBody]Departure departure)
         {
+            if (!ModelState.IsValid)
+                return BadRequest() as IActionResult;
             var entity = service.SheduleDeparture(departure);
             return entity == null ? StatusCode(409) as IActionResult : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}", entity);
         }
 
-        // PUT: api/flights/:id
-        [HttpPut("{id}")]
+        // PUT: api/flights/departures/:id
+        [HttpPut("departures/{id}")]
         public IActionResult ModifyDeparture(int id, [FromBody]Departure departure)
         {
+            if (!ModelState.IsValid)
+                return BadRequest() as IActionResult;
             var entity = service.UpdateDepartureInfo(departure);
             return entity == null ? StatusCode(304) as IActionResult : Ok(entity);
         }
 
-        // DELETE: api/flights
-        [HttpDelete("{id}")]
+        // DELETE: api/flights/departures/:id
+        [HttpDelete("departures/{id}")]
         public IActionResult DeleteDeparture(int id)
         {
             var entity = service.TryCancelDeparture(id);
-            return entity == null ? StatusCode(304) as IActionResult : Ok();
+            return entity ? StatusCode(304) as IActionResult : Ok();
         }
     }
 }

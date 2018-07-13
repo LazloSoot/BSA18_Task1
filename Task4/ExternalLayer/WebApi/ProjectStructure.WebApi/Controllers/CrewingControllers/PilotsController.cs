@@ -7,7 +7,7 @@ using ProjectStructure.WebApi.Helpers;
 namespace ProjectStructure.WebApi.Controllers
 {
     [Produces("application/json")]
-    [Route(RouteConstants.crewingRoute + "/pilots")]
+    [Route(RouteConstants.crewingRoute)]
     public class PilotsController : Controller
     {
         private readonly ICrewingService service;
@@ -18,7 +18,7 @@ namespace ProjectStructure.WebApi.Controllers
         }
 
         // GET: api/crews/pilots
-        [HttpGet]
+        [HttpGet("pilots")]
         public IActionResult GetAllPilots()
         {
             var pilots = service.GetAllPilotsInfo();
@@ -26,7 +26,7 @@ namespace ProjectStructure.WebApi.Controllers
         }
 
         // GET: api/crews/pilots/:id
-        [HttpGet("{id}", Name = "GetPilot")]
+        [HttpGet("pilots/{id}", Name = "GetPilot")]
         public IActionResult GetPilot(int id)
         {
             var pilot = service.GetPilotInfo(id);
@@ -34,27 +34,31 @@ namespace ProjectStructure.WebApi.Controllers
         }
 
         // POST: api/crews/pilots
-        [HttpPost]
+        [HttpPost("pilots")]
         public IActionResult AddPilot([FromBody]Pilot pilot)
         {
+            if (!ModelState.IsValid)
+                return BadRequest() as IActionResult;
             var entity = service.HirePilot(pilot);
             return entity == null ? StatusCode(409) as IActionResult : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}", entity);
         }
 
         // PUT: api/crews/pilots/:id
-        [HttpPut("{id}")]
+        [HttpPut("pilots/{id}")]
         public IActionResult ModifyPilot(int id, [FromBody]Pilot pilot)
         {
+            if (!ModelState.IsValid)
+                return BadRequest() as IActionResult;
             var entity = service.UpdatePilotInfo(pilot);
             return entity == null ? StatusCode(304) as IActionResult : Ok(entity);
         }
 
         // DELETE: api/crews/pilots/5
-        [HttpDelete("{id}")]
+        [HttpDelete("pilots/{id}")]
         public IActionResult DeletePilot(int id)
         {
             var entity = service.TryDismissPilot(id);
-            return entity == null ? StatusCode(304) as IActionResult : Ok();
+            return entity ? StatusCode(304) as IActionResult : Ok();
         }
     }
 }

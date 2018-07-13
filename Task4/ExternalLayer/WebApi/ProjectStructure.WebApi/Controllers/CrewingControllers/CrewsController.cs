@@ -22,21 +22,23 @@ namespace ProjectStructure.WebApi.Controllers
         public IActionResult GetAllCrews()
         {
             var crews = service.GetAllCrewsInfo();
-            return crews == null ? NotFound("No pilots found!") as IActionResult : Ok(crews);
+            return crews == null ? NotFound("No crews found!") as IActionResult : Ok(crews);
         }
 
         // GET: api/crews/:id
         [HttpGet("{id}", Name = "GetCrew")]
-        public IActionResult GetCrew(int id)
+        public IActionResult GetCrew(long id)
         {
-            var pilot = service.GetCrewInfo(id);
-            return pilot == null ? NotFound($"Pilot with id = {id} not found!") as IActionResult : Ok(pilot);
+            var crew = service.GetCrewInfo(id);
+            return crew == null ? NotFound($"Crew with id = {id} not found!") as IActionResult : Ok(crew);
         }
         
         // POST: api/crews
         [HttpPost]
         public IActionResult AddCrew([FromBody]Crew crew)
         {
+            if (!ModelState.IsValid)
+                return BadRequest() as IActionResult;
             var entity = service.AddCrew(crew);
             return entity == null ? StatusCode(409) as IActionResult : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}", entity);
         }
@@ -45,6 +47,8 @@ namespace ProjectStructure.WebApi.Controllers
         [HttpPut("{id}")]
         public IActionResult ModifyCrew(int id, [FromBody]Crew crew)
         {
+            if (!ModelState.IsValid)
+                return BadRequest() as IActionResult;
             var entity = service.ReformCrew(crew);
             return entity == null ? StatusCode(304) as IActionResult : Ok(entity);
         }
@@ -54,7 +58,7 @@ namespace ProjectStructure.WebApi.Controllers
         public IActionResult DeleteCrew(int id)
         {
             var entity = service.TryDeleteCrew(id);
-            return entity == null ? StatusCode(304) as IActionResult : Ok();
+            return entity ? StatusCode(304) as IActionResult : Ok();
         }
     }
 }
