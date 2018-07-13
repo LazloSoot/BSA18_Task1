@@ -1,41 +1,18 @@
 ﻿using ProjectStructure.Domain;
-using ProjectStructure.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ProjectStructure.Infrastructure.Data.FlightOperations
 {
-    public class DeparturesRepository : IRepository<Departure>
+    public class DeparturesRepository : EFRepository<Departure>
     {
-        public void Delete(long id)
+        public DeparturesRepository()
         {
-            throw new NotImplementedException();
+
         }
 
-        public Departure Get(long id)
+        public DeparturesRepository(AirportContext context)
+            : base(context)
         {
-            throw new NotImplementedException();
-        }
 
-        public IEnumerable<Departure> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Insert(Departure entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remove(Departure entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Departure entity)
-        {
-            throw new NotImplementedException();
         }
     }
 }

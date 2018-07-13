@@ -1,41 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ProjectStructure.Domain;
-using ProjectStructure.Domain.Interfaces;
+﻿using ProjectStructure.Domain;
 
 namespace ProjectStructure.Infrastructure.Data.Crewing
 {
-    public class PilotsRepository : IRepository<Pilot>
+    public class PilotsRepository : EFRepository<Pilot>
     {
-        public void Delete(long id)
+        public PilotsRepository()
         {
-            throw new NotImplementedException();
+
         }
 
-        public Pilot Get(long id)
+        public PilotsRepository(AirportContext context)
+            : base(context)
         {
-            throw new NotImplementedException();
-        }
 
-        public IEnumerable<Pilot> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Insert(Pilot entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remove(Pilot entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Pilot entity)
-        {
-            throw new NotImplementedException();
         }
     }
 }

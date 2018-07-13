@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using ProjectStructure.Domain;
+using ProjectStructure.Domain.Interfaces;
 
 namespace ProjectStructure.Infrastructure.Data
 {
-    public sealed class AirportContext : DbContext
+    public sealed class AirportContext : DbContext, IAirportDbContext
     {
         public DbSet<Flight> Flights { get; set; }
         public DbSet<Departure> Departures { get; set; }
@@ -15,5 +17,10 @@ namespace ProjectStructure.Infrastructure.Data
         public DbSet<Crew> Crews { get; set; }
         public DbSet<Pilot> Pilots { get; set; }
         public DbSet<Stewardess> Stewardesses { get; set; }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await base.SaveChangesAsync();
+        }
     }
 }

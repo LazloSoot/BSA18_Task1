@@ -1,49 +1,45 @@
-﻿using System;
-using System.Threading.Tasks;
-//using Microsoft.EntityFrameworkCore;
+﻿using System.Threading.Tasks;
 using ProjectStructure.Domain;
 using ProjectStructure.Domain.Interfaces;
 
 namespace ProjectStructure.Infrastructure.Data.FlightOperations
 {
-    public class FlightOperationsUnitOfWork : IFlightOperationsUnitOfWork
+    public class FlightOperationsUnitOfWork : IDbFlightOperationsUnitOfWork
     {
-       // private readonly DbContext dbContext;
+        private readonly AirportContext dbContext;
 
-        public IRepository<Flight> Flights { get; }
-        public IRepository<Ticket> Tickets { get; }
-        public IRepository<Departure> Departures { get; }
+        public IDbRepository<Flight> Flights { get; }
+        public IDbRepository<Ticket> Tickets { get; }
+        public IDbRepository<Departure> Departures { get; }
 
-        public FlightOperationsUnitOfWork(IRepository<Flight> flightsRepository, IRepository<Ticket> ticketsRepository,
-            IRepository<Departure> departuresRepository
-          //  DbContext context
+        public FlightOperationsUnitOfWork(EFRepository<Flight> flightsRepository, EFRepository<Ticket> ticketsRepository,
+            EFRepository<Departure> departuresRepository,
+            AirportContext context
             )
         {
+            flightsRepository.DbContext = context;
+            ticketsRepository.DbContext = context;
+            departuresRepository.DbContext = context;
+            dbContext = context;
             Departures = departuresRepository;
             Flights = flightsRepository;
             Tickets = ticketsRepository;
-         //   dbContext = context;
         }
 
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            dbContext.Dispose();
         }
 
         public int SaveChanges()
         {
-            throw new NotImplementedException();
+            return dbContext.SaveChanges();
         }
 
-        public Task<int> SaveChangesAsync()
+        public async Task<int> SaveChangesAsync()
         {
-            throw new NotImplementedException();
-        }
-
-        public IRepository<T> Set<T>() where T : Entity
-        {
-            throw new NotImplementedException();
+            return await dbContext.SaveChangesAsync();
         }
     }
 }
