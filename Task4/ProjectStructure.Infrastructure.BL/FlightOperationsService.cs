@@ -9,32 +9,55 @@ namespace ProjectStructure.Infrastructure.BL
 {
     public class FlightOperationsService : IFlightOperationsService
     {
-        private readonly IUnitOfWork uow;
+        private readonly IFlightOperationsUnitOfWork uow;
+
+        public FlightOperationsService(IFlightOperationsUnitOfWork flightOperationsUnitOfWork)
+        {
+            uow = flightOperationsUnitOfWork;
+        }
+
         #region Flights
 
         public Flight GetFlightInfo(int id)
         {
-            throw new NotImplementedException();
+            return uow.Flights.Get(id) ?? null;
         }
 
         public IEnumerable<Flight> GetAllFlightsInfo()
         {
-            throw new NotImplementedException();
+            return uow.Flights.GetAll() ?? null;
         }
 
         public Flight AddFlight(Flight flight)
         {
-            throw new NotImplementedException();
+            var item = uow.Flights.Insert(flight);
+            if (item == null)
+                return null;
+            else
+                uow.SaveChanges();
+            return item;
         }
 
         public Flight ModifyFlight(Flight flight)
         {
-            throw new NotImplementedException();
+            var item = uow.Flights.Update(flight);
+            if (item == null)
+                return null;
+            else
+            {
+                uow.SaveChanges();
+                return item;
+            }
         }
 
         public bool TryCancelFlight(int id)
         {
-            throw new NotImplementedException();
+            if (uow.Flights.Delete(id))
+            {
+                uow.SaveChanges();
+                return true;
+            }
+            return false;
         }
 
         #endregion
@@ -43,26 +66,43 @@ namespace ProjectStructure.Infrastructure.BL
 
         public Departure GetDepartureInfo(int id)
         {
-            throw new NotImplementedException();
+            return uow.Departures.Get(id) ?? null;
         }
 
         public IEnumerable<Departure> GetAllDeparturesInfo()
         {
-            throw new NotImplementedException();
+            return uow.Departures.GetAll() ?? null;
         }
 
         public Departure SheduleDeparture(Departure departure)
         {
-            throw new NotImplementedException();
+            var item = uow.Departures.Insert(departure);
+            if (item == null)
+                return null;
+            else
+                uow.SaveChanges();
+            return item;
         }
         public Departure UpdateDepartureInfo(Departure departure)
         {
-            throw new NotImplementedException();
+            var item = uow.Departures.Update(departure);
+            if (item == null)
+                return null;
+            else
+            {
+                uow.SaveChanges();
+                return item;
+            }
         }
 
-        public Departure TryCancelDeparture(int id)
+        public bool TryCancelDeparture(int id)
         {
-            throw new NotImplementedException();
+            if (uow.Departures.Delete(id))
+            {
+                uow.SaveChanges();
+                return true;
+            }
+            return false;
         }
 
         #endregion
@@ -71,32 +111,50 @@ namespace ProjectStructure.Infrastructure.BL
 
         public Ticket GetTicketInfo(int id)
         {
-            throw new NotImplementedException();
+            return uow.Tickets.Get(id) ?? null;
         }
 
         public IEnumerable<Ticket> GetAllTicketsInfo()
         {
-            throw new NotImplementedException();
+            return uow.Tickets.GetAll() ?? null;
         }
 
-        public Ticket GetFlightTicketsInfo(int id)
+        public IEnumerable<Ticket> GetFlightTicketsInfo(int id)
         {
-            throw new NotImplementedException();
+            var flight = uow.Flights.Get(id);
+            return flight?.Tickets;
         }
 
         public Ticket AddTicket(Ticket ticket)
         {
-            throw new NotImplementedException();
+            var item = uow.Tickets.Insert(ticket);
+            if (item == null)
+                return null;
+            else
+                uow.SaveChanges();
+            return item;
         }
 
         public Ticket ModifyTicket(Ticket ticket)
         {
-            throw new NotImplementedException();
+            var item = uow.Tickets.Update(ticket);
+            if (item == null)
+                return null;
+            else
+            {
+                uow.SaveChanges();
+                return item;
+            }
         }
 
         public bool TryDeleteTicket(int id)
         {
-            throw new NotImplementedException();
+            if (uow.Tickets.Delete(id))
+            {
+                uow.SaveChanges();
+                return true;
+            }
+            return false;
         }
         #endregion
     }

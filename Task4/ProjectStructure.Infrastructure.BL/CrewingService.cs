@@ -8,41 +8,63 @@ namespace ProjectStructure.Infrastructure.BL
 {
     public class CrewingService : ICrewingService
     {
-        private readonly IUnitOfWork uow;
-        public CrewingService()
+        private readonly ICrewingUnitOfWork uow;
+        public CrewingService(ICrewingUnitOfWork crewingUnitOfWork)
         {
-
+            uow = crewingUnitOfWork;
         }
         #region Crews
 
         public Crew GetCrewInfo(int id)
         {
-            throw new NotImplementedException();
+            return uow.Crews.Get(id) ?? null;
         }
 
         public IEnumerable<Crew> GetAllCrewsInfo()
         {
-            throw new NotImplementedException();
+            return uow.Crews.GetAll() ?? null;
         }
 
         public Crew AddCrew(Crew crew)
         {
-            throw new NotImplementedException();
+            var item = uow.Crews.Insert(crew);
+            if (item == null)
+                return null;
+            else
+                uow.SaveChanges();
+            return item;
         }
 
         public Crew CreateCrew(Pilot pilot, IEnumerable<Stewardess> stewardesses)
         {
-            throw new NotImplementedException();
+            var item = uow.Crews.Insert(new Crew(pilot, stewardesses));
+            if (item == null)
+                return null;
+            else
+                uow.SaveChanges();
+            return item;
         }
 
         public Crew ReformCrew(Crew crew)
         {
-            throw new NotImplementedException();
+            var item = uow.Crews.Update(crew);
+            if (item == null)
+                return null;
+            else
+            {
+                uow.SaveChanges();
+                return item;
+            }
         }
 
         public bool TryDeleteCrew(int id)
         {
-            throw new NotImplementedException();
+            if (uow.Crews.Delete(id))
+            {
+                uow.SaveChanges();
+                return true;
+            }
+            return false;
         }
         #endregion
 
@@ -50,27 +72,44 @@ namespace ProjectStructure.Infrastructure.BL
 
         public Pilot GetPilotInfo(int id)
         {
-            throw new NotImplementedException();
+            return uow.Pilots.Get(id) ?? null;
         }
 
         public IEnumerable<Pilot> GetAllPilotsInfo()
         {
-            throw new NotImplementedException();
+            return uow.Pilots.GetAll() ?? null;
         }
 
         public Pilot HirePilot(Pilot pilot)
         {
-            throw new NotImplementedException();
+            var item = uow.Pilots.Insert(pilot);
+            if (item == null)
+                return null;
+            else
+                uow.SaveChanges();
+            return item;
         }
 
         public bool TryDismissPilot(int id)
         {
-            throw new NotImplementedException();
+            if (uow.Pilots.Delete(id))
+            {
+                uow.SaveChanges();
+                return true;
+            }
+            return false;
         }
 
         public Pilot UpdatePilotInfo(Pilot pilot)
         {
-            throw new NotImplementedException();
+            var item = uow.Pilots.Update(pilot);
+            if (item == null)
+                return null;
+            else
+            {
+                uow.SaveChanges();
+                return item;
+            }
         }
 
         #endregion
@@ -79,27 +118,44 @@ namespace ProjectStructure.Infrastructure.BL
 
         public Stewardess GetStewardessInfo(int id)
         {
-            throw new NotImplementedException();
+            return uow.Stewardesses.Get(id) ?? null;
         }
 
         public IEnumerable<Stewardess> GetAllStewardessesInfo()
         {
-            throw new NotImplementedException();
+            return uow.Stewardesses.GetAll() ?? null;
         }
 
         public Stewardess HireStewardess(Stewardess stewardess)
         {
-            throw new NotImplementedException();
+            var item = uow.Stewardesses.Insert(stewardess);
+            if (item == null)
+                return null;
+            else
+                uow.SaveChanges();
+            return item;
         }
 
         public Stewardess UpdateStewardessInfo(Stewardess stewardess)
         {
-            throw new NotImplementedException();
+            var item = uow.Stewardesses.Update(stewardess);
+            if (item == null)
+                return null;
+            else
+            {
+                uow.SaveChanges();
+                return item;
+            }
         }
 
         public bool TryDismissStewardess(int id)
         {
-            throw new NotImplementedException();
+            if (uow.Stewardesses.Delete(id))
+            {
+                uow.SaveChanges();
+                return true;
+            }
+            return false;
         }
 
         #endregion

@@ -6,14 +6,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ProjectStructure.Services
+namespace ProjectStructure.Infrastructure.BL
 {
     public class AircraftService : IAircraftService
     {
-        private readonly IUnitOfWork uow;
-        public AircraftService()
+        private readonly IAircraftUnitOfWork uow;
+        public AircraftService(IAircraftUnitOfWork aircraftUnitOfWork)
         {
-
+            uow = aircraftUnitOfWork;
         }
         #region Planes Methods
 
@@ -29,27 +29,44 @@ namespace ProjectStructure.Services
 
         public Plane AddPlane(Plane plane)
         {
-            throw new NotImplementedException();
+            var item = uow.Planes.Insert(plane);
+            if (item == null)
+                return null;
+            else
+                uow.SaveChanges();
+                return item;
         }
 
-        public Plane GetPlaneInfo()
+        public Plane GetPlaneInfo(long id)
         {
-            throw new NotImplementedException();
+            return uow.Planes.Get(id) ?? null;
         }
 
         public IEnumerable<Plane> GetAllPlanesInfo()
         {
-            throw new NotImplementedException();
+            return uow.Planes.GetAll() ?? null;
         }
 
         public Plane ModifyPlaneInfo(Plane plane)
         {
-            throw new NotImplementedException();
+            var item = uow.Planes.Update(plane);
+            if (item == null)
+                return null;
+            else
+            {
+                uow.SaveChanges();
+                return item;
+            }
         }
 
         public bool TryDeletePlane(int id)
         {
-            throw new NotImplementedException();
+            if(uow.Planes.Delete(id))
+            {
+                uow.SaveChanges();
+                return true;
+            }
+            return false;
         }
 
         #endregion
@@ -58,27 +75,44 @@ namespace ProjectStructure.Services
 
         public PlaneType AddPlaneType(PlaneType type)
         {
-            throw new NotImplementedException();
+            var item = uow.PlaneTypes.Insert(type);
+            if (item == null)
+                return null;
+            else
+                uow.SaveChanges();
+            return item;
         }
 
         public IEnumerable<PlaneType> GetAllPlaneTypesInfo()
         {
-            throw new NotImplementedException();
+            return uow.PlaneTypes.GetAll() ?? null;
         }
 
         public PlaneType GetPlaneTypeInfo(int id)
         {
-            throw new NotImplementedException();
+            return uow.PlaneTypes.Get(id) ?? null;
         }
 
-        public PlaneType ModifyPlaneType(int id, PlaneType type)
+        public PlaneType ModifyPlaneType(PlaneType type)
         {
-            throw new NotImplementedException();
+            var item = uow.PlaneTypes.Update(type);
+            if (item == null)
+                return null;
+            else
+            {
+                uow.SaveChanges();
+                return item;
+            }
         }
 
         public bool TryDeletePlaneType(int id)
         {
-            throw new NotImplementedException();
+            if (uow.PlaneTypes.Delete(id))
+            {
+                uow.SaveChanges();
+                return true;
+            }
+            return false;
         }
 
         #endregion
