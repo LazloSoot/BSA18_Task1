@@ -26,13 +26,15 @@ namespace ProjectStructure.Services.Interfaces
 
         IEnumerable<Departure> GetAllDeparturesInfo();
 
-        Departure GetDepartureInfo(int id);
+        IEnumerable<Departure> GetFlightDepartureInfo(long id);
+
+        Departure GetDepartureInfo(long id);
 
         Departure SheduleDeparture(Departure departure);
 
         Departure UpdateDepartureInfo(Departure departure);
 
-        bool TryCancelDeparture(int id);
+        bool TryCancelDeparture(long id);
 
         #endregion
 
