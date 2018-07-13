@@ -14,13 +14,13 @@ namespace ProjectStructure.Services.Interfaces
 
         IEnumerable<Crew> GetAllCrewsInfo();
 
-        Crew GetCrewInfo(int id);
+        Crew GetCrewInfo(long id);
 
         Crew AddCrew(Crew crew);
 
         Crew ReformCrew(Crew crew);
 
-        bool TryDeleteCrew(int id);
+        bool TryDeleteCrew(long id);
 
         #endregion
 
@@ -28,13 +28,13 @@ namespace ProjectStructure.Services.Interfaces
 
         IEnumerable<Pilot> GetAllPilotsInfo();
 
-        Pilot GetPilotInfo(int id);
+        Pilot GetPilotInfo(long id);
 
         Pilot HirePilot(Pilot pilot);
 
         Pilot UpdatePilotInfo(Pilot pilot);
 
-        bool TryDismissPilot(int id);
+        bool TryDismissPilot(long id);
 
         #endregion
 
@@ -42,13 +42,13 @@ namespace ProjectStructure.Services.Interfaces
 
         IEnumerable<Stewardess> GetAllStewardessesInfo();
 
-        Stewardess GetStewardessInfo(int id);
+        Stewardess GetStewardessInfo(long id);
 
         Stewardess HireStewardess(Stewardess stewardess);
 
         Stewardess UpdateStewardessInfo(Stewardess stewardess);
 
-        bool TryDismissStewardess(int id);
+        bool TryDismissStewardess(long id);
 
 
         #endregion
