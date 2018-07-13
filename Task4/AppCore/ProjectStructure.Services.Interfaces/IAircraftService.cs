@@ -17,7 +17,7 @@ namespace ProjectStructure.Services.Interfaces
 
         IEnumerable<Plane> GetAllPlanesInfo();
 
-        Plane GetPlaneInfo();
+        Plane GetPlaneInfo(long id);
 
         Plane AddPlane(Plane plane);
 
@@ -35,7 +35,7 @@ namespace ProjectStructure.Services.Interfaces
 
         PlaneType AddPlaneType(PlaneType type);
 
-        PlaneType ModifyPlaneType(int id, PlaneType type);
+        PlaneType ModifyPlaneType(PlaneType type);
 
         bool TryDeletePlaneType(int id);
 

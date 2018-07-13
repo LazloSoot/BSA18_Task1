@@ -32,7 +32,7 @@ namespace ProjectStructure.Services.Interfaces
 
         Departure UpdateDepartureInfo(Departure departure);
 
-        Departure TryCancelDeparture(int id);
+        bool TryCancelDeparture(int id);
 
         #endregion
 
@@ -40,7 +40,7 @@ namespace ProjectStructure.Services.Interfaces
 
         IEnumerable<Ticket> GetAllTicketsInfo();
 
-        Ticket GetFlightTicketsInfo(int id);
+        IEnumerable<Ticket> GetFlightTicketsInfo(int id);
 
         Ticket GetTicketInfo(int id);
 
