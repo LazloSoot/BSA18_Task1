@@ -7,7 +7,7 @@ namespace ProjectStructure.Infrastructure.Data.Memory
 {
     public class CrewingUnitOfWork : ICrewingUnitOfWork
     {
-       // private readonly DbContext dbContext;
+        private readonly AirportContext dbContext;
 
         public IRepository<Crew> Crews { get; }
 
@@ -16,34 +16,28 @@ namespace ProjectStructure.Infrastructure.Data.Memory
         public IRepository<Stewardess> Stewardesses { get; }
 
         public CrewingUnitOfWork(IRepository<Crew> crewsRepository, IRepository<Pilot> pilotsRepository,
-            IRepository<Stewardess> stewardessesRepository
-            //DbContext context
+            IRepository<Stewardess> stewardessesRepository,
+            AirportContext context
             )
         {
             Crews = crewsRepository;
             Pilots = pilotsRepository;
             Stewardesses = stewardessesRepository;
-            //dbContext = context;
+            dbContext = context;
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
         }
 
         public int SaveChanges()
         {
-            throw new NotImplementedException();
+            return -1;
         }
 
         public Task<int> SaveChangesAsync()
         {
-            throw new NotImplementedException();
-        }
-
-        public IRepository<T> Set<T>() where T : Entity
-        {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

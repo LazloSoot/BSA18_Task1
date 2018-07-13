@@ -1,41 +1,49 @@
-﻿using ProjectStructure.Domain;
-using ProjectStructure.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using ProjectStructure.Domain;
+using System.Linq;
 
 namespace ProjectStructure.Infrastructure.Data.Memory
 {
-    public class DeparturesRepository : IRepository<Departure>
+    public class DeparturesRepository : Repository<Departure>
     {
-        public void Delete(long id)
+        public DeparturesRepository(AirportContext context)
+            : base(context)
         {
-            throw new NotImplementedException();
+
         }
 
-        public Departure Get(long id)
+        public override bool Delete(long id)
         {
-            throw new NotImplementedException();
+            var item = Context.Departures.FirstOrDefault(d => d.Id == id);
+            return item != null ? Context.Departures.Remove(item) : false;
         }
 
-        public IEnumerable<Departure> GetAll()
+        public override Departure Get(long id)
         {
-            throw new NotImplementedException();
+            return Context.Departures.FirstOrDefault(d => d.Id == id);
         }
 
-        public void Insert(Departure entity)
+        public override IEnumerable<Departure> GetAll()
         {
-            throw new NotImplementedException();
+            return Context.Departures ?? null;
         }
 
-        public void Remove(Departure entity)
+        public override Departure Insert(Departure entity)
         {
-            throw new NotImplementedException();
+            if (Context.Departures.Contains(entity))
+                return null;
+            Context.Departures.Add(entity);
+            return entity;
         }
 
-        public void Update(Departure entity)
+        public override Departure Update(Departure entity)
         {
-            throw new NotImplementedException();
+            if (Context.Departures.Contains(entity))
+                return null;
+            var newCollection = Context.Departures.ToList();
+            newCollection[newCollection.IndexOf(entity)] = entity;
+            Context.Departures = newCollection;
+            return entity;
         }
     }
 }

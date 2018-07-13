@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\AppCore\ProjectStructure.Domain.Interfaces\ProjectStructure.Domain.Interfaces.csproj" />
+    <ProjectReference Include="..\..\..\AppCore\ProjectStructure.Domain\ProjectStructure.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

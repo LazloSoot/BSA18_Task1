@@ -1,41 +1,49 @@
-﻿using System;
+﻿using ProjectStructure.Domain;
 using System.Collections.Generic;
-using System.Text;
-using ProjectStructure.Domain;
-using ProjectStructure.Domain.Interfaces;
+using System.Linq;
 
 namespace ProjectStructure.Infrastructure.Data.Memory
 {
-    public class StewardessesRepository : IRepository<Stewardess>
+    public class StewardessesRepository : Repository<Stewardess>
     {
-        public void Delete(long id)
+        public StewardessesRepository(AirportContext context)
+            : base(context)
         {
-            throw new NotImplementedException();
+
         }
 
-        public Stewardess Get(long id)
+        public override bool Delete(long id)
         {
-            throw new NotImplementedException();
+            var item = Context.Stewardesses.FirstOrDefault(d => d.Id == id);
+            return item != null ? Context.Stewardesses.Remove(item) : false;
         }
 
-        public IEnumerable<Stewardess> GetAll()
+        public override Stewardess Get(long id)
         {
-            throw new NotImplementedException();
+            return Context.Stewardesses.FirstOrDefault(d => d.Id == id);
         }
 
-        public void Insert(Stewardess entity)
+        public override IEnumerable<Stewardess> GetAll()
         {
-            throw new NotImplementedException();
+            return Context.Stewardesses ?? null;
         }
 
-        public void Remove(Stewardess entity)
+        public override Stewardess Insert(Stewardess entity)
         {
-            throw new NotImplementedException();
+            if (Context.Stewardesses.Contains(entity))
+                return null;
+            Context.Stewardesses.Add(entity);
+            return entity;
         }
 
-        public void Update(Stewardess entity)
+        public override Stewardess Update(Stewardess entity)
         {
-            throw new NotImplementedException();
+            if (Context.Stewardesses.Contains(entity))
+                return null;
+            var newCollection = Context.Stewardesses.ToList();
+            newCollection[newCollection.IndexOf(entity)] = entity;
+            Context.Stewardesses = newCollection;
+            return entity;
         }
     }
 }

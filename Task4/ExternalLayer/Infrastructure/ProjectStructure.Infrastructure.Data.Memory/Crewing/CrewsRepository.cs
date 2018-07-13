@@ -1,41 +1,49 @@
-﻿using System;
+﻿using ProjectStructure.Domain;
 using System.Collections.Generic;
-using System.Text;
-using ProjectStructure.Domain;
-using ProjectStructure.Domain.Interfaces;
+using System.Linq;
 
 namespace ProjectStructure.Infrastructure.Data.Memory
 {
-    public class CrewsRepository : IRepository<Crew>
+    public class CrewsRepository : Repository<Crew>
     {
-        public void Delete(long id)
+        public CrewsRepository(AirportContext context)
+            : base(context)
         {
-            throw new NotImplementedException();
+
         }
 
-        public Crew Get(long id)
+        public override bool Delete(long id)
         {
-            throw new NotImplementedException();
+            var item = Context.Crews.FirstOrDefault(d => d.Id == id);
+            return item != null ? Context.Crews.Remove(item) : false;
         }
 
-        public IEnumerable<Crew> GetAll()
+        public override Crew Get(long id)
         {
-            throw new NotImplementedException();
+            return Context.Crews.FirstOrDefault(d => d.Id == id) ?? null;
         }
 
-        public void Insert(Crew entity)
+        public override IEnumerable<Crew> GetAll()
         {
-            throw new NotImplementedException();
+            return Context.Crews ?? null;
         }
 
-        public void Remove(Crew entity)
+        public override Crew Insert(Crew entity)
         {
-            throw new NotImplementedException();
+            if (Context.Crews.Contains(entity))
+                return null;
+            Context.Crews.Add(entity);
+            return entity;
         }
 
-        public void Update(Crew entity)
+        public override Crew Update(Crew entity)
         {
-            throw new NotImplementedException();
+            if (Context.Crews.Contains(entity))
+                return null;
+            var newCollection = Context.Crews.ToList();
+            newCollection[newCollection.IndexOf(entity)] = entity;
+            Context.Crews = newCollection;
+            return entity;
         }
     }
 }

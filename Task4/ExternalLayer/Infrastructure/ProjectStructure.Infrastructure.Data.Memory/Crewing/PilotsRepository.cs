@@ -1,41 +1,48 @@
-﻿using System;
+﻿using ProjectStructure.Domain;
 using System.Collections.Generic;
-using System.Text;
-using ProjectStructure.Domain;
-using ProjectStructure.Domain.Interfaces;
+using System.Linq;
 
 namespace ProjectStructure.Infrastructure.Data.Memory
 {
-    public class PilotsRepository : IRepository<Pilot>
+    public class PilotsRepository : Repository<Pilot>
     {
-        public void Delete(long id)
+        public PilotsRepository(AirportContext context)
+            : base(context)
         {
-            throw new NotImplementedException();
+
+        }
+        public override bool Delete(long id)
+        {
+            var item = Context.Pilots.FirstOrDefault(d => d.Id == id);
+            return item != null ? Context.Pilots.Remove(item) : false;
         }
 
-        public Pilot Get(long id)
+        public override Pilot Get(long id)
         {
-            throw new NotImplementedException();
+            return Context.Pilots.FirstOrDefault(d => d.Id == id);
         }
 
-        public IEnumerable<Pilot> GetAll()
+        public override IEnumerable<Pilot> GetAll()
         {
-            throw new NotImplementedException();
+            return Context.Pilots ?? null;
         }
 
-        public void Insert(Pilot entity)
+        public override Pilot Insert(Pilot entity)
         {
-            throw new NotImplementedException();
+            if (Context.Pilots.Contains(entity))
+                return null;
+            Context.Pilots.Add(entity);
+            return entity;
         }
 
-        public void Remove(Pilot entity)
+        public override Pilot Update(Pilot entity)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Pilot entity)
-        {
-            throw new NotImplementedException();
+            if (Context.Pilots.Contains(entity))
+                return null;
+            var newCollection = Context.Pilots.ToList();
+            newCollection[newCollection.IndexOf(entity)] = entity;
+            Context.Pilots = newCollection;
+            return entity;
         }
     }
 }

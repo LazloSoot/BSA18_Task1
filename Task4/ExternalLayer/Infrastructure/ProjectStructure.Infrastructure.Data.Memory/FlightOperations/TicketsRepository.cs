@@ -1,41 +1,49 @@
-﻿using System;
+﻿using ProjectStructure.Domain;
 using System.Collections.Generic;
-using System.Text;
-using ProjectStructure.Domain;
-using ProjectStructure.Domain.Interfaces;
+using System.Linq;
 
 namespace ProjectStructure.Infrastructure.Data.Memory
 {
-    public class TicketsRepository : IRepository<Ticket>
+    public class TicketsRepository : Repository<Ticket>
     {
-        public void Delete(long id)
+        public TicketsRepository(AirportContext context)
+            : base(context)
         {
-            throw new NotImplementedException();
+
         }
 
-        public Ticket Get(long id)
+        public override bool Delete(long id)
         {
-            throw new NotImplementedException();
+            var item = Context.Tickets.FirstOrDefault(d => d.Id == id);
+            return item != null ? Context.Tickets.Remove(item) : false;
         }
 
-        public IEnumerable<Ticket> GetAll()
+        public override Ticket Get(long id)
         {
-            throw new NotImplementedException();
+            return Context.Tickets.FirstOrDefault(d => d.Id == id);
         }
 
-        public void Insert(Ticket entity)
+        public override IEnumerable<Ticket> GetAll()
         {
-            throw new NotImplementedException();
+            return Context.Tickets ?? null;
         }
 
-        public void Remove(Ticket entity)
+        public override Ticket Insert(Ticket entity)
         {
-            throw new NotImplementedException();
+            if (Context.Tickets.Contains(entity))
+                return null;
+            Context.Tickets.Add(entity);
+            return entity;
         }
 
-        public void Update(Ticket entity)
+        public override Ticket Update(Ticket entity)
         {
-            throw new NotImplementedException();
+            if (Context.Tickets.Contains(entity))
+                return null;
+            var newCollection = Context.Tickets.ToList();
+            newCollection[newCollection.IndexOf(entity)] = entity;
+            Context.Tickets = newCollection;
+            return entity;
         }
     }
 }

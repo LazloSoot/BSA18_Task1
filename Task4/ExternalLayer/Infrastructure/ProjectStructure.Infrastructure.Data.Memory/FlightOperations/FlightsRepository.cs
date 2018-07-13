@@ -1,41 +1,49 @@
-﻿using System;
+﻿using ProjectStructure.Domain;
 using System.Collections.Generic;
-using System.Text;
-using ProjectStructure.Domain;
-using ProjectStructure.Domain.Interfaces;
+using System.Linq;
 
 namespace ProjectStructure.Infrastructure.Data.Memory
 {
-    public class FlightsRepository : IRepository<Flight>
+    public class FlightsRepository : Repository<Flight>
     {
-        public void Delete(long id)
+        public FlightsRepository(AirportContext context)
+            : base(context)
         {
-            throw new NotImplementedException();
+
         }
 
-        public Flight Get(long id)
+        public override bool Delete(long id)
         {
-            throw new NotImplementedException();
+            var item = Context.Flights.FirstOrDefault(d => d.Id == id);
+            return item != null ? Context.Flights.Remove(item) : false;
         }
 
-        public IEnumerable<Flight> GetAll()
+        public override Flight Get(long id)
         {
-            throw new NotImplementedException();
+            return Context.Flights.FirstOrDefault(d => d.Id == id);
         }
 
-        public void Insert(Flight entity)
+        public override IEnumerable<Flight> GetAll()
         {
-            throw new NotImplementedException();
+            return Context.Flights ?? null;
         }
 
-        public void Remove(Flight entity)
+        public override Flight Insert(Flight entity)
         {
-            throw new NotImplementedException();
+            if (Context.Flights.Contains(entity))
+                return null;
+            Context.Flights.Add(entity);
+            return entity;
         }
 
-        public void Update(Flight entity)
+        public override Flight Update(Flight entity)
         {
-            throw new NotImplementedException();
+            if (Context.Flights.Contains(entity))
+                return null;
+            var newCollection = Context.Flights.ToList();
+            newCollection[newCollection.IndexOf(entity)] = entity;
+            Context.Flights = newCollection;
+            return entity;
         }
     }
 }
