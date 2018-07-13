@@ -3,10 +3,11 @@ using ProjectStructure.Domain.Interfaces;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ProjectStructure.Infrastructure.Data.Memory
 {
-    public sealed class AirportContext : IAirportContext, IDisposable
+    public sealed class AirportContext : IAirportDbContext, IDisposable
     {
         public ICollection<Flight> Flights { get; set; }
         public ICollection<Departure> Departures { get; set; }
@@ -345,6 +346,16 @@ namespace ProjectStructure.Infrastructure.Data.Memory
         public void Dispose()
         {
             
+        }
+
+        public int SaveChanges()
+        {
+            return 0;
+        }
+
+        public Task<int> SaveChangesAsync()
+        {
+            return null;
         }
     }
 }
