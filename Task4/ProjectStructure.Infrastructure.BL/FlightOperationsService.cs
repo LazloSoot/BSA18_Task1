@@ -1,7 +1,7 @@
 ﻿using ProjectStructure.Domain;
 using ProjectStructure.Domain.Interfaces;
 using ProjectStructure.Services.Interfaces;
-using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
@@ -64,9 +64,14 @@ namespace ProjectStructure.Infrastructure.BL
 
         #region Departures
 
-        public Departure GetDepartureInfo(int id)
+        public Departure GetDepartureInfo(long id)
         {
             return uow.Departures.Get(id) ?? null;
+        }
+
+        public IEnumerable<Departure> GetFlightDepartureInfo(long id)
+        {
+            return uow.Departures.GetAll().Where(d => d.FlightId == id) ?? null;
         }
 
         public IEnumerable<Departure> GetAllDeparturesInfo()
@@ -95,7 +100,7 @@ namespace ProjectStructure.Infrastructure.BL
             }
         }
 
-        public bool TryCancelDeparture(int id)
+        public bool TryCancelDeparture(long id)
         {
             if (uow.Departures.Delete(id))
             {
