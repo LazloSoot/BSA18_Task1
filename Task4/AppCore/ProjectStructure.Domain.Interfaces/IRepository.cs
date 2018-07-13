@@ -8,12 +8,10 @@ namespace ProjectStructure.Domain.Interfaces
 
         T Get(long id);
 
-        void Insert(T entity);
+        T Insert(T entity);
 
-        void Update(T entity);
+        T Update(T entity);
 
-        void Delete(long id);
-
-        void Remove(T entity);
+        bool Delete(long id);
     }
 }
