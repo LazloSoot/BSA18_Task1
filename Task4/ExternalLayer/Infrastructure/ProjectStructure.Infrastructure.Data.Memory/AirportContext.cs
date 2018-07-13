@@ -292,16 +292,19 @@ namespace ProjectStructure.Infrastructure.Data.Memory
                 }
             };
 
+            int cIndex = 0;
+            int ticketId = 0;
             for (int i = 0; i < flightsTemp.Count; i++)
             {
+                cIndex = i;
                 for (int j = 0; j < 100; j++)
                 {
                     ticketTemp = new Ticket()
                     {
-                        Id = j + 1,
+                        Id = ++ticketId,
                         AddedDate = DateTime.Now,
                         ModifiedDate = DateTime.Now,
-                        FlightId = flightsTemp[i].Id,
+                        FlightId = flightsTemp[cIndex].Id,
                         Price = j > 20 ? ticketPrice : ticketPrice + delta
                     };
 
@@ -309,9 +312,8 @@ namespace ProjectStructure.Infrastructure.Data.Memory
                         delta += 37;
 
                     Tickets.Add(ticketTemp);
-                    flightsTemp[i].Tickets = Tickets.Where(t => t.FlightId == flightsTemp[i].Id);
                 }
-
+                flightsTemp[cIndex].Tickets = Tickets.Where(t => t.FlightId == flightsTemp[cIndex].Id);
             }
 
             Flights = flightsTemp;
