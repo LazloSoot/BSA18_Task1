@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+//using Microsoft.EntityFrameworkCore;
 using ProjectStructure.Domain;
 using ProjectStructure.Domain.Interfaces;
 
@@ -7,7 +8,7 @@ namespace ProjectStructure.Infrastructure.Data.Crewing
 {
     public class CrewingUnitOfWork : ICrewingUnitOfWork
     {
-        private readonly object dbContext;
+       // private readonly DbContext dbContext;
 
         public IRepository<Crew> Crews { get; }
 
@@ -16,11 +17,14 @@ namespace ProjectStructure.Infrastructure.Data.Crewing
         public IRepository<Stewardess> Stewardesses { get; }
 
         public CrewingUnitOfWork(IRepository<Crew> crewsRepository, IRepository<Pilot> pilotsRepository,
-            IRepository<Stewardess> stewardessesRepository)
+            IRepository<Stewardess> stewardessesRepository
+            //DbContext context
+            )
         {
             Crews = crewsRepository;
             Pilots = pilotsRepository;
             Stewardesses = stewardessesRepository;
+            //dbContext = context;
         }
 
         public void Dispose()

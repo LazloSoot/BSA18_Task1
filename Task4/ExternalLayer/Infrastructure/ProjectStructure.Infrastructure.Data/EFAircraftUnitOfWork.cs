@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Threading.Tasks;
-//using Microsoft.EntityFrameworkCore;
-using ProjectStructure.Domain;
-using ProjectStructure.Domain.Interfaces;
+using System.Collections.Generic;
+using System.Text;
 
-namespace ProjectStructure.Infrastructure.Data.Aircraft
+namespace ProjectStructure.Infrastructure.Data
 {
-    public class AircraftUnitOfWork : IAircraftUnitOfWork
+    public abstract class EFAircraftUnitOfWorkIAircraftUnitOfWork
     {
-        private readonly AirportContext dbContext;
+        private readonly DbContext dbContext;
 
         public IRepository<Plane> Planes { get; }
         public IRepository<PlaneType> PlaneTypes { get; }
@@ -22,7 +20,7 @@ namespace ProjectStructure.Infrastructure.Data.Aircraft
             dbContext = context;
         }
 
-        
+
 
         public void Dispose()
         {
@@ -38,6 +36,6 @@ namespace ProjectStructure.Infrastructure.Data.Aircraft
         {
             return await SaveChangesAsync();
         }
-        
+
     }
 }

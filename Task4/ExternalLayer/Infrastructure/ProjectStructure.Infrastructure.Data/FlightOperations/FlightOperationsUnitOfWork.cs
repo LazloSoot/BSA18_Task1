@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+//using Microsoft.EntityFrameworkCore;
 using ProjectStructure.Domain;
 using ProjectStructure.Domain.Interfaces;
 
@@ -7,18 +8,21 @@ namespace ProjectStructure.Infrastructure.Data.FlightOperations
 {
     public class FlightOperationsUnitOfWork : IFlightOperationsUnitOfWork
     {
-        private readonly object dbContext;
+       // private readonly DbContext dbContext;
 
         public IRepository<Flight> Flights { get; }
         public IRepository<Ticket> Tickets { get; }
         public IRepository<Departure> Departures { get; }
 
         public FlightOperationsUnitOfWork(IRepository<Flight> flightsRepository, IRepository<Ticket> ticketsRepository,
-            IRepository<Departure> departuresRepository)
+            IRepository<Departure> departuresRepository
+          //  DbContext context
+            )
         {
             Departures = departuresRepository;
             Flights = flightsRepository;
             Tickets = ticketsRepository;
+         //   dbContext = context;
         }
 
 
