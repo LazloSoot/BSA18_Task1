@@ -1,101 +1,103 @@
 ﻿using ProjectStructure.Domain;
+using ProjectStructure.Domain.Interfaces;
 using ProjectStructure.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace ProjectStructure.Services
+namespace ProjectStructure.Infrastructure.BL
 {
-    public class CrewingService : ICrewingService
+    public class FlightOperationsService : IFlightOperationsService
     {
-        #region Crews
+        private readonly IUnitOfWork uow;
+        #region Flights
 
-        public Crew GetCrewInfo(int id)
+        public Flight GetFlightInfo(int id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Crew> GetAllCrewsInfo()
+        public IEnumerable<Flight> GetAllFlightsInfo()
         {
             throw new NotImplementedException();
         }
 
-        public Crew AddCrew(Crew crew)
+        public Flight AddFlight(Flight flight)
         {
             throw new NotImplementedException();
         }
 
-        public Crew CreateCrew(Pilot pilot, IEnumerable<Stewardess> stewardesses)
+        public Flight ModifyFlight(Flight flight)
         {
             throw new NotImplementedException();
         }
 
-        public Crew ReformCrew(Crew crew)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool TryDeleteCrew(int id)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #region Pilots
-
-        public Pilot GetPilotInfo(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Pilot> GetAllPilotsInfo()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Pilot HirePilot(Pilot pilot)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool TryDismissPilot(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Pilot UpdatePilotInfo(Pilot pilot)
+        public bool TryCancelFlight(int id)
         {
             throw new NotImplementedException();
         }
 
         #endregion
 
-        #region Stewardesses
+        #region Departures
 
-        public Stewardess GetStewardessInfo(int id)
+        public Departure GetDepartureInfo(int id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Stewardess> GetAllStewardessesInfo()
+        public IEnumerable<Departure> GetAllDeparturesInfo()
         {
             throw new NotImplementedException();
         }
 
-        public Stewardess HireStewardess(Stewardess stewardess)
+        public Departure SheduleDeparture(Departure departure)
+        {
+            throw new NotImplementedException();
+        }
+        public Departure UpdateDepartureInfo(Departure departure)
         {
             throw new NotImplementedException();
         }
 
-        public Stewardess UpdateStewardessInfo(Stewardess stewardess)
+        public Departure TryCancelDeparture(int id)
         {
             throw new NotImplementedException();
         }
 
-        public bool TryDismissStewardess(int id)
+        #endregion
+
+        #region Tickets
+
+        public Ticket GetTicketInfo(int id)
         {
             throw new NotImplementedException();
         }
 
+        public IEnumerable<Ticket> GetAllTicketsInfo()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Ticket GetFlightTicketsInfo(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Ticket AddTicket(Ticket ticket)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Ticket ModifyTicket(Ticket ticket)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryDeleteTicket(int id)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }

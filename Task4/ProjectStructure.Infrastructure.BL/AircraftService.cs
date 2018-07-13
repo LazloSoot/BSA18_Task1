@@ -1,6 +1,7 @@
 ﻿using ProjectStructure.Domain;
 using ProjectStructure.Domain.Enums;
 using ProjectStructure.Services.Interfaces;
+using ProjectStructure.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +10,12 @@ namespace ProjectStructure.Services
 {
     public class AircraftService : IAircraftService
     {
-        #region Planes
+        private readonly IUnitOfWork uow;
+        public AircraftService()
+        {
+
+        }
+        #region Planes Methods
 
         public TechCondition GetPlaneTechCondition(long id)
         {
@@ -48,7 +54,7 @@ namespace ProjectStructure.Services
 
         #endregion
 
-        #region PlaneTypes
+        #region PlaneTypes Methods
 
         public PlaneType AddPlaneType(PlaneType type)
         {
