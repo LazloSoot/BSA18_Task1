@@ -1,5 +1,5 @@
 ﻿using System;
-namespace ProjectStructure.Infrastructure.Shared.DTO
+namespace ProjectStructure.Infrastructure.Shared
 {
     public class PilotDTO
     {
@@ -8,6 +8,7 @@ namespace ProjectStructure.Infrastructure.Shared.DTO
         public string Surname { get; set; }
         public DateTime Birth { get; set; }
         public int ExperienceYears { get; set; }
+        public CrewDTO Crew { get; set; }
 
     }
 }

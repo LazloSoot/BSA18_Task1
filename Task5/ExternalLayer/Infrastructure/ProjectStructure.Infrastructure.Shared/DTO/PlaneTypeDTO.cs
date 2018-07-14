@@ -1,4 +1,4 @@
-﻿namespace ProjectStructure.Infrastructure.Shared.DTO
+﻿namespace ProjectStructure.Infrastructure.Shared
 {
     public class PlaneTypeDTO
     {
