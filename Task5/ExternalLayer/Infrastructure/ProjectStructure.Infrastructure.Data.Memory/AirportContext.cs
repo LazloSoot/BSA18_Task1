@@ -330,7 +330,7 @@ namespace ProjectStructure.Infrastructure.Data.Memory
                     AddedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
                     DepartureTime = new DateTime(2018, 8, 10, 11, 0, 0),
-                    FlightId = 1
+                    Flight = 1
                 },
                 new Departure(Crews.Skip(1).First(), Planes.Skip(1).First())
                 {
@@ -338,7 +338,7 @@ namespace ProjectStructure.Infrastructure.Data.Memory
                     AddedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
                     DepartureTime = new DateTime(2018, 8, 11, 12, 0, 0),
-                    FlightId = 2
+                    Flight = 2
                 }
             };
         }
