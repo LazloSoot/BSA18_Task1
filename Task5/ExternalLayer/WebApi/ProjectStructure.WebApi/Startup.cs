@@ -17,6 +17,7 @@ using ProjectStructure.Domain;
 using ProjectStructure.Infrastructure.Data.Aircraft;
 using ProjectStructure.Infrastructure.Data.Crewing;
 using ProjectStructure.Infrastructure.Data.FlightOperations;
+using ProjectStructure.Infrastructure.Data;
 
 namespace ProjectStructure.WebApi
 {
@@ -34,30 +35,35 @@ namespace ProjectStructure.WebApi
         {
             services.AddMvc();
             
-            services.AddSingleton(typeof(AiroportService), new MSSQLContext());
+            services.AddSingleton(typeof(AirportContext), new MSSQLContext());
             // aircraft
             //  repos
-            services.AddScoped(typeof(IRepository<Plane>), typeof(PlanesRepository));
-            services.AddScoped(typeof(IRepository<PlaneType>), typeof(PlaneTypesRepository));
-            services.AddScoped(typeof(IAircraftUnitOfWork), typeof(AircraftUnitOfWork));
+
+            services.AddScoped(typeof(EFRepository<Plane>), typeof(PlanesRepository));
+            services.AddScoped(typeof(EFRepository<PlaneType>), typeof(PlaneTypesRepository));
+            services.AddScoped(typeof(IDbAircraftUnitOfWork), typeof(AircraftUnitOfWork));
+
+            services.AddScoped(typeof(EFRepository<Plane>), typeof(PlanesRepository));
+            services.AddScoped(typeof(EFRepository<PlaneType>), typeof(PlaneTypesRepository));
+            services.AddScoped(typeof(IDbAircraftUnitOfWork), typeof(AircraftUnitOfWork));
             //  services
             services.AddScoped(typeof(IAircraftService), typeof(AircraftService));
 
             // aircraft
             //  repos
-            services.AddScoped(typeof(IRepository<Crew>), typeof(CrewsRepository));
-            services.AddScoped(typeof(IRepository<Pilot>), typeof(PilotsRepository));
-            services.AddScoped(typeof(IRepository<Stewardess>), typeof(StewardessesRepository));
-            services.AddScoped(typeof(ICrewingUnitOfWork), typeof(CrewingUnitOfWork));
+            services.AddScoped(typeof(EFRepository<Crew>), typeof(CrewsRepository));
+            services.AddScoped(typeof(EFRepository<Pilot>), typeof(PilotsRepository));
+            services.AddScoped(typeof(EFRepository<Stewardess>), typeof(StewardessesRepository));
+            services.AddScoped(typeof(IDbCrewingUnitOfWork), typeof(CrewingUnitOfWork));
             //  services
             services.AddScoped(typeof(ICrewingService), typeof(CrewingService));
 
             // aircraft
             //  repos
-            services.AddScoped(typeof(IRepository<Flight>), typeof(FlightsRepository));
-            services.AddScoped(typeof(IRepository<Departure>), typeof(DeparturesRepository));
-            services.AddScoped(typeof(IRepository<Ticket>), typeof(TicketsRepository));
-            services.AddScoped(typeof(IFlightOperationsUnitOfWork), typeof(FlightOperationsUnitOfWork));
+            services.AddScoped(typeof(EFRepository<Flight>), typeof(FlightsRepository));
+            services.AddScoped(typeof(EFRepository<Departure>), typeof(DeparturesRepository));
+            services.AddScoped(typeof(EFRepository<Ticket>), typeof(TicketsRepository));
+            services.AddScoped(typeof(IDbFlightOperationsUnitOfWork), typeof(FlightOperationsUnitOfWork));
             //  services
             services.AddScoped(typeof(IFlightOperationsService), typeof(FlightOperationsService));
 
