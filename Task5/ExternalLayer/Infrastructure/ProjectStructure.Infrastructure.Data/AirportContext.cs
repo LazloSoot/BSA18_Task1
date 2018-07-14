@@ -5,7 +5,7 @@ using ProjectStructure.Domain.Interfaces;
 
 namespace ProjectStructure.Infrastructure.Data
 {
-    public sealed class AirportContext : DbContext, IAirportDbContext
+    public class AirportContext : DbContext, IAirportDbContext
     {
         public DbSet<Flight> Flights { get; set; }
         public DbSet<Departure> Departures { get; set; }
