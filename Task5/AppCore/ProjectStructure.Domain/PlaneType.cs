@@ -1,14 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace ProjectStructure.Domain
 {
     public class PlaneType : Entity
     {
-       // public int Id { get; set; }
         public string Model { get; set; }
         public int Capacity { get; set; }
         public int CargoCapacity { get; set; }
+        public ICollection<Plane> Planes { get; set; }
+
+        public PlaneType()
+        {
+            Planes = new List<Plane>();
+        }
     }
 }

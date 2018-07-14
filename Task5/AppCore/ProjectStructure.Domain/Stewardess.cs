@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ProjectStructure.Domain
 {
     public class Stewardess : Entity
     {
-       // public int Id { get; set; }
         public string Name { get; set; }
         public string  Surname { get; set; }
         public DateTime Birth { get; set; }
+        public Crew Crew { get; set; }
+        public long CrewId { get; set; }
     }
 }

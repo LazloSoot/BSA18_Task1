@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ProjectStructure.Domain
+﻿namespace ProjectStructure.Domain
 {
     public class Ticket : Entity
     {
-        //public int Id { get; set; }
         public double Price { get; set; }
-        public long FlightId { get; set; }
+        public long? FlightId { get; set; }
+        public Flight Flight { get; set; }
     }
 }

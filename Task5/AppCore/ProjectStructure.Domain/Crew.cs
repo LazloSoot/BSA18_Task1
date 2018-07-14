@@ -4,11 +4,15 @@ namespace ProjectStructure.Domain
 {
     public class Crew : Entity
     {
-        //public int Id { get; set; }
         public Pilot Pilot { get; set; }
-        public IEnumerable<Stewardess> Stewardesses { get; set; }
+        public virtual ICollection<Stewardess> Stewardesses { get; set; }
 
-        public Crew(Pilot pilot, IEnumerable<Stewardess> stewardesses)
+        public Crew()
+        {
+
+        }
+
+        public Crew(Pilot pilot, ICollection<Stewardess> stewardesses)
         {
             this.Pilot = pilot;
             this.Stewardesses = stewardesses;
