@@ -8,10 +8,11 @@ namespace ProjectStructure.Databases.MSSQL
     {
         public MSSQLContext()
         {
-
+            Database.EnsureCreated();
         }
 
-        // Data Source=DESKTOP-N1FVMAR\MZSERVER;Initial Catalog=Northwind;Integrated Security=True
+        
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Crew>(entity =>
