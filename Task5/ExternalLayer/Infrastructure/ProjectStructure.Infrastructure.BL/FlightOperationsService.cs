@@ -71,7 +71,7 @@ namespace ProjectStructure.Infrastructure.BL
 
         public IEnumerable<Departure> GetFlightDepartureInfo(long id)
         {
-            return uow.Departures.GetAll().Where(d => d.FlightId == id) ?? null;
+            return uow.Departures.GetAll().Where(d => d.Flight.Id == id) ?? null;
         }
 
         public IEnumerable<Departure> GetAllDeparturesInfo()

@@ -1,7 +1,7 @@
 ﻿using ProjectStructure.Domain;
 using ProjectStructure.Domain.Interfaces;
 using ProjectStructure.Services.Interfaces;
-using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace ProjectStructure.Infrastructure.BL
@@ -37,7 +37,7 @@ namespace ProjectStructure.Infrastructure.BL
 
         public Crew CreateCrew(Pilot pilot, IEnumerable<Stewardess> stewardesses)
         {
-            var item = uow.Crews.Insert(new Crew(pilot, stewardesses));
+            var item = uow.Crews.Insert(new Crew(pilot, stewardesses.ToList()));
             if (item == null)
                 return null;
             else
