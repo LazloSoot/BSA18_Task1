@@ -8,8 +8,8 @@ namespace ProjectStructure.Infrastructure.BL
 {
     public class CrewingService : ICrewingService
     {
-        private readonly ICrewingUnitOfWork uow;
-        public CrewingService(ICrewingUnitOfWork crewingUnitOfWork)
+        private readonly IDbCrewingUnitOfWork uow;
+        public CrewingService(IDbCrewingUnitOfWork crewingUnitOfWork)
         {
             uow = crewingUnitOfWork;
         }

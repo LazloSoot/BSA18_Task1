@@ -9,9 +9,9 @@ namespace ProjectStructure.Infrastructure.BL
 {
     public class FlightOperationsService : IFlightOperationsService
     {
-        private readonly IFlightOperationsUnitOfWork uow;
+        private readonly IDbFlightOperationsUnitOfWork uow;
 
-        public FlightOperationsService(IFlightOperationsUnitOfWork flightOperationsUnitOfWork)
+        public FlightOperationsService(IDbFlightOperationsUnitOfWork flightOperationsUnitOfWork)
         {
             uow = flightOperationsUnitOfWork;
         }

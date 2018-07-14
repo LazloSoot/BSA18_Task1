@@ -10,8 +10,8 @@ namespace ProjectStructure.Infrastructure.BL
 {
     public class AircraftService : IAircraftService
     {
-        private readonly IAircraftUnitOfWork uow;
-        public AircraftService(IAircraftUnitOfWork aircraftUnitOfWork)
+        private readonly IDbAircraftUnitOfWork uow;
+        public AircraftService(IDbAircraftUnitOfWork aircraftUnitOfWork)
         {
             uow = aircraftUnitOfWork;
         }
