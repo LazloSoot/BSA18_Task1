@@ -12,8 +12,11 @@ using Newtonsoft.Json.Converters;
 using ProjectStructure.Domain.Interfaces;
 using ProjectStructure.Services.Interfaces;
 using ProjectStructure.Infrastructure.BL;
-using ProjectStructure.Infrastructure.Data.Memory;
+using ProjectStructure.Databases.MSSQL;
 using ProjectStructure.Domain;
+using ProjectStructure.Infrastructure.Data.Aircraft;
+using ProjectStructure.Infrastructure.Data.Crewing;
+using ProjectStructure.Infrastructure.Data.FlightOperations;
 
 namespace ProjectStructure.WebApi
 {
@@ -30,9 +33,8 @@ namespace ProjectStructure.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
-
-            services.AddSingleton(new AirportContext());
+            
+            services.AddSingleton(typeof(AiroportService), new MSSQLContext());
             // aircraft
             //  repos
             services.AddScoped(typeof(IRepository<Plane>), typeof(PlanesRepository));
