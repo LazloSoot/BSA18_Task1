@@ -34,8 +34,9 @@ namespace ProjectStructure.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            
-            services.AddSingleton(typeof(AirportContext), new MSSQLContext());
+
+            services.AddScoped(typeof(AirportContext), typeof(MSSQLContext));
+            //services.AddSingleton(typeof(AirportContext), new MSSQLContext());
             // aircraft
             //  repos
 
