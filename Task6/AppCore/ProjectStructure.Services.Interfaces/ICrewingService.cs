@@ -10,15 +10,15 @@ namespace ProjectStructure.Services.Interfaces
     {
         #region Crews
 
-        Crew CreateCrew(Pilot pilot, IEnumerable<Stewardess> stewardesses);
+        Crew CreateCrew(long pilotId, IEnumerable<long> stewardessesIds);
 
         IEnumerable<Crew> GetAllCrewsInfo();
 
         Crew GetCrewInfo(long id);
 
-        Crew AddCrew(Crew crew);
+      //  Crew AddCrew(Crew crew);
 
-        Crew ReformCrew(Crew crew);
+        Crew ReformCrew(long crewId, long pilotId, IEnumerable<long> stewardessesIds);
 
         bool TryDeleteCrew(long id);
 

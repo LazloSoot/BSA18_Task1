@@ -11,9 +11,13 @@ namespace ProjectStructure.Services.Interfaces
     {
         #region Planes
 
-        TechCondition GetPlaneTechCondition(long id);
+        CheckNeeded GetPlaneTechCondition(Plane plane);
 
-        Plane CarryOutMaintenance(long id);
+        CheckNeeded GetPlaneTechCondition(long id);
+
+        Plane CarryOutMaintenance(Plane plane, CheckNeeded cheks);
+
+     //   Plane RepearPlane(Plane plane);
 
         IEnumerable<Plane> GetAllPlanesInfo();
 
@@ -23,7 +27,7 @@ namespace ProjectStructure.Services.Interfaces
 
         Plane ModifyPlaneInfo(Plane plane);
 
-        bool TryDeletePlane(int id);
+        bool TryDeletePlane(long id);
 
         #endregion
 
@@ -31,13 +35,13 @@ namespace ProjectStructure.Services.Interfaces
 
         IEnumerable<PlaneType> GetAllPlaneTypesInfo();
 
-        PlaneType GetPlaneTypeInfo(int id);
+        PlaneType GetPlaneTypeInfo(long id);
 
         PlaneType AddPlaneType(PlaneType type);
 
         PlaneType ModifyPlaneType(PlaneType type);
 
-        bool TryDeletePlaneType(int id);
+        bool TryDeletePlaneType(long id);
 
         #endregion
     }
