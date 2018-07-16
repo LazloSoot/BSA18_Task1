@@ -25,18 +25,25 @@ namespace ProjectStructure.Infrastructure.BL
             return uow.Crews.GetAll() ?? null;
         }
 
-        public Crew AddCrew(Crew crew)
-        {
-            var item = uow.Crews.Insert(crew);
-            if (item == null)
-                return null;
-            else
-                uow.SaveChanges();
-            return item;
-        }
+        //public Crew AddCrew(Crew crew)
+        //{
+        //    var item = uow.Crews.Insert(crew);
+        //    if (item == null)
+        //        return null;
+        //    else
+        //        uow.SaveChanges();
+        //    return item;
+        //}
 
-        public Crew CreateCrew(Pilot pilot, IEnumerable<Stewardess> stewardesses)
+        public Crew CreateCrew(long pilotId, IEnumerable<long> stewardessesIds)
         {
+            var pilot = uow.Pilots.Get(pilotId);
+            if (pilot == null)
+                return null;
+            var stewardesses = uow.Stewardesses.FindBy(s => stewardessesIds.Contains(s.Id));
+            if (stewardesses == null || stewardesses.Count() < 2)
+                return null;
+
             var item = uow.Crews.Insert(new Crew(pilot, stewardesses.ToList()));
             if (item == null)
                 return null;
@@ -45,8 +52,25 @@ namespace ProjectStructure.Infrastructure.BL
             return item;
         }
 
-        public Crew ReformCrew(Crew crew)
+        public Crew ReformCrew(long crewId, long pilotId, IEnumerable<long> stewardessesIds)
         {
+            var crew = uow.Crews.Get(crewId);
+            if (crew == null)
+                return null;
+
+            if(crew.Pilot.Id != pilotId)
+            {
+                var pilot = uow.Pilots.Get(pilotId);
+                if (pilot == null)
+                    return null;
+                crew.Pilot = pilot;
+            }
+            
+            var stewardesses = uow.Stewardesses.FindBy(s => stewardessesIds.Contains(s.Id));
+            if (stewardesses == null || stewardesses.Count() < 2)
+                return null;
+            crew.Stewardesses = stewardesses.ToList();
+
             var item = uow.Crews.Update(crew);
             if (item == null)
                 return null;
