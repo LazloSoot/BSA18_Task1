@@ -8,7 +8,6 @@ namespace ProjectStructure.Infrastructure.Shared
         public string Surname { get; set; }
         public DateTime Birth { get; set; }
         public int ExperienceYears { get; set; }
-        public CrewDTO Crew { get; set; }
 
     }
 }

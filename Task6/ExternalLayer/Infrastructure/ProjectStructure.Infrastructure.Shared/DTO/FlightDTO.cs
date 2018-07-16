@@ -10,12 +10,11 @@ namespace ProjectStructure.Infrastructure.Shared
         public DateTime DepartureTime { get; set; }
         public string Destination { get; set; }
         public DateTime ArrivalTime { get; set; }
-        public virtual ICollection<TicketDTO> Tickets { get; set; }
+        public IEnumerable<long> TicketsIds { get; set; }
 
         public FlightDTO()
         {
-            Tickets = new List<TicketDTO>();
+            TicketsIds = new List<long>();
         }
-
     }
 }

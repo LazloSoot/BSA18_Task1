@@ -4,7 +4,6 @@
     {
         public int Id { get; set; }
         public double Price { get; set; }
-        public FlightDTO Flight { get; set; }
-        public long? FlightDTOId { get; set; }
+        public int Seat { get; set; }
     }
 }
