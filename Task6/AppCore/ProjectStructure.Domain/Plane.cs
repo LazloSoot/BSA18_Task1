@@ -7,6 +7,8 @@ namespace ProjectStructure.Domain
         public string Name { get; set; }
         public PlaneType Type { get; set; }
         public DateTime ReleaseDate { get; set; }
+        public DateTime LastHeavyMaintenance { get; set; }
+        public int FlightHours  { get; set; }
         public TimeSpan Lifetime { get; set; }
         public long? TypeId { get; set; }
 
