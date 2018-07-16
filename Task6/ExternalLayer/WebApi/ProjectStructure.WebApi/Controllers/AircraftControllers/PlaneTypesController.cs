@@ -8,6 +8,8 @@ using ProjectStructure.Domain;
 using ProjectStructure.Domain.Interfaces;
 using ProjectStructure.Services.Interfaces;
 using ProjectStructure.WebApi.Helpers;
+using AutoMapper;
+using ProjectStructure.Infrastructure.Shared;
 
 namespace ProjectStructure.WebApi.Controllers
 {
@@ -16,10 +18,12 @@ namespace ProjectStructure.WebApi.Controllers
     public class PlaneTypesController : Controller
     {
         private readonly IAircraftService service;
+        private readonly IMapper mapper;
 
-        public PlaneTypesController(IAircraftService service)
+        public PlaneTypesController(IMapper mapper,IAircraftService service)
         {
             this.service = service;
+            this.mapper = mapper;
         }
 
         // GET: api/planes/planeTypes
@@ -27,7 +31,8 @@ namespace ProjectStructure.WebApi.Controllers
         public IActionResult GetAllPlaneTypes()
         {
             var planeTypes = service.GetAllPlaneTypesInfo();
-            return planeTypes == null ? NotFound("There is no information about plane types yet!") as IActionResult : Ok(planeTypes);
+            return planeTypes == null ? NotFound("There is no information about plane types yet!") as IActionResult
+                : Ok(mapper.Map<IEnumerable<PlaneTypeDTO>>(planeTypes));
         }
 
         // GET: api/planes/planeTypes/:id
@@ -35,31 +40,37 @@ namespace ProjectStructure.WebApi.Controllers
         public IActionResult GetPlaneType(int id)
         {
             var planeType = service.GetPlaneTypeInfo(id);
-            return planeType == null ? NotFound($"Plane type information with id = {id} not found!") as IActionResult : Ok(planeType);
+            return planeType == null ? NotFound($"Plane type information with id = {id} not found!") as IActionResult
+                : Ok(mapper.Map<PlaneTypeDTO>(planeType));
         }
 
         // POST: api/planes/planeTypes
         [HttpPost("planeTypes")]
-        public IActionResult AddPlaneType([FromBody]PlaneType type)
+        public IActionResult AddPlaneType([FromBody]PlaneTypeDTO type)
         {
             if (!ModelState.IsValid)
                 return BadRequest() as IActionResult;
-            var entity = service.AddPlaneType(type);
+
+            var entity = service.AddPlaneType(mapper.Map<PlaneType>(type));
             if (entity != null)
             {
                 string uri = $"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}";
             }
-            return entity == null ? StatusCode(409) as IActionResult : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}", entity);
+            return entity == null ? StatusCode(409) as IActionResult
+                : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}",
+                mapper.Map<PlaneTypeDTO>(entity));
         }
 
         // PUT: api/planes/planeTypes/:id
         [HttpPut("planeTypes/{id}")]
-        public IActionResult ModifyPlaneType(int id, [FromBody]PlaneType type)
+        public IActionResult ModifyPlaneType([FromBody]PlaneTypeDTO type)
         {
             if (!ModelState.IsValid)
                 return BadRequest() as IActionResult;
-            var entity = service.ModifyPlaneType(type);
-            return entity == null ? StatusCode(304) as IActionResult : Ok(entity);
+
+            var entity = service.ModifyPlaneType(mapper.Map<PlaneType>(type));
+            return entity == null ? StatusCode(304) as IActionResult
+                : Ok(mapper.Map<PlaneTypeDTO>(entity));
         }
 
         // DELETE: api/planes/planeTypes/:id

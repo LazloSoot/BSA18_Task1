@@ -18,6 +18,8 @@ using ProjectStructure.Infrastructure.Data.Aircraft;
 using ProjectStructure.Infrastructure.Data.Crewing;
 using ProjectStructure.Infrastructure.Data.FlightOperations;
 using ProjectStructure.Infrastructure.Data;
+using mapper = ProjectStructure.Infrastructure.Shared.Mappings.AutoMapper;
+using AutoMapper;
 
 namespace ProjectStructure.WebApi
 {
@@ -35,11 +37,13 @@ namespace ProjectStructure.WebApi
         {
             services.AddMvc();
 
+            // context
             services.AddScoped(typeof(AirportContext), typeof(MSSQLContext));
-            //services.AddSingleton(typeof(AirportContext), new MSSQLContext());
+
+            // automapper
+            services.AddScoped<IMapper>(sp => mapper.GetDefaultMapper());
             // aircraft
             //  repos
-
             services.AddScoped(typeof(EFRepository<Plane>), typeof(PlanesRepository));
             services.AddScoped(typeof(EFRepository<PlaneType>), typeof(PlaneTypesRepository));
             services.AddScoped(typeof(IDbAircraftUnitOfWork), typeof(AircraftUnitOfWork));

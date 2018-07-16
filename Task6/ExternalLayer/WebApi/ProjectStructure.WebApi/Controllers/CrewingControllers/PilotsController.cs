@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ProjectStructure.Domain;
+using ProjectStructure.Infrastructure.Shared;
 using ProjectStructure.Services.Interfaces;
 using ProjectStructure.WebApi.Helpers;
 
@@ -11,9 +13,11 @@ namespace ProjectStructure.WebApi.Controllers
     public class PilotsController : Controller
     {
         private readonly ICrewingService service;
+        private readonly IMapper mapper;
 
-        public PilotsController(ICrewingService service)
+        public PilotsController(IMapper mapper, ICrewingService service)
         {
+            this.mapper = mapper;
             this.service = service;
         }
 
@@ -22,7 +26,8 @@ namespace ProjectStructure.WebApi.Controllers
         public IActionResult GetAllPilots()
         {
             var pilots = service.GetAllPilotsInfo();
-            return pilots == null ? NotFound("No pilots found!") as IActionResult : Ok(pilots);
+            return pilots == null ? NotFound("No pilots found!") as IActionResult
+                : Ok(mapper.Map<IEnumerable<PilotDTO>>(pilots));
         }
 
         // GET: api/crews/pilots/:id
@@ -30,27 +35,33 @@ namespace ProjectStructure.WebApi.Controllers
         public IActionResult GetPilot(int id)
         {
             var pilot = service.GetPilotInfo(id);
-            return pilot == null ? NotFound($"Pilot with id = {id} not found!") as IActionResult : Ok(pilot);
+            return pilot == null ? NotFound($"Pilot with id = {id} not found!") as IActionResult
+                : Ok(mapper.Map<PilotDTO>(pilot));
         }
 
         // POST: api/crews/pilots
         [HttpPost("pilots")]
-        public IActionResult AddPilot([FromBody]Pilot pilot)
+        public IActionResult AddPilot([FromBody]PilotDTO pilot)
         {
             if (!ModelState.IsValid)
                 return BadRequest() as IActionResult;
-            var entity = service.HirePilot(pilot);
-            return entity == null ? StatusCode(409) as IActionResult : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}", entity);
+
+            var entity = service.HirePilot(mapper.Map<Pilot>(pilot));
+            return entity == null ? StatusCode(409) as IActionResult
+                : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}",
+                mapper.Map<PilotDTO>(entity));
         }
 
         // PUT: api/crews/pilots/:id
         [HttpPut("pilots/{id}")]
-        public IActionResult ModifyPilot(int id, [FromBody]Pilot pilot)
+        public IActionResult ModifyPilot([FromBody]PilotDTO pilot)
         {
             if (!ModelState.IsValid)
                 return BadRequest() as IActionResult;
-            var entity = service.UpdatePilotInfo(pilot);
-            return entity == null ? StatusCode(304) as IActionResult : Ok(entity);
+
+            var entity = service.UpdatePilotInfo(mapper.Map<Pilot>(pilot));
+            return entity == null ? StatusCode(304) as IActionResult
+                : Ok(mapper.Map<PilotDTO>(entity));
         }
 
         // DELETE: api/crews/pilots/5

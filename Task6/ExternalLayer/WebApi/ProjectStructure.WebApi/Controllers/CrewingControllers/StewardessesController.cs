@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectStructure.WebApi.Helpers;
 using ProjectStructure.Domain;
 using ProjectStructure.Services.Interfaces;
+using AutoMapper;
+using ProjectStructure.Infrastructure.Shared;
 
 namespace ProjectStructure.WebApi.Controllers
 {
@@ -11,9 +13,11 @@ namespace ProjectStructure.WebApi.Controllers
     public class StewardessesController : Controller
     {
         private readonly ICrewingService service;
+        private readonly IMapper mapper;
 
-        public StewardessesController(ICrewingService service)
+        public StewardessesController(IMapper mapper, ICrewingService service)
         {
+            this.mapper = mapper;
             this.service = service;
         }
         // GET: api/crews/stewardesses
@@ -21,7 +25,8 @@ namespace ProjectStructure.WebApi.Controllers
         public IActionResult GetAllStewardesses()
         {
             var stewardesses = service.GetAllStewardessesInfo();
-            return stewardesses == null ? NotFound("No stewardesses found!") as IActionResult : Ok(stewardesses);
+            return stewardesses == null ? NotFound("No stewardesses found!") as IActionResult
+                : Ok(mapper.Map<IEnumerable<StewardessDTO>>(stewardesses));
         }
 
         // GET: api/crews/stewardesses/:id
@@ -29,27 +34,31 @@ namespace ProjectStructure.WebApi.Controllers
         public IActionResult GetStewardess(int id)
         {
             var stewardess = service.GetStewardessInfo(id);
-            return stewardess == null ? NotFound($"Stewardess with id = {id} not found!") as IActionResult : Ok(stewardess);
+            return stewardess == null ? NotFound($"Stewardess with id = {id} not found!") as IActionResult
+                : Ok(mapper.Map<StewardessDTO>(stewardess));
         }
 
         // POST: api/crews/stewardesses
         [HttpPost("stewardesses")]
-        public IActionResult AddStewardess([FromBody]Stewardess stewardess)
+        public IActionResult AddStewardess([FromBody]StewardessDTO stewardess)
         {
             if (!ModelState.IsValid)
                 return BadRequest() as IActionResult;
-            var entity = service.HireStewardess(stewardess);
-            return entity == null ? StatusCode(409) as IActionResult : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}", entity);
+            var entity = service.HireStewardess(mapper.Map<Stewardess>(stewardess));
+            return entity == null ? StatusCode(409) as IActionResult
+                : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}",
+                mapper.Map<StewardessDTO>(entity));
         }
 
         // PUT: api/crews/stewardesses/:id
         [HttpPut("stewardesses/{id}")]
-        public IActionResult ModifyStewardess(int id, [FromBody]Stewardess stewardess)
+        public IActionResult ModifyStewardess([FromBody]StewardessDTO stewardess)
         {
             if (!ModelState.IsValid)
                 return BadRequest() as IActionResult;
-            var entity = service.UpdateStewardessInfo(stewardess);
-            return entity == null ? StatusCode(304) as IActionResult : Ok(entity);
+            var entity = service.UpdateStewardessInfo(mapper.Map<Stewardess>(stewardess));
+            return entity == null ? StatusCode(304) as IActionResult
+                : Ok(mapper.Map<StewardessDTO>(entity));
         }
 
         // DELETE: api/crews/stewardesses/:id

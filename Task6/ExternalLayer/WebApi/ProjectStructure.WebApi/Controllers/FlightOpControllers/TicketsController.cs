@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectStructure.WebApi.Helpers;
 using ProjectStructure.Domain;
 using ProjectStructure.Services.Interfaces;
+using AutoMapper;
+using ProjectStructure.Infrastructure.Shared;
 
 namespace ProjectStructure.WebApi.Controllers
 {
@@ -11,9 +13,11 @@ namespace ProjectStructure.WebApi.Controllers
     public class TicketsController : Controller
     {
         private readonly IFlightOperationsService service;
+        private readonly IMapper mapper;
 
-        public TicketsController(IFlightOperationsService service)
+        public TicketsController(IMapper mapper, IFlightOperationsService service)
         {
+            this.mapper = mapper;
             this.service = service;
         }
 
@@ -22,7 +26,8 @@ namespace ProjectStructure.WebApi.Controllers
         public IActionResult GetAllTickets()
         {
             var tickets = service.GetAllTicketsInfo();
-            return tickets == null ? NotFound("No tickets found!") as IActionResult : Ok(tickets);
+            return tickets == null ? NotFound("No tickets found!") as IActionResult
+                : Ok(mapper.Map<IEnumerable<TicketDTO>>(tickets));
         }
 
         // GET: api/flights/:id/tickets
@@ -30,7 +35,8 @@ namespace ProjectStructure.WebApi.Controllers
         public IActionResult GetFlightTickets(int id)
         {
             var tickets = service.GetFlightTicketsInfo(id);
-            return tickets == null ? NotFound($"No tickets for flight with id = {id} found!") as IActionResult : Ok(tickets);
+            return tickets == null ? NotFound($"No tickets for flight with id = {id} found!") as IActionResult
+                : Ok(mapper.Map<IEnumerable<TicketDTO>>(tickets));
         }
 
         // GET: api/flights/tickets/:id
@@ -38,27 +44,33 @@ namespace ProjectStructure.WebApi.Controllers
         public IActionResult GetTicket(int id)
         {
             var ticket = service.GetTicketInfo(id);
-            return ticket == null ? NotFound($"Ticket with id = {id} not found!") as IActionResult : Ok(ticket);
+            return ticket == null ? NotFound($"Ticket with id = {id} not found!") as IActionResult
+                : Ok(mapper.Map<TicketDTO>(ticket));
         }
 
         // POST: api/flights/tickets
         [HttpPost("tickets")]
-        public IActionResult AddTicket([FromBody]Ticket ticket)
+        public IActionResult AddTicket([FromBody]TicketDTO ticket)
         {
             if (!ModelState.IsValid)
                 return BadRequest() as IActionResult;
-            var entity = service.AddTicket(ticket);
-            return entity == null ? StatusCode(409) as IActionResult : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}", entity);
+
+            var entity = service.AddTicket(mapper.Map<Ticket>(ticket));
+            return entity == null ? StatusCode(409) as IActionResult
+                : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}",
+                mapper.Map<TicketDTO>(entity));
         }
 
         // PUT: api/flights/tickets/:id
         [HttpPut("tickets/{id}")]
-        public IActionResult ModifyTicket(int id, [FromBody]Ticket ticket)
+        public IActionResult ModifyTicket([FromBody]TicketDTO ticket)
         {
             if (!ModelState.IsValid)
                 return BadRequest() as IActionResult;
-            var entity = service.ModifyTicket(ticket);
-            return entity == null ? StatusCode(304) as IActionResult : Ok(entity);
+
+            var entity = service.ModifyTicket(mapper.Map<Ticket>(ticket));
+            return entity == null ? StatusCode(304) as IActionResult
+                : Ok(mapper.Map<Ticket>(entity));
         }
 
         // DELETE: api/flights/tickets/:id
