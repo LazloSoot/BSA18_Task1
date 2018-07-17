@@ -87,7 +87,14 @@ namespace ProjectStructure.Infrastructure.BL
 
         public Plane AddPlane(Plane plane)
         {
-            var item = uow.Planes.Insert(plane);
+            Plane item = null; ;
+            if (plane.Type != null)
+                item = uow.Planes.Insert(plane);
+            else if (!plane.TypeId.HasValue)
+                return null;
+            else if (GetPlaneTypeInfo(plane.TypeId.Value) != null)
+                item = uow.Planes.Update(plane);
+
             if (item == null)
                 return null;
             else

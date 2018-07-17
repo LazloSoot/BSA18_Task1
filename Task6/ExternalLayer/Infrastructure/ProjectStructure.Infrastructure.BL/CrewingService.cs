@@ -25,16 +25,6 @@ namespace ProjectStructure.Infrastructure.BL
             return uow.Crews.GetAll() ?? null;
         }
 
-        //public Crew AddCrew(Crew crew)
-        //{
-        //    var item = uow.Crews.Insert(crew);
-        //    if (item == null)
-        //        return null;
-        //    else
-        //        uow.SaveChanges();
-        //    return item;
-        //}
-
         public Crew CreateCrew(long pilotId, IEnumerable<long> stewardessesIds)
         {
             var pilot = uow.Pilots.Get(pilotId);
@@ -44,7 +34,7 @@ namespace ProjectStructure.Infrastructure.BL
             if (stewardesses == null || stewardesses.Count() < 2)
                 return null;
 
-            var item = uow.Crews.Insert(new Crew(pilot, stewardesses.ToList()));
+            var item = uow.Crews.Update(new Crew(pilot, stewardesses.ToList()));
             if (item == null)
                 return null;
             else

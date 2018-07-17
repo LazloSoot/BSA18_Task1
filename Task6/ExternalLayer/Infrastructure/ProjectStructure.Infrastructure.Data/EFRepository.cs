@@ -50,8 +50,8 @@ namespace ProjectStructure.Infrastructure.Data
 
         public virtual T Update(T entity)
         {
-            if (DbContext.Set<T>().Find(entity.Id) == null)
-                return null;
+            //if (DbContext.Set<T>().Find(entity.Id) == null)
+            //    return null;
             DbContext.Set<T>().Update(entity);
             return entity;
         }
