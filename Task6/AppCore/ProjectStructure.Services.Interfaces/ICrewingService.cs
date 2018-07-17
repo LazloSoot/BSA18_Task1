@@ -16,6 +16,8 @@ namespace ProjectStructure.Services.Interfaces
 
         Crew GetCrewInfo(long id);
 
+        Crew GetIncludedCrewInfo(long id, bool isCatched = false);
+
       //  Crew AddCrew(Crew crew);
 
         Crew ReformCrew(long crewId, long pilotId, IEnumerable<long> stewardessesIds);

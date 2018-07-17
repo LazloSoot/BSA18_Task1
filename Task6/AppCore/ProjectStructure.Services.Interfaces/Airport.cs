@@ -18,9 +18,17 @@ namespace ProjectStructure.Services.Interfaces
             CrewingService = crewingService;
             FlightOperationsService = flightOperationsService;
         }
-        
-        public abstract IEnumerable<Ticket> CreateFlight(Flight flightInfo, Departure departureInfo);
 
-        public abstract IEnumerable<Ticket> CreateFlight(long flightId, long departureId);
+        public abstract Departure SheduleDeparture(Departure departureInfo);
+
+        public abstract Departure ModifyDeparture(Departure departureInfo);
+
+        public abstract bool DeleteDeparture(long id);
+
+        public abstract Flight ModifyFlight(Flight flight);
+
+        public abstract bool DeleteFlight(long id);
+
+        public abstract Ticket AddTicket(Ticket ticket);
     }
 }

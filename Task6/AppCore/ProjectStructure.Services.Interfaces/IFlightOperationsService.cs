@@ -12,13 +12,13 @@ namespace ProjectStructure.Services.Interfaces
 
         IEnumerable<Flight> GetAllFlightsInfo();
 
-        Flight GetFlightInfo(int id);
+        Flight GetFlightInfo(long id);
 
         Flight AddFlight(Flight flight);
 
         Flight ModifyFlight(Flight flight);
 
-        bool TryCancelFlight(int id);
+        bool TryCancelFlight(long id);
 
         #endregion
 
