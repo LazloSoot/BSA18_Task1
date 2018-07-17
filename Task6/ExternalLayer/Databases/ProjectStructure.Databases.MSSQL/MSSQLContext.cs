@@ -74,6 +74,7 @@ namespace ProjectStructure.Databases.MSSQL
                         .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode();
+                entity.Ignore(c => c.Lifetime);
                 entity.Property(e => e.ReleaseDate)
                         .IsRequired();
 
@@ -106,15 +107,15 @@ namespace ProjectStructure.Databases.MSSQL
 
                 entity.HasOne(e => e.Crew)
                         .WithOne()
-                        .HasForeignKey<Crew>();
+                        .HasForeignKey<Departure>(e => e.CrewId);
 
                 entity.HasOne(e => e.Plane)
                         .WithOne()
-                        .HasForeignKey<Plane>();
+                        .HasForeignKey<Departure>(e => e.PlaneId);
 
                 entity.HasOne(e => e.Flight)
                         .WithOne()
-                        .HasForeignKey<Flight>();
+                        .HasForeignKey<Departure>(e => e.FlightId);
             });
 
             modelBuilder.Entity<Flight>(entity =>
@@ -144,9 +145,9 @@ namespace ProjectStructure.Databases.MSSQL
                         .HasForeignKey(e => e.FlightId);
             });
 
-            SeedCrews(modelBuilder);
-            SeedPlanes(modelBuilder);
-            // base.OnModelCreating(modelBuilder);
+             SeedCrews(modelBuilder);
+             SeedPlanes(modelBuilder);
+             SeedFlights(modelBuilder);
 
         }
 
@@ -162,39 +163,39 @@ namespace ProjectStructure.Databases.MSSQL
 
         private void SeedCrews(ModelBuilder modelBuilder)
         {
-            var pilot1 = new Pilot()
-            {
-                 Id = 1,
-                ModifiedDate = DateTime.Now,
-                AddedDate = DateTime.Now,
-                Birth = new DateTime(1978, 10, 2),
-                ExperienceYears = 16,
-                Name = "Ivan",
-                Surname = "Petrov"
-            };
-            var pilot2 = new Pilot()
-            {
-                 Id = 2,
-                ModifiedDate = DateTime.Now,
-                AddedDate = DateTime.Now,
-                Birth = new DateTime(1987, 2, 1),
-                ExperienceYears = 5,
-                Name = "Jack",
-                Surname = "Key"
-            };
-            var pilot3 = new Pilot()
-            {
-                Id = 3,
-                ModifiedDate = DateTime.Now,
-                AddedDate = DateTime.Now,
-                Birth = new DateTime(1988, 1, 25),
-                ExperienceYears = 10,
-                Name = "Petr",
-                Surname = "Swin"
-            };
+
             modelBuilder.Entity<Pilot>().HasData(
-                pilot1, pilot2, pilot3,
-               new Pilot()
+                new Pilot()
+                {
+                    Id = 1,
+                    ModifiedDate = DateTime.Now,
+                    AddedDate = DateTime.Now,
+                    Birth = new DateTime(1978, 10, 2),
+                    ExperienceYears = 16,
+                    Name = "Ivan",
+                    Surname = "Petrov"
+                },
+                new Pilot()
+                {
+                    Id = 2,
+                    ModifiedDate = DateTime.Now,
+                    AddedDate = DateTime.Now,
+                    Birth = new DateTime(1987, 2, 1),
+                    ExperienceYears = 5,
+                    Name = "Jack",
+                    Surname = "Key"
+                },
+                new Pilot()
+                {
+                    Id = 3,
+                    ModifiedDate = DateTime.Now,
+                    AddedDate = DateTime.Now,
+                    Birth = new DateTime(1988, 1, 25),
+                    ExperienceYears = 10,
+                    Name = "Petr",
+                    Surname = "Swin"
+                },
+                new Pilot()
                {
                    Id = 4,
                    ModifiedDate = DateTime.Now,
@@ -206,8 +207,7 @@ namespace ProjectStructure.Databases.MSSQL
                }
                 );
 
-            List<Stewardess> st = new List<Stewardess>()
-            {
+            modelBuilder.Entity<Stewardess>().HasData(
                 new Stewardess()
                 {
                     Id = 1,
@@ -280,40 +280,12 @@ namespace ProjectStructure.Databases.MSSQL
                     Name = "Maria",
                     Surname = "Deva"
                 }
-            };
-
-            modelBuilder.Entity<Stewardess>().HasData(
-                st.ToArray()
-                );
-
-            modelBuilder.Entity<Crew>().HasData(
-                new Crew// (Pilots.First(), Stewardesses.Take(2))
-                {
-                    //  Id = 1,
-                    ModifiedDate = DateTime.Now,
-                    AddedDate = DateTime.Now,
-                    Pilot = pilot1,
-                    Stewardesses = st.Take(3).ToList()
-                },
-                new Crew(Pilots.Skip(1).First(), Stewardesses.Skip(2).Take(3).ToList())
-                {
-                    Id = 2,
-                    ModifiedDate = DateTime.Now,
-                    AddedDate = DateTime.Now
-                },
-                new Crew(Pilots.TakeLast(1).First(), Stewardesses.TakeLast(2).ToList())
-                {
-                    Id = 3,
-                    ModifiedDate = DateTime.Now,
-                    AddedDate = DateTime.Now
-                }
                 );
         }
 
         private void SeedPlanes(ModelBuilder modelBuilder)
         {
-            var pt = new List<PlaneType>()
-            {
+            modelBuilder.Entity<PlaneType>().HasData(
                 new PlaneType()
                 {
                     Id = 1,
@@ -341,150 +313,75 @@ namespace ProjectStructure.Databases.MSSQL
                     CargoCapacity = 7000,
                     Model = "Jk-21/2n"
                 }
-            };
-
-            modelBuilder.Entity<PlaneType>().HasData(
-                pt.ToArray()
                 );
 
+            DateTime dt = DateTime.Now - new TimeSpan(2500, 0, 0, 0, 0);
             modelBuilder.Entity<Plane>().HasData(
-                new Plane(PlaneTypes.First())
+                new Plane()
                 {
-                    Id = 1,
+                    Id = (long)1,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                    Lifetime = new TimeSpan(900, 0, 0, 0, 0),
+                    Name = "Edelvejs",
+                    ReleaseDate = new DateTime(2017, 1, 1, 0, 0, 0),
+                    FlightHours = 15,
+                    LastHeavyMaintenance = DateTime.Now,
+                    TypeId = (long)1
+                },
+                new Plane()
+                {
+                    Id = (long)2,
                     AddedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
                     Lifetime = new TimeSpan(900, 0, 0, 0),
-                    Name = "Samolet",
-                    ReleaseDate = new DateTime(2017, 1, 1),
-                    Type = pt[0]
+                    Name = "Malutka",
+                    FlightHours = 0,
+                    LastHeavyMaintenance = DateTime.Now,
+                    ReleaseDate = new DateTime(2016, 5, 20, 0, 0, 0),
+                    TypeId = (long)1
                 },
-                new Plane(PlaneTypes.First())
+                new Plane()
                 {
-                    Id = 2,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
-                    Lifetime = new TimeSpan(900, 0, 0, 0),
-                    Name = "Samolet",
-                    ReleaseDate = new DateTime(2016, 5, 20),
-                    Type = pt[1]
-                },
-                new Plane(PlaneTypes.Skip(1).First())
-                {
-                    Id = 3,
+                    Id = (long)3,
                     AddedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
                     Lifetime = new TimeSpan(350, 0, 0, 0),
-                    Name = "Samolet",
-                    ReleaseDate = new DateTime(2017, 8, 5),
-                    Type = pt[2]
+                    Name = "Redhook",
+                    LastHeavyMaintenance = dt,
+                    ReleaseDate = new DateTime(2017, 8, 5, 0, 0, 0),
+                    FlightHours = 400,
+                    TypeId = (long)2
                 }
                 );
         }
 
-        //private void SeedFlights()
-        //{
-        //    Flights = new List<Flight>()
-        //    {
-        //        new Flight()
-        //        {
-        //            Id = 1,
-        //            AddedDate = DateTime.Now,
-        //            DepartureTime = new DateTime(2018, 8, 10, 11, 0, 0),
-        //            ArrivalTime = new DateTime(2018, 8, 10, 12, 0,0 ),
-        //            DeparturePoint = "Odessa",
-        //            Destination = "Kiev",
-        //            ModifiedDate = DateTime.Now
-        //        },
-        //        new Flight()
-        //        {
-        //            Id = 2,
-        //            AddedDate = DateTime.Now,
-        //            DepartureTime = new DateTime(2018, 8, 11, 12, 0, 0),
-        //            ArrivalTime = new DateTime(2018, 8, 11, 13, 0,0 ),
-        //            DeparturePoint = "Kiev",
-        //            Destination = "Odessa",
-        //            ModifiedDate = DateTime.Now
-        //        }
-        //    };
-
-        //    Tickets = new List<Ticket>();
-
-        //    int ticketPrice = 80;
-        //    int delta = 25;
-        //    Ticket ticketTemp;
-        //    List<Flight> flightsTemp = new List<Flight>()
-        //    {
-        //        new Flight()
-        //        {
-        //            Id = 1,
-        //            AddedDate = DateTime.Now,
-        //            DepartureTime = new DateTime(2018, 8, 10, 11, 0, 0),
-        //            ArrivalTime = new DateTime(2018, 8, 10, 12, 0,0 ),
-        //            DeparturePoint = "Odessa",
-        //            Destination = "Kiev",
-        //            ModifiedDate = DateTime.Now
-        //        },
-        //        new Flight()
-        //        {
-        //            Id = 2,
-        //            AddedDate = DateTime.Now,
-        //            DepartureTime = new DateTime(2018, 8, 11, 12, 0, 0),
-        //            ArrivalTime = new DateTime(2018, 8, 11, 13, 0,0 ),
-        //            DeparturePoint = "Kiev",
-        //            Destination = "Odessa",
-        //            ModifiedDate = DateTime.Now
-        //        }
-        //    };
-
-        //    int cIndex = 0;
-        //    int ticketId = 0;
-        //    for (int i = 0; i < flightsTemp.Count; i++)
-        //    {
-        //        cIndex = i;
-        //        for (int j = 0; j < 100; j++)
-        //        {
-        //            ticketTemp = new Ticket()
-        //            {
-        //                Id = ++ticketId,
-        //                AddedDate = DateTime.Now,
-        //                ModifiedDate = DateTime.Now,
-        //                FlightId = flightsTemp[cIndex].Id,
-        //                Price = j > 20 ? ticketPrice : ticketPrice + delta
-        //            };
-
-        //            if (j == 80)
-        //                delta += 37;
-
-        //            Tickets.Add(ticketTemp);
-        //        }
-        //        flightsTemp[cIndex].Tickets = Tickets.Where(t => t.FlightId == flightsTemp[cIndex].Id);
-        //    }
-
-        //    Flights = flightsTemp;
-        //}
-
-        //private void SeedDepartures()
-        //{
-        //    Departures = new List<Departure>()
-        //    {
-        //        new Departure(Crews.First(), Planes.First())
-        //        {
-        //            Id = 1,
-        //            AddedDate = DateTime.Now,
-        //            ModifiedDate = DateTime.Now,
-        //            DepartureTime = new DateTime(2018, 8, 10, 11, 0, 0),
-        //            FlightId = 1
-        //        },
-        //        new Departure(Crews.Skip(1).First(), Planes.Skip(1).First())
-        //        {
-        //            Id = 2,
-        //            AddedDate = DateTime.Now,
-        //            ModifiedDate = DateTime.Now,
-        //            DepartureTime = new DateTime(2018, 8, 11, 12, 0, 0),
-        //            FlightId = 2
-        //        }
-        //    };
-        //}
+        private void SeedFlights(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Flight>().HasData
+                (
+                new Flight()
+                {
+                    Id = 1,
+                    AddedDate = DateTime.Now,
+                    DepartureTime = new DateTime(2018, 8, 10, 11, 0, 0),
+                    ArrivalTime = new DateTime(2018, 8, 10, 12, 0, 0),
+                    DeparturePoint = "Odessa",
+                    Destination = "Kiev",
+                    ModifiedDate = DateTime.Now
+                },
+                new Flight()
+                {
+                    Id = 2,
+                    AddedDate = DateTime.Now,
+                    DepartureTime = new DateTime(2018, 8, 11, 12, 0, 0),
+                    ArrivalTime = new DateTime(2018, 8, 11, 13, 0, 0),
+                    DeparturePoint = "Kiev",
+                    Destination = "Odessa",
+                    ModifiedDate = DateTime.Now
+                }
+                );
+        }
 
     }
 }
