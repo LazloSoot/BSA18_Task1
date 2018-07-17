@@ -41,6 +41,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectStructure.Databases.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleTestApp", "ExternalLayer\Tests\ConsoleTestApp\ConsoleTestApp.csproj", "{BECC43A9-0F48-42D8-B49C-0EDA77DCD4CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectStructure.Tests", "ExternalLayer\Tests\ProjectStructure.Tests\ProjectStructure.Tests.csproj", "{853271B4-7E42-4A35-92B5-CE677DA05057}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{BECC43A9-0F48-42D8-B49C-0EDA77DCD4CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BECC43A9-0F48-42D8-B49C-0EDA77DCD4CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BECC43A9-0F48-42D8-B49C-0EDA77DCD4CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{853271B4-7E42-4A35-92B5-CE677DA05057}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{853271B4-7E42-4A35-92B5-CE677DA05057}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{853271B4-7E42-4A35-92B5-CE677DA05057}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{853271B4-7E42-4A35-92B5-CE677DA05057}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -105,6 +111,7 @@ Global
 		{46021BCF-620B-4D41-85DA-59AEE63F6109} = {6320DBB2-B693-495B-A9CE-AE1088DAF2F5}
 		{9BA67B0B-6BC8-4B91-B213-5389E8D61FC0} = {46021BCF-620B-4D41-85DA-59AEE63F6109}
 		{BECC43A9-0F48-42D8-B49C-0EDA77DCD4CA} = {4C2E4439-1ACB-45EF-A613-7B8B1267F543}
+		{853271B4-7E42-4A35-92B5-CE677DA05057} = {4C2E4439-1ACB-45EF-A613-7B8B1267F543}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AF191A65-56CF-4DE7-ADDF-3FEA1E4798E8}
