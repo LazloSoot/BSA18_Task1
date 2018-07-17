@@ -8,6 +8,6 @@ namespace ProjectStructure.Domain
         public string  Surname { get; set; }
         public DateTime Birth { get; set; }
         public Crew Crew { get; set; }
-        public long CrewId { get; set; }
+        public long? CrewId { get; set; }
     }
 }
