@@ -18,7 +18,7 @@ namespace ProjectStructure.Infrastructure.BL
 
         #region Flights
 
-        public Flight GetFlightInfo(int id)
+        public Flight GetFlightInfo(long id)
         {
             return uow.Flights.Get(id) ?? null;
         }
@@ -50,7 +50,7 @@ namespace ProjectStructure.Infrastructure.BL
             }
         }
 
-        public bool TryCancelFlight(int id)
+        public bool TryCancelFlight(long id)
         {
             if (uow.Flights.Delete(id))
             {
@@ -59,6 +59,7 @@ namespace ProjectStructure.Infrastructure.BL
             }
             return false;
         }
+
 
         #endregion
 

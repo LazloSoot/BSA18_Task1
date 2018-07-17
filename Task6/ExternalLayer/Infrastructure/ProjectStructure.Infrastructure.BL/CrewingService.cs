@@ -20,6 +20,14 @@ namespace ProjectStructure.Infrastructure.BL
             return uow.Crews.Get(id) ?? null;
         }
 
+        public Crew GetIncludedCrewInfo(long id, bool isCatched = false)
+        {
+            return uow.Crews.FindByInclude(e => e.Id == id, isCatched, 
+                e => e.Pilot, e=> e.Stewardesses)
+                .FirstOrDefault()
+                ?? null;
+        }
+
         public IEnumerable<Crew> GetAllCrewsInfo()
         {
             return uow.Crews.GetAll() ?? null;
