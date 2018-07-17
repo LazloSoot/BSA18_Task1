@@ -21,9 +21,4 @@
     <ProjectReference Include="..\..\WebApi\ProjectStructure.WebApi\ProjectStructure.WebApi.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Api\Crewing\" />
-    <Folder Include="Api\FlightOperations\" />
-  </ItemGroup>
-
 </Project>
