@@ -26,14 +26,14 @@ namespace ProjectStructure.Infrastructure.Shared.Mappings
                     .ForMember(p => p.Lifetime, opt => opt.MapFrom(po => po.Lifetime))
                     .ForMember(p => p.Name, opt => opt.MapFrom(po => po.Name))
                     .ForMember(p => p.Lifetime, opt => opt.MapFrom(po => po.Lifetime))
-                    .ForMember(p => p.LastHeavyMaintenance, opt => opt.MapFrom(po => po.LastMaintenance))
-                    .ForMember(p => p.ReleaseDate, opt => opt.MapFrom(po => po.ReleaseDate));
+                    .ForMember(p => p.LastHeavyMaintenance, opt => opt.MapFrom(po => po.LastHeavyMaintenance))
+                    .ForMember(p => p.ReleaseDate, opt => opt.MapFrom(po => po.ReleaseDate))
+                    .ForMember(p => p.TypeId, opt => opt.MapFrom(po => po.PlaneTypeId));
                 cfg.CreateMap<Plane, PlaneDTO>()
                    .ForMember(p => p.Id, opt => opt.MapFrom(po => po.Id))
                    .ForMember(p => p.Lifetime, opt => opt.MapFrom(po => po.Lifetime))
                    .ForMember(p => p.Name, opt => opt.MapFrom(po => po.Name))
-                   .ForMember(p => p.Lifetime, opt => opt.MapFrom(po => po.Lifetime))
-                    .ForMember(p => p.LastMaintenance, opt => opt.MapFrom(po => po.LastHeavyMaintenance))
+                    .ForMember(p => p.LastHeavyMaintenance, opt => opt.MapFrom(po => po.LastHeavyMaintenance))
                    .ForMember(p => p.ReleaseDate, opt => opt.MapFrom(po => po.ReleaseDate))
                    .ForMember(p => p.PlaneTypeId, opt => opt.MapFrom(po => po.TypeId));
 
