@@ -2,6 +2,8 @@
 {
     public static class RouteConstants
     {
+        public const string airportRoute = "api/airport";
+
         public const string crewingRoute = "api/crews";
 
         public const string aircraftRoute = "api/planes";

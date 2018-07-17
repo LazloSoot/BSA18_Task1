@@ -32,7 +32,7 @@ namespace ProjectStructure.WebApi.Controllers
 
         // GET: api/flights/:id
         [HttpGet("{id}", Name = "GetFlight")]
-        public IActionResult GetFlight(int id)
+        public IActionResult GetFlight(long id)
         {
             var flight = service.GetFlightInfo(id);
             return flight == null ? NotFound($"Flight with id = {id} not found!") as IActionResult
@@ -47,26 +47,29 @@ namespace ProjectStructure.WebApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest() as IActionResult;
             var entity = service.AddFlight(flight);
-            return entity == null ? StatusCode(409) as IActionResult : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}", entity);
+            return entity == null ? StatusCode(409) as IActionResult
+                : Created($"{Request?.Scheme}://{Request?.Host}{Request?.Path}{entity.Id}",
+                mapper.Map<FlightDTO>(entity));
         }
 
 #warning перенести в AIRPORT
         // PUT: api/flights/:id
         [HttpPut("{id}")]
-        public IActionResult ModifyFlight(int id, [FromBody]Flight flight)
+        public IActionResult ModifyFlight([FromBody]FlightDTO flight)
         {
             if (!ModelState.IsValid)
                 return BadRequest() as IActionResult;
-            var entity = service.ModifyFlight(flight);
-            return entity == null ? StatusCode(304) as IActionResult : Ok(entity);
+            var entity = service.ModifyFlight(mapper.Map<Flight>(flight));
+            return entity == null ? StatusCode(304) as IActionResult 
+                : Ok(mapper.Map<FlightDTO>(entity));
         }
 
         // DELETE: api/flights/:id
         [HttpDelete("{id}")]
-        public IActionResult DeleteFlight(int id)
+        public IActionResult DeleteFlight(long id)
         {
             var entity = service.TryCancelFlight(id);
-            return entity ? StatusCode(304) as IActionResult : Ok();
+            return entity ? Ok() : StatusCode(304) as IActionResult ;
         }
     }
 }
