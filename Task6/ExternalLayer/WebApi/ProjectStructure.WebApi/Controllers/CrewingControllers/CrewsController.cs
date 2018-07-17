@@ -47,7 +47,7 @@ namespace ProjectStructure.WebApi.Controllers
                 return BadRequest() as IActionResult;
             var entity = service.CreateCrew(pilotId, stewardressesIds);
             return entity == null ? StatusCode(409) as IActionResult
-                : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}",
+                : Created($"{Request?.Scheme}://{Request?.Host}{Request?.Path}{entity.Id}",
                 mapper.Map<CrewDTO>(entity));
         }
         
@@ -65,10 +65,10 @@ namespace ProjectStructure.WebApi.Controllers
         
         // DELETE: api/crews/:id
         [HttpDelete("{id}")]
-        public IActionResult DeleteCrew(int id)
+        public IActionResult DeleteCrew(long id)
         {
-            var entity = service.TryDeleteCrew(id);
-            return entity ? StatusCode(304) as IActionResult : Ok();
+            var success = service.TryDeleteCrew(id);
+            return success ? Ok() : StatusCode(304) as IActionResult;
         }
     }
 }

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using ProjectStructure.Domain;
-using ProjectStructure.Domain.Interfaces;
 using ProjectStructure.Services.Interfaces;
 using ProjectStructure.WebApi.Helpers;
 using AutoMapper;
@@ -37,7 +32,7 @@ namespace ProjectStructure.WebApi.Controllers
 
         // GET: api/planes/planeTypes/:id
         [HttpGet("planeTypes/{id}", Name = "GetPlaneType")]
-        public IActionResult GetPlaneType(int id)
+        public IActionResult GetPlaneType(long id)
         {
             var planeType = service.GetPlaneTypeInfo(id);
             return planeType == null ? NotFound($"Plane type information with id = {id} not found!") as IActionResult
@@ -52,12 +47,8 @@ namespace ProjectStructure.WebApi.Controllers
                 return BadRequest() as IActionResult;
 
             var entity = service.AddPlaneType(mapper.Map<PlaneType>(type));
-            if (entity != null)
-            {
-                string uri = $"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}";
-            }
             return entity == null ? StatusCode(409) as IActionResult
-                : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}",
+                : Created($"{Request?.Scheme}://{Request?.Host}{Request?.Path}{entity.Id}",
                 mapper.Map<PlaneTypeDTO>(entity));
         }
 
@@ -75,10 +66,10 @@ namespace ProjectStructure.WebApi.Controllers
 
         // DELETE: api/planes/planeTypes/:id
         [HttpDelete("planeTypes/{id}")]
-        public IActionResult DeletePlaneType(int id)
+        public IActionResult DeletePlaneType(long id)
         {
-            var entity = service.TryDeletePlaneType(id);
-            return entity ? StatusCode(304) as IActionResult : Ok();
+            var success = service.TryDeletePlaneType(id);
+            return success ? Ok() : StatusCode(304) as IActionResult;
         }
     }
 }

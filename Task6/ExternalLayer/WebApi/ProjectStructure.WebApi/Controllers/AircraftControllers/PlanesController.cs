@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectStructure.Domain;
 using ProjectStructure.Infrastructure.Shared;
@@ -36,7 +32,7 @@ namespace ProjectStructure.WebApi.Controllers
 
         // GET: api/planes/:id
         [HttpGet("{id}", Name = "GetPlane")]
-        public IActionResult GetPlane(int id)
+        public IActionResult GetPlane(long id)
         {
             var plane = service.GetPlaneInfo(id);
             return plane == null ? NotFound($"Plane with id = {id} not found!") as IActionResult
@@ -52,16 +48,16 @@ namespace ProjectStructure.WebApi.Controllers
             if(!plane.PlaneTypeId.HasValue)
                 return BadRequest("Plane type have to be defined!") as IActionResult;
 
-            var targetType = service.GetPlaneTypeInfo(plane.PlaneTypeId.Value);
-            if (targetType == null)
-                return NotFound($"Plane type with id = {plane.PlaneTypeId} not found!Plane not added!");
-            var newPlane = mapper.Map<Plane>(plane);
-            newPlane.Type = targetType;
+            //var targetType = service.GetPlaneTypeInfo(plane.PlaneTypeId.Value);
+            //if (targetType == null)
+            //    return NotFound($"Plane type with id = {plane.PlaneTypeId} not found!Plane not added!");
+            //var newPlane = mapper.Map<Plane>(plane);
+            //newPlane.Type = targetType;
 
-            var entity = service.AddPlane(newPlane);
+            var entity = service.AddPlane(mapper.Map<Plane>(plane));
             return entity == null ? StatusCode(409) as IActionResult
-                : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}",
-                mapper.Map<Plane>(entity));
+                : Created($"{Request?.Scheme}://{Request?.Host}{Request?.Path}{entity.Id}",
+                mapper.Map<PlaneDTO>(entity));
         }
         
         // PUT: api/planes/:id
@@ -86,10 +82,10 @@ namespace ProjectStructure.WebApi.Controllers
         
         // DELETE: api/planes/:id
         [HttpDelete("{id}")]
-        public IActionResult DeletePlane(int id)
+        public IActionResult DeletePlane(long id)
         {
             var successful = service.TryDeletePlane(id);
-            return successful ? StatusCode(304) as IActionResult : Ok();
+            return successful ? Ok() : StatusCode(304) as IActionResult;
         }
     }
 }

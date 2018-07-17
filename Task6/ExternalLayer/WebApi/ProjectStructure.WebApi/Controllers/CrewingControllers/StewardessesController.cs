@@ -31,7 +31,7 @@ namespace ProjectStructure.WebApi.Controllers
 
         // GET: api/crews/stewardesses/:id
         [HttpGet("stewardesses/{id}", Name = "GetStewardess")]
-        public IActionResult GetStewardess(int id)
+        public IActionResult GetStewardess(long id)
         {
             var stewardess = service.GetStewardessInfo(id);
             return stewardess == null ? NotFound($"Stewardess with id = {id} not found!") as IActionResult
@@ -46,7 +46,7 @@ namespace ProjectStructure.WebApi.Controllers
                 return BadRequest() as IActionResult;
             var entity = service.HireStewardess(mapper.Map<Stewardess>(stewardess));
             return entity == null ? StatusCode(409) as IActionResult
-                : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}",
+                : Created($"{Request?.Scheme}://{Request?.Host}{Request?.Path}{entity.Id}",
                 mapper.Map<StewardessDTO>(entity));
         }
 
@@ -63,10 +63,10 @@ namespace ProjectStructure.WebApi.Controllers
 
         // DELETE: api/crews/stewardesses/:id
         [HttpDelete("stewardesses/{id}")]
-        public IActionResult DeleteStewardess(int id)
+        public IActionResult DeleteStewardess(long id)
         {
             var successfuly = service.TryDismissStewardess(id);
-            return successfuly ? StatusCode(304) as IActionResult : Ok();
+            return successfuly ? Ok() : StatusCode(304) as IActionResult;
         }
     }
 }

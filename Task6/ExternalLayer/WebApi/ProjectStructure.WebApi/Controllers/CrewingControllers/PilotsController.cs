@@ -32,7 +32,7 @@ namespace ProjectStructure.WebApi.Controllers
 
         // GET: api/crews/pilots/:id
         [HttpGet("pilots/{id}", Name = "GetPilot")]
-        public IActionResult GetPilot(int id)
+        public IActionResult GetPilot(long id)
         {
             var pilot = service.GetPilotInfo(id);
             return pilot == null ? NotFound($"Pilot with id = {id} not found!") as IActionResult
@@ -48,7 +48,7 @@ namespace ProjectStructure.WebApi.Controllers
 
             var entity = service.HirePilot(mapper.Map<Pilot>(pilot));
             return entity == null ? StatusCode(409) as IActionResult
-                : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}",
+                : Created($"{Request?.Scheme}://{Request?.Host}{Request?.Path}{entity.Id}",
                 mapper.Map<PilotDTO>(entity));
         }
 
@@ -66,10 +66,10 @@ namespace ProjectStructure.WebApi.Controllers
 
         // DELETE: api/crews/pilots/5
         [HttpDelete("pilots/{id}")]
-        public IActionResult DeletePilot(int id)
+        public IActionResult DeletePilot(long id)
         {
-            var entity = service.TryDismissPilot(id);
-            return entity ? StatusCode(304) as IActionResult : Ok();
+            var success = service.TryDismissPilot(id);
+            return success ? Ok() : StatusCode(304) as IActionResult;
         }
     }
 }
