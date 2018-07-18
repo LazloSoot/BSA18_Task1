@@ -68,6 +68,14 @@ namespace ProjectStructure.Infrastructure.Shared.Mappings
                     .ForMember(p => p.Surname, opt => opt.MapFrom(po => po.Surname))
                     .ForMember(p => p.Birth, opt => opt.MapFrom(po => po.Birth));
 
+
+                cfg.CreateMap<CrewExtendedDTO, Crew>()
+                    .ForMember(p => p.Pilot, opt => opt.MapFrom(po => po.PilotDto))
+                    .ForMember(p => p.Stewardesses, opt => opt.MapFrom(po => po.StewardessesDtos));
+                cfg.CreateMap<Crew, CrewExtendedDTO>()
+                    .ForMember(p => p.Id, opt => opt.MapFrom(po => po.Id))
+                    .ForMember(p => p.PilotDto, opt => opt.MapFrom(po => po.Pilot))
+                    .ForMember(p => p.StewardessesDtos, opt => opt.MapFrom(po => po.Stewardesses));
                 #endregion
 
                 #region FlightsOperations
