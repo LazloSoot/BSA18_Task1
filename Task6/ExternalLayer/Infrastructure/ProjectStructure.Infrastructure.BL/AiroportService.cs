@@ -5,21 +5,22 @@ using ProjectStructure.Domain;
 using ProjectStructure.Domain.Enums;
 using ProjectStructure.Services.Interfaces;
 using ProjectStructure.Domain.Interfaces;
+using System.Linq;
 
 namespace ProjectStructure.Infrastructure.BL
 {
     public class AiroportService : Airport
     {
+        private double ticketPriceBase = 120.0d;
+        private const double priceDeltaConnst = 15.75d;
+        private double ticketPriceDelta;
         public AiroportService(IAircraftService aircraftService, ICrewingService crewingService,
            IFlightOperationsService flightOperationsService)
             :base(aircraftService, crewingService, flightOperationsService)
         {
+            ticketPriceDelta = ticketPriceBase / 100 * 48 + priceDeltaConnst;
         }
-
-        public override Ticket AddTicket(Ticket ticket)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public override Departure SheduleDeparture(Departure departureInfo)
         {
@@ -71,7 +72,7 @@ namespace ProjectStructure.Infrastructure.BL
             {
                 if (departureInfo.PlaneId.HasValue)
                 {
-                    currentPlane = AircraftService.GetPlaneInfo(departureInfo.PlaneId.Value);
+                    currentPlane = AircraftService.GetPlaneInfoIncluded(departureInfo.PlaneId.Value);
                     if (currentPlane == null)
                         throw new ArgumentException($"Plane with id = {departureInfo.CrewId.Value} not found!");
                 }
@@ -87,6 +88,9 @@ namespace ProjectStructure.Infrastructure.BL
 
                 currentPlane = departureInfo.Plane;
             }
+
+            if(currentPlane.Type == null)
+                throw new ArgumentException("Information about plane type not found!");
 
             // проверить срок службы самолета
             if (DateTime.Now - currentPlane.ReleaseDate >= currentPlane.Lifetime)
@@ -140,16 +144,20 @@ namespace ProjectStructure.Infrastructure.BL
 
             #endregion
 
-            return FlightOperationsService.UpdateDepartureInfo(departureInfo);
+            GenerateTicketsToFlight(currentFlight, currentPlane.Type.Capacity);
+            return FlightOperationsService.UpdateDepartureInfo(departureInfo.Id, departureInfo);
         }
 
         public override bool DeleteDeparture(long id)
         {
+#warning необходимо так же удалить билеты
             return FlightOperationsService.TryCancelDeparture(id);
         }
 
-        public override Flight ModifyFlight(Flight flight)
+        public override Flight ModifyFlight(long id, Flight flight)
         {
+#warning проверить модифицируются ли билеты
+            flight.Id = id;
             throw new NotImplementedException();
         }
 
@@ -158,11 +166,54 @@ namespace ProjectStructure.Infrastructure.BL
             throw new NotImplementedException();
         }
 
-        public override Departure ModifyDeparture(Departure departureInfo)
+        public override Ticket AddTicket(Ticket ticket)
         {
+#warning протестить!
+            if (ticket.Flight == null && !ticket.FlightId.HasValue)
+                throw new ArgumentException("Ticket shoult have information about flight");
+
+            var flightId = ticket.Flight != null ? ticket.Flight.Id : ticket.FlightId.Value;
+            var departure = FlightOperationsService
+                .GetDeparturesByInclude(d => d.FlightId == flightId, false, d => d.Plane)
+                .FirstOrDefault();
+            if (departure == null)
+                throw new ArgumentException("It's impossible to add a ticket to a flight that does not have sheduled departures!");
+            if (departure.Plane == null)
+                throw new ArgumentException("Error! There is not plane attached to departure!");
+
+            var flight = FlightOperationsService.GetFlightIncludeTickets(flightId);
+            if (departure.Plane.Type.Capacity <= flight.Tickets.Count)
+                throw new ArgumentException("There is no more free places, you can not add ticket!");
+
+            return FlightOperationsService.AddTicket(ticket);
+        }
+
+        public override Departure ModifyDeparture(long id, Departure departureInfo)
+        {
+#warning изменить количество билетов
+            departureInfo.Id = id;
             throw new NotImplementedException();
         }
 
-        
+        private void GenerateTicketsToFlight(Flight flight, int count)
+        {
+            var tickets = new List<Ticket>();
+            int deltaPoint = count / 100 * 60;
+            double currentPrice = ticketPriceBase;
+
+            for (int i = 0; i < count; i++)
+            {
+                if (i == deltaPoint)
+                    currentPrice = ticketPriceBase + ticketPriceDelta;
+                tickets.Add(new Ticket()
+                {
+                    Price = currentPrice,
+                    Seat = 1 + i
+                });
+            }
+
+            flight.Tickets = tickets;
+            FlightOperationsService.ModifyFlight(flight.Id, flight);
+        }
     }
 }
