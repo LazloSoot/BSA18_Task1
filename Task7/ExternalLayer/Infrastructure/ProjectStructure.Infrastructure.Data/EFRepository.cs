@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using ProjectStructure.Domain;
 using ProjectStructure.Domain.Interfaces;
 
@@ -35,9 +38,22 @@ namespace ProjectStructure.Infrastructure.Data
             return DbContext.Set<T>().Find(id);
         }
 
+        public virtual async Task<T> GetAsync(long id, CancellationToken ct)
+        {
+            return await DbContext.Set<T>()
+                .FindAsync(id, ct);
+        }
+
         public virtual IEnumerable<T> GetAll()
         {
-            return DbContext.Set<T>().AsTracking();
+            return DbContext.Set<T>().AsNoTracking();
+        }
+
+        public virtual async Task<IEnumerable<T>> GetAllAsync(CancellationToken ct)
+        {
+            return await DbContext.Set<T>()
+                .AsNoTracking()
+                .ToListAsync(ct);
         }
 
         public virtual T Insert(T entity)
@@ -46,6 +62,19 @@ namespace ProjectStructure.Infrastructure.Data
                 return null;
             DbContext.Set<T>().Add(entity);
             return entity;
+        }
+
+        public virtual async Task<T> InsertAsync(T entity, CancellationToken ct)
+        {
+            if (await DbContext.Set<T>().FindAsync(entity.Id) != null)
+                return null;
+            return (await DbContext.Set<T>().AddAsync(entity, ct)).Entity;
+        }
+        
+        public virtual async Task InsertRangeAsync(IEnumerable<T> entities, CancellationToken ct)
+        {
+            await DbContext.Set<T>()
+                .AddRangeAsync(entities, ct);
         }
 
         public virtual T Update(T entity)
@@ -61,6 +90,7 @@ namespace ProjectStructure.Infrastructure.Data
             return AllInclude(isCached, includeProperties)
                 .ToList();
         }
+
 
         public IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate, bool isCached = false)
         {
