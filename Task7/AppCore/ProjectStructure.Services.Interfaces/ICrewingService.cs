@@ -12,7 +12,7 @@ namespace ProjectStructure.Services.Interfaces
     {
         #region Crews
 
-        Task LoadOutSourceCrewsAsync(string uri, CancellationToken ct = default(CancellationToken));
+        Task LoadOutSourceCrewsAsync(string uri, int count = -1, CancellationToken ct = default(CancellationToken));
 
         Crew CreateCrew(long pilotId, IEnumerable<long> stewardessesIds);
 
