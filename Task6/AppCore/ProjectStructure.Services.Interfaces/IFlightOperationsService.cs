@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using ProjectStructure.Domain;
 
 namespace ProjectStructure.Services.Interfaces
@@ -14,9 +16,11 @@ namespace ProjectStructure.Services.Interfaces
 
         Flight GetFlightInfo(long id);
 
+        Flight GetFlightIncludeTickets(long id, bool isCatched = false);
+
         Flight AddFlight(Flight flight);
 
-        Flight ModifyFlight(Flight flight);
+        Flight ModifyFlight(long id, Flight flight);
 
         bool TryCancelFlight(long id);
 
@@ -28,11 +32,13 @@ namespace ProjectStructure.Services.Interfaces
 
         IEnumerable<Departure> GetFlightDepartureInfo(long id);
 
+        IEnumerable<Departure> GetDeparturesByInclude(Expression<Func<Departure, bool>> predicate, bool isCached = false, params Expression<Func<Departure, object>>[] includeProperties);
+
         Departure GetDepartureInfo(long id);
 
-        Departure SheduleDeparture(Departure departure);
+       // Departure SheduleDeparture(Departure departure);
 
-        Departure UpdateDepartureInfo(Departure departure);
+        Departure UpdateDepartureInfo(long id, Departure departure);
 
         bool TryCancelDeparture(long id);
 
@@ -48,7 +54,7 @@ namespace ProjectStructure.Services.Interfaces
 
         Ticket AddTicket(Ticket ticket);
 
-        Ticket ModifyTicket(Ticket ticket);
+        Ticket ModifyTicket(long id, Ticket ticket);
 
         bool TryDeleteTicket(int id);
 

@@ -23,9 +23,11 @@ namespace ProjectStructure.Services.Interfaces
 
         Plane GetPlaneInfo(long id);
 
+        Plane GetPlaneInfoIncluded(long id);
+
         Plane AddPlane(Plane plane);
 
-        Plane ModifyPlaneInfo(Plane plane);
+        Plane ModifyPlaneInfo(long id, Plane plane);
 
         bool TryDeletePlane(long id);
 
@@ -39,7 +41,7 @@ namespace ProjectStructure.Services.Interfaces
 
         PlaneType AddPlaneType(PlaneType type);
 
-        PlaneType ModifyPlaneType(PlaneType type);
+        PlaneType ModifyPlaneType(long id, PlaneType type);
 
         bool TryDeletePlaneType(long id);
 

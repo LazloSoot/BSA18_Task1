@@ -34,7 +34,7 @@ namespace ProjectStructure.Services.Interfaces
 
         Pilot HirePilot(Pilot pilot);
 
-        Pilot UpdatePilotInfo(Pilot pilot);
+        Pilot UpdatePilotInfo(long id, Pilot pilot);
 
         bool TryDismissPilot(long id);
 
@@ -48,7 +48,7 @@ namespace ProjectStructure.Services.Interfaces
 
         Stewardess HireStewardess(Stewardess stewardess);
 
-        Stewardess UpdateStewardessInfo(Stewardess stewardess);
+        Stewardess UpdateStewardessInfo(long id, Stewardess stewardess);
 
         bool TryDismissStewardess(long id);
 

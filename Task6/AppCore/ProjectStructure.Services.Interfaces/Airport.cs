@@ -21,11 +21,11 @@ namespace ProjectStructure.Services.Interfaces
 
         public abstract Departure SheduleDeparture(Departure departureInfo);
 
-        public abstract Departure ModifyDeparture(Departure departureInfo);
+        public abstract Departure ModifyDeparture(long id, Departure departureInfo);
 
         public abstract bool DeleteDeparture(long id);
 
-        public abstract Flight ModifyFlight(Flight flight);
+        public abstract Flight ModifyFlight(long id, Flight flight);
 
         public abstract bool DeleteFlight(long id);
 
