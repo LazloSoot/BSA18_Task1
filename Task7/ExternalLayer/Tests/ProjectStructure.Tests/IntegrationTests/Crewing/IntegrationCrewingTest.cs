@@ -84,7 +84,7 @@ namespace ProjectStructure.Tests.IntegrationTests.Crewing
         }
 
         [Test]
-        public void CreatingDeleteCrew_When_Pilot_And_Stewardess_Exist_In_Db_Then_Successfuly_And_Returns_Created_Crew_And_Then_ShouldBe_Deleted()
+        public async void CreatingDeleteCrew_When_Pilot_And_Stewardess_Exist_In_Db_Then_Successfuly_And_Returns_Created_Crew_And_Then_ShouldBe_Deleted()
         {
             // Arrange
             MSSQLContext context = new MSSQLContext();
@@ -96,7 +96,7 @@ namespace ProjectStructure.Tests.IntegrationTests.Crewing
             CrewsController controller = new CrewsController(mapper.GetDefaultMapper(), service);
             
             // act (pilots and stewardesses from db seed)
-            var createCrewResult = controller.CreateCrew(1, new List<long> { 1, 2, 3, 4});
+            var createCrewResult = await controller.CreateCrew(1, new List<long> { 1, 2, 3, 4});
             
             // add assert
             Assert.IsInstanceOf<CreatedResult>(createCrewResult);
