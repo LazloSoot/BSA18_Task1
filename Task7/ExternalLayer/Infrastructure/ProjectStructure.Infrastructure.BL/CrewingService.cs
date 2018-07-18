@@ -8,21 +8,28 @@ using System;
 using System.Net;
 using System.Threading;
 using Newtonsoft.Json;
+using ProjectStructure.Infrastructure.Shared;
+using AutoMapper;
+using ProjectStructure.Infrastructure.Shared.Helpers;
 
 namespace ProjectStructure.Infrastructure.BL
 {
     public class CrewingService : ICrewingService
     {
         private readonly IDbCrewingUnitOfWork uow;
+        private readonly IMapper mapper;
         private static SemaphoreSlim semaphore = new SemaphoreSlim(1);
-        public CrewingService(IDbCrewingUnitOfWork crewingUnitOfWork)
+        private readonly FileLogService logService;
+        public CrewingService(IDbCrewingUnitOfWork crewingUnitOfWork, IMapper mapper)
         {
+            this.mapper = mapper;
             uow = crewingUnitOfWork;
+            logService = new FileLogService();
         }
 
         #region Crews
 
-        public async Task LoadOutSourceCrewsAsync(string uri, CancellationToken ct)
+        public async Task LoadOutSourceCrewsAsync(string uri, int count = -1, CancellationToken ct = default(CancellationToken))
         {
             await semaphore.WaitAsync();
             try
@@ -46,12 +53,23 @@ namespace ProjectStructure.Infrastructure.BL
 
                     }
                 }
-                var crews = await Task.Run(() => JsonConvert.DeserializeObject<IEnumerable<Crew>>(jsonData) ?? null);
+
+                var crews = await Task.Run(() => {
+                    return JsonConvert.DeserializeObject<IEnumerable<CrewExtendedDTO>>(jsonData) ?? null;
+                }, ct);
 
                 if (crews == null)
                     throw new ArgumentNullException("Failed to deserialize data!");
 
-                await uow.Crews.InsertRangeAsync(crews, ct);
+                if (count > 0)
+                    crews.Take(count);
+
+                var c = mapper.Map<IEnumerable<Crew>>(crews);
+                await Task.WhenAll
+                    (
+                    uow.Crews.InsertRangeAsync(mapper.Map<IEnumerable<Crew>>(c), ct),
+                    logService.WriteLogAsync(await logService.FormCrewsText(c, ct), ct)
+                    );
             }
             finally
             {
