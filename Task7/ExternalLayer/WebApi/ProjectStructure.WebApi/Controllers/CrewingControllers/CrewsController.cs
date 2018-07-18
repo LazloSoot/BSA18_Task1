@@ -44,9 +44,9 @@ namespace ProjectStructure.WebApi.Controllers
             {
                 await service.LoadOutSourceCrewsAsync(outsourceCrewsUri, count, new System.Threading.CancellationToken());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, "Failed to load outsource crews data!");
+                return StatusCode(500, ex.Message);
             }
 
             return Ok();
