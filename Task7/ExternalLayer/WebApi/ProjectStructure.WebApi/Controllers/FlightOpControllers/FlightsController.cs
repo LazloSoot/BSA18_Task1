@@ -6,6 +6,7 @@ using ProjectStructure.Services.Interfaces;
 using AutoMapper;
 using ProjectStructure.Infrastructure.Shared;
 using System.Threading.Tasks;
+using ProjectStructure.Infrastructure.Shared.Helpers;
 
 namespace ProjectStructure.WebApi.Controllers
 {
@@ -31,13 +32,13 @@ namespace ProjectStructure.WebApi.Controllers
                 : Ok(mapper.Map<IEnumerable<FlightDTO>>(flights));
         }
 
-        // GET: api/flights/task3
-        [HttpGet]
-        public async Task<IActionResult> GetAllFlightsTask()
+        // GET: api/flights/delayed/
+        [HttpGet("delayed/{id}")]
+        public async Task<IActionResult> GetDelayedFlight(long id)
         {
-            var flights = await service.GetAllFlightsInfoAsync();
-            return flights == null ? NotFound("No departures found!") as IActionResult
-                : Ok(mapper.Map<IEnumerable<FlightDTO>>(flights));
+            var flight = await service.GetDelayedFlight(id);
+            return flight == null ? NotFound($"No flight with id = {id} found!") as IActionResult
+                : Ok(mapper.Map<FlightDTO>(flight));
         }
 
         // GET: api/flights/:id

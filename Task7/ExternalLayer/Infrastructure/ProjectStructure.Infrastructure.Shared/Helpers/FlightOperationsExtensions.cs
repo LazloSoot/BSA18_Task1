@@ -1,24 +1,23 @@
 ﻿using ProjectStructure.Domain;
 using ProjectStructure.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
 
 namespace ProjectStructure.Infrastructure.Shared.Helpers
 {
     public static class FlightOperationsExtensions
     {
-        public static async Task<IEnumerable<Flight>> GetFlightsWithDelay(this IFlightOperationsService service)
+        public static async Task<Flight> GetDelayedFlight(this IFlightOperationsService service, long targetId, CancellationToken ct = default(CancellationToken))
         {
-            TaskCompletionSource<IEnumerable<Flight>> tcs = new TaskCompletionSource<IEnumerable<Flight>>();
-            Timer t = new Timer(1500);
+            TaskCompletionSource<Flight> tcs = new TaskCompletionSource<Flight>();
+            System.Timers.Timer t = new System.Timers.Timer(1500);
             t.Elapsed += (s, e) =>
            {
-
+               var result = service.GetFlightInfo(targetId);
+               tcs.SetResult(result);
            };
 
+           return await tcs.Task;
         }
         
     }
