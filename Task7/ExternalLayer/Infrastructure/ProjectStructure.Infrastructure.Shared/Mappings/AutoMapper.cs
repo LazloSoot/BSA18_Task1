@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ProjectStructure.Domain;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ProjectStructure.Infrastructure.Shared.Mappings
@@ -70,11 +71,11 @@ namespace ProjectStructure.Infrastructure.Shared.Mappings
 
 
                 cfg.CreateMap<CrewExtendedDTO, Crew>()
-                    .ForMember(p => p.Pilot, opt => opt.MapFrom(po => po.PilotDto))
+                    .ForMember(p => p.Pilot, opt => opt.MapFrom(po => po.PilotDTO.FirstOrDefault()))
                     .ForMember(p => p.Stewardesses, opt => opt.MapFrom(po => po.StewardessesDtos));
                 cfg.CreateMap<Crew, CrewExtendedDTO>()
                     .ForMember(p => p.Id, opt => opt.MapFrom(po => po.Id))
-                    .ForMember(p => p.PilotDto, opt => opt.MapFrom(po => po.Pilot))
+                    .ForMember(p => p.PilotDTO, opt => opt.MapFrom(po => new List<Pilot>() { po.Pilot }))
                     .ForMember(p => p.StewardessesDtos, opt => opt.MapFrom(po => po.Stewardesses));
                 #endregion
 

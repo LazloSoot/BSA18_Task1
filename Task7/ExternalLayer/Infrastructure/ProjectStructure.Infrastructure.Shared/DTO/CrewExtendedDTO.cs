@@ -10,7 +10,8 @@ namespace ProjectStructure.Infrastructure.Shared
         public long Id { get; set; }
 
         [JsonProperty("Pilot")]
-        public PilotDTO PilotDto { get; set; }
+        public IEnumerable<PilotDTO> PilotDTO { get; set; }
+        //public PilotDTO PilotDto { get; set; }
 
         [JsonProperty("Stewardess")]
         public IEnumerable<StewardessDTO> StewardessesDtos { get; set; }
