@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ProjectStructure.Domain.Interfaces
@@ -7,6 +8,6 @@ namespace ProjectStructure.Domain.Interfaces
     {
         int SaveChanges();
 
-        Task<int> SaveChangesAsync();
+        Task<int> SaveChangesAsync(CancellationToken ct = default(CancellationToken));
     }
 }
