@@ -4,7 +4,6 @@ POST http://localhost:54400/api/crews/pilots HTTP/1.1
 User-Agent: Fiddler
 Content-Type: application/json
 Host: localhost:54400
-Content-Length: 111
 
 {
   "name": "Vasia",
@@ -13,3 +12,15 @@ Content-Length: 111
   "experienceYears": 15
 }
 
+POST http://localhost:54400/api/crews/pilots HTTP/1.1
+User-Agent: Fiddler
+Content-Type: application/json
+Host: localhost:54400
+Content-Length: 111
+
+{
+  "name": "Vasia",
+  "surname": "Petechkin",
+  "birth": "1997-01-10T00:00:00",
+  "experienceYears": 15
+}
