@@ -12,6 +12,7 @@
     <ProjectReference Include="..\..\..\AppCore\ProjectStructure.Domain.Interfaces\ProjectStructure.Domain.Interfaces.csproj" />
     <ProjectReference Include="..\..\..\AppCore\ProjectStructure.Domain\ProjectStructure.Domain.csproj" />
     <ProjectReference Include="..\..\..\AppCore\ProjectStructure.Services.Interfaces\ProjectStructure.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\ProjectStructure.Infrastructure.Shared\ProjectStructure.Infrastructure.Shared.csproj" />
   </ItemGroup>
 
 </Project>
