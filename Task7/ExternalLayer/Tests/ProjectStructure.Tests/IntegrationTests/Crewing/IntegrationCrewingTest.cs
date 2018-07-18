@@ -15,7 +15,7 @@ namespace ProjectStructure.Tests.IntegrationTests.Crewing
     public class IntegrationCrewingTest
     {
         [Test]
-        public void AddDeleteNewPilotTest_Returns_CreatedResult_And_Pilot_ShoudBe_AddedTo_Database_And_Then_ShouldBe_Deleted()
+        public async void AddDeleteNewPilotTest_Returns_CreatedResult_And_Pilot_ShoudBe_AddedTo_Database_And_Then_ShouldBe_Deleted()
         {
             // Arrange
             MSSQLContext context = new MSSQLContext();
@@ -23,7 +23,7 @@ namespace ProjectStructure.Tests.IntegrationTests.Crewing
             PilotsRepository pilotsRepository = new PilotsRepository();
             StewardessesRepository stewardessesRepository = new StewardessesRepository();
             CrewingUnitOfWork uow = new CrewingUnitOfWork(crewsRepository, pilotsRepository, stewardessesRepository, context);
-            CrewingService service = new CrewingService(uow);
+            CrewingService service = new CrewingService(uow, mapper.GetDefaultMapper());
             PilotsController controller = new PilotsController(mapper.GetDefaultMapper(), service);
 
             // add act
@@ -35,7 +35,7 @@ namespace ProjectStructure.Tests.IntegrationTests.Crewing
                 Surname = "Kramer"
             };
 
-            var addResult = controller.AddPilot(newPilotDTO);
+            var addResult = await controller.AddPilot(newPilotDTO);
 
             // add assert
             Assert.IsInstanceOf<CreatedResult>(addResult);
@@ -50,7 +50,7 @@ namespace ProjectStructure.Tests.IntegrationTests.Crewing
         }
 
         [Test]
-        public void AddDeleteNewStewardessTest_Returns_CreatedResult_And_Stewardess_ShoudBe_AddedTo_Database_And_Then_ShouldBe_Deleted()
+        public async void AddDeleteNewStewardessTest_Returns_CreatedResult_And_Stewardess_ShoudBe_AddedTo_Database_And_Then_ShouldBe_Deleted()
         {
             // Arrange
             MSSQLContext context = new MSSQLContext();
@@ -58,7 +58,7 @@ namespace ProjectStructure.Tests.IntegrationTests.Crewing
             PilotsRepository pilotsRepository = new PilotsRepository();
             StewardessesRepository stewardessesRepository = new StewardessesRepository();
             CrewingUnitOfWork uow = new CrewingUnitOfWork(crewsRepository, pilotsRepository, stewardessesRepository, context);
-            CrewingService service = new CrewingService(uow);
+            CrewingService service = new CrewingService(uow, mapper.GetDefaultMapper());
             StewardessesController controller = new StewardessesController(mapper.GetDefaultMapper(), service);
 
             // add act
@@ -69,7 +69,7 @@ namespace ProjectStructure.Tests.IntegrationTests.Crewing
                 Surname = "Ivanova"
             };
 
-            var addResult = controller.AddStewardess(newStewardessDTO);
+            var addResult = await controller.AddStewardess(newStewardessDTO);
 
             // add assert
             Assert.IsInstanceOf<CreatedResult>(addResult);
@@ -92,7 +92,7 @@ namespace ProjectStructure.Tests.IntegrationTests.Crewing
             PilotsRepository pilotsRepository = new PilotsRepository();
             StewardessesRepository stewardessesRepository = new StewardessesRepository();
             CrewingUnitOfWork uow = new CrewingUnitOfWork(crewsRepository, pilotsRepository, stewardessesRepository, context);
-            CrewingService service = new CrewingService(uow);
+            CrewingService service = new CrewingService(uow, mapper.GetDefaultMapper());
             CrewsController controller = new CrewsController(mapper.GetDefaultMapper(), service);
             
             // act (pilots and stewardesses from db seed)

@@ -280,7 +280,77 @@ namespace ProjectStructure.Tests.Mappers
             }
 
         }
-        
+
+        [Test]
+        [TestCase(1000)]
+        public void CrewExtended_Maping_DomainModel_TO_DTO(int assertionsCount)
+        {
+            // Arrange
+            var mapper = mapperToTest.GetDefaultMapper();
+
+            // act
+            Dictionary<int, Crew> crewIdCrew = new Dictionary<int, Crew>();
+            Crew currentCrew = null;
+            Dictionary<int, CrewExtendedDTO> crewIdCrewDTO = new Dictionary<int, CrewExtendedDTO>();
+            int id = 0;
+            int stewardessesCount = 0;
+            List<Stewardess> currentStewardesses = new List<Stewardess>();
+
+            for (int j = 0; j < assertionsCount; j++)
+            {
+                stewardessesCount = rnd.Next(2, 15);
+                for (int i = 0; i < stewardessesCount; i++)
+                {
+                    currentStewardesses.Add(new Stewardess() { Id = rnd.Next(0, 10000) });
+                }
+
+                currentCrew = new Crew()
+                {
+                    Id = id,
+                    Pilot = new Pilot() { Id = id + rnd.Next(1, 100) },
+                    Stewardesses = currentStewardesses
+                };
+                currentStewardesses = new List<Stewardess>();
+
+                crewIdCrew.Add
+                    (
+                        id,
+                        currentCrew
+                    );
+
+                crewIdCrewDTO.Add
+                    (
+                        id,
+                        mapper.Map<CrewExtendedDTO>(currentCrew)
+                    );
+
+                id++;
+            }
+
+            // assert
+            List<StewardessDTO> stewardessesDtos = null;
+            for (int i = 0; i < crewIdCrew.Count; i++)
+            {
+                Assert.AreEqual(crewIdCrew[i].Id, crewIdCrewDTO[i].Id);
+                Assert.AreEqual(crewIdCrew[i].Pilot.Id, crewIdCrewDTO[i].PilotDTO.FirstOrDefault()?.Id);
+                Assert.AreEqual(crewIdCrew[i].Pilot.Name, crewIdCrewDTO[i].PilotDTO.FirstOrDefault()?.Name);
+                Assert.AreEqual(crewIdCrew[i].Pilot.Surname, crewIdCrewDTO[i].PilotDTO.FirstOrDefault()?.Surname);
+                Assert.AreEqual(crewIdCrew[i].Pilot.Birth, crewIdCrewDTO[i].PilotDTO.FirstOrDefault()?.Birth);
+                Assert.AreEqual(crewIdCrew[i].Pilot.ExperienceYears, crewIdCrewDTO[i].PilotDTO.FirstOrDefault()?.ExperienceYears);
+
+                stewardessesDtos = crewIdCrewDTO[i].StewardessesDtos.ToList();
+                foreach (var s in crewIdCrew[i].Stewardesses)
+                {
+                    var st = stewardessesDtos.Find(stw => stw.Id == s.Id);
+                    Assert.NotNull(st);
+                    Assert.AreEqual(s.Name, st.Name);
+                    Assert.AreEqual(s.Surname, st.Surname);
+                    Assert.AreEqual(s.Birth, st.Birth);
+                }
+            }
+
+        }
+
         #endregion
     }
 }

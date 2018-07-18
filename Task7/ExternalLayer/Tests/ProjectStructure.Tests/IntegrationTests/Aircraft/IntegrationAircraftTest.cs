@@ -14,7 +14,7 @@ namespace ProjectStructure.Tests.IntegrationTests.Aircraft
     public class IntegrationAircraftTest
     {
        [Test]
-       public void AddDeletePlaneType_Returns_CreatedResult_And_PlaneType_ShoudBe_AddedTo_Database_And_Then_ShouldBe_Deleted()
+       public async void AddDeletePlaneType_Returns_CreatedResult_And_PlaneType_ShoudBe_AddedTo_Database_And_Then_ShouldBe_Deleted()
         {
             // Arrange
             MSSQLContext context = new MSSQLContext();
@@ -32,7 +32,7 @@ namespace ProjectStructure.Tests.IntegrationTests.Aircraft
                 Model = "Hurricane"
             };
 
-            var addResult = controller.AddPlaneType(newPlaneTypeDTO);
+            var addResult = await controller.AddPlaneType(newPlaneTypeDTO);
 
             // add assert
             Assert.IsInstanceOf<CreatedResult>(addResult);
@@ -47,7 +47,7 @@ namespace ProjectStructure.Tests.IntegrationTests.Aircraft
         }
 
         [Test]
-        public void AddDeletePlane_Returns_CreatedResult_And_Plane_ShoudBe_AddedTo_Database_And_Then_ShouldBe_Deleted()
+        public async void AddDeletePlane_Returns_CreatedResult_And_Plane_ShoudBe_AddedTo_Database_And_Then_ShouldBe_Deleted()
         {
             // Arrange
             MSSQLContext context = new MSSQLContext();
@@ -68,7 +68,7 @@ namespace ProjectStructure.Tests.IntegrationTests.Aircraft
                 PlaneTypeId = 1
             };
 
-            var addResult = controller.AddPlane(newPlaneDTO);
+            var addResult = await controller.AddPlane(newPlaneDTO);
 
             // add assert
             Assert.IsInstanceOf<CreatedResult>(addResult);

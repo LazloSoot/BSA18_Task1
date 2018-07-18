@@ -40,7 +40,7 @@ namespace ProjectStructure.Tests.IntegrationTests
         }
 
         [Test]
-        public void SheduleDeleteDeparture_When_All_Args_IsOk_When_Should_Return_CreatedResult_And_Add_Departure_To_dB_And_Then_Delete()
+        public async void SheduleDeleteDeparture_When_All_Args_IsOk_When_Should_Return_CreatedResult_And_Add_Departure_To_dB_And_Then_Delete()
         {
             // Arrange
 
@@ -56,7 +56,7 @@ namespace ProjectStructure.Tests.IntegrationTests
             PilotsRepository pilotsRepository = new PilotsRepository();
             StewardessesRepository stewardessesRepository = new StewardessesRepository();
             CrewingUnitOfWork cuow = new CrewingUnitOfWork(crewsRepository, pilotsRepository, stewardessesRepository, context);
-            CrewingService crewingService = new CrewingService(cuow);
+            CrewingService crewingService = new CrewingService(cuow, mapper.GetDefaultMapper());
 
             FlightsRepository flightRepository = new FlightsRepository();
             DeparturesRepository departuresRepository = new DeparturesRepository();
@@ -77,7 +77,7 @@ namespace ProjectStructure.Tests.IntegrationTests
                 FlightId = 1
             };
 
-            var addResult = controller.SheduleDeparture(departureDto);
+            var addResult = await controller.SheduleDeparture(departureDto);
 
             // add assert
             Assert.IsInstanceOf<CreatedResult>(addResult);
