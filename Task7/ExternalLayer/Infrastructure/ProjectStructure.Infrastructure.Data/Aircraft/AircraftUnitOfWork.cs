@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using ProjectStructure.Domain;
 using ProjectStructure.Domain.Interfaces;
 
@@ -33,9 +34,9 @@ namespace ProjectStructure.Infrastructure.Data.Aircraft
             return dbContext.SaveChanges();
         }
 
-        public async Task<int> SaveChangesAsync()
+        public async Task<int> SaveChangesAsync(CancellationToken ct = default(CancellationToken))
         {
-            return await dbContext.SaveChangesAsync();
+            return await dbContext.SaveChangesAsync(ct);
         }
         
     }
