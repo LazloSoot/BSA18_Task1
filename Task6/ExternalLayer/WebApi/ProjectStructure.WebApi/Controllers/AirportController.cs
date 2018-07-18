@@ -41,25 +41,22 @@ namespace ProjectStructure.WebApi.Controllers
                 mapper.Map<DepartureDTO>(entity));
         }
         
-        // PUT: api/Airport/5
+        // PUT: api/Airport/:id
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult ModifyDeparture(long id, [FromBody]DepartureDTO departure)
         {
+            if (!ModelState.IsValid)
+                return BadRequest() as IActionResult;
+            var entity = service.ModifyDeparture(id, mapper.Map<Departure>(departure));
+            return entity == null ? StatusCode(304) as IActionResult
+                : Ok(mapper.Map<DepartureDTO>(entity));
         }
-        
-        // DELETE: api/airport
+
+        // DELETE: api/airport/:id
         [HttpDelete("{id}")]
-        public IActionResult Delete(long id)
+        public IActionResult DeleteDeparture(long id)
         {
-            bool success;
-            try
-            {
-                success = service.DeleteDeparture(id);
-            }
-            catch (System.ArgumentException ex)
-            {
-                return StatusCode(500, ex.Message) as IActionResult;
-            }
+            var success = service.DeleteDeparture(id);
             return success ? Ok() : StatusCode(304) as IActionResult;
         }
     }

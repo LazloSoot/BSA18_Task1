@@ -70,12 +70,12 @@ namespace ProjectStructure.WebApi.Controllers
         //        : Ok(mapper.Map<DepartureDTO>(entity));
         //}
 
-        // DELETE: api/flights/departures/:id
-        [HttpDelete("departures/{id}")]
-        public IActionResult DeleteDeparture(long id)
-        {
-            var success = service.TryCancelDeparture(id);
-            return success ? Ok() : StatusCode(304) as IActionResult ;
-        }
+        //// DELETE: api/flights/departures/:id
+        //[HttpDelete("departures/{id}")]
+        //public IActionResult DeleteDeparture(long id)
+        //{
+        //    var success = service.TryCancelDeparture(id);
+        //    return success ? Ok() : StatusCode(304) as IActionResult ;
+        //}
     }
 }

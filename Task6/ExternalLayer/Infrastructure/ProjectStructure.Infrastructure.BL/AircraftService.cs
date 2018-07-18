@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Diagnostics;
+using System.Linq;
 
 namespace ProjectStructure.Infrastructure.BL
 {
@@ -107,13 +108,21 @@ namespace ProjectStructure.Infrastructure.BL
             return uow.Planes.Get(id) ?? null;
         }
 
+        public Plane GetPlaneInfoIncluded(long id)
+        {
+            return uow.Planes.FindByInclude(p => p.Id == id, false, p => p.Type)
+                .FirstOrDefault()
+                ?? null;
+        }
+
         public IEnumerable<Plane> GetAllPlanesInfo()
         {
             return uow.Planes.GetAll() ?? null;
         }
 
-        public Plane ModifyPlaneInfo(Plane plane)
+        public Plane ModifyPlaneInfo(long id, Plane plane)
         {
+            plane.Id = id;
             var item = uow.Planes.Update(plane);
             if (item == null)
                 return null;
@@ -158,8 +167,9 @@ namespace ProjectStructure.Infrastructure.BL
             return uow.PlaneTypes.Get(id) ?? null;
         }
 
-        public PlaneType ModifyPlaneType(PlaneType type)
+        public PlaneType ModifyPlaneType(long id, PlaneType type)
         {
+            type.Id = id;
             var item = uow.PlaneTypes.Update(type);
             if (item == null)
                 return null;

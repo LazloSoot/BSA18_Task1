@@ -4,6 +4,8 @@ using ProjectStructure.Services.Interfaces;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq.Expressions;
+using System;
 
 namespace ProjectStructure.Infrastructure.BL
 {
@@ -28,6 +30,13 @@ namespace ProjectStructure.Infrastructure.BL
             return uow.Flights.GetAll() ?? null;
         }
 
+        public Flight GetFlightIncludeTickets(long id, bool isCatched = false)
+        {
+            return uow.Flights.FindByInclude(f => f.Id == id, isCatched, f => f.Tickets)
+                .FirstOrDefault() 
+                ?? null;
+        }
+
         public Flight AddFlight(Flight flight)
         {
             var item = uow.Flights.Insert(flight);
@@ -38,8 +47,9 @@ namespace ProjectStructure.Infrastructure.BL
             return item;
         }
 
-        public Flight ModifyFlight(Flight flight)
+        public Flight ModifyFlight(long id, Flight flight)
         {
+            flight.Id = id;
             var item = uow.Flights.Update(flight);
             if (item == null)
                 return null;
@@ -75,22 +85,27 @@ namespace ProjectStructure.Infrastructure.BL
             return uow.Departures.GetAll().Where(d => d.Flight.Id == id) ?? null;
         }
 
+        public IEnumerable<Departure> GetDeparturesByInclude(Expression<Func<Departure, bool>> predicate, bool isCached = false, params Expression<Func<Departure, object>>[] includeProperties)
+        {
+            return uow.Departures.FindByInclude(predicate, isCached, includeProperties) ?? null;
+        }
         public IEnumerable<Departure> GetAllDeparturesInfo()
         {
             return uow.Departures.GetAll() ?? null;
         }
 
-        public Departure SheduleDeparture(Departure departure)
+        //public Departure SheduleDeparture(Departure departure)
+        //{
+        //    var item = uow.Departures.Insert(departure);
+        //    if (item == null)
+        //        return null;
+        //    else
+        //        uow.SaveChanges();
+        //    return item;
+        //}
+        public Departure UpdateDepartureInfo(long id, Departure departure)
         {
-            var item = uow.Departures.Insert(departure);
-            if (item == null)
-                return null;
-            else
-                uow.SaveChanges();
-            return item;
-        }
-        public Departure UpdateDepartureInfo(Departure departure)
-        {
+            departure.Id = id;
             var item = uow.Departures.Update(departure);
             if (item == null)
                 return null;
@@ -141,8 +156,9 @@ namespace ProjectStructure.Infrastructure.BL
             return item;
         }
 
-        public Ticket ModifyTicket(Ticket ticket)
+        public Ticket ModifyTicket(long id, Ticket ticket)
         {
+            ticket.Id = id;
             var item = uow.Tickets.Update(ticket);
             if (item == null)
                 return null;

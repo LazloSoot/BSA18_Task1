@@ -122,8 +122,9 @@ namespace ProjectStructure.Infrastructure.BL
             return false;
         }
 
-        public Pilot UpdatePilotInfo(Pilot pilot)
+        public Pilot UpdatePilotInfo(long id, Pilot pilot)
         {
+            pilot.Id = id;
             var item = uow.Pilots.Update(pilot);
             if (item == null)
                 return null;
@@ -158,8 +159,9 @@ namespace ProjectStructure.Infrastructure.BL
             return item;
         }
 
-        public Stewardess UpdateStewardessInfo(Stewardess stewardess)
+        public Stewardess UpdateStewardessInfo(long id, Stewardess stewardess)
         {
+            stewardess.Id = id;
             var item = uow.Stewardesses.Update(stewardess);
             if (item == null)
                 return null;

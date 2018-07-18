@@ -85,7 +85,7 @@ namespace ProjectStructure.Tests.IntegrationTests
 
             // delete act
             var addedDepartureDTO = (addResult as CreatedResult).Value as DepartureDTO;
-            var deleteResult = controller.Delete(addedDepartureDTO.Id);
+            var deleteResult = controller.DeleteDeparture(addedDepartureDTO.Id);
             // delete assert
             Assert.IsInstanceOf<OkResult>(deleteResult);
 
