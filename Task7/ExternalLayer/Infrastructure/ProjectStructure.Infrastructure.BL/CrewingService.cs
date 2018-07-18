@@ -43,20 +43,30 @@ namespace ProjectStructure.Infrastructure.BL
 
                     try
                     {
+                       
                         jsonData = await wClient.DownloadStringTaskAsync(uri);
                         if (String.IsNullOrEmpty(jsonData))
                             throw new ArgumentNullException("Failed to load string data!");
 
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-
+                        throw ex;
                     }
                 }
 
-                var crews = await Task.Run(() => {
-                    return JsonConvert.DeserializeObject<IEnumerable<CrewExtendedDTO>>(jsonData) ?? null;
-                }, ct);
+                IEnumerable<CrewExtendedDTO> crews = null;
+                try
+                {
+                    crews = await Task.Run(() => {
+                        return JsonConvert.DeserializeObject<IEnumerable<CrewExtendedDTO>>(jsonData) ?? null;
+                    }, ct);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                
 
                 if (crews == null)
                     throw new ArgumentNullException("Failed to deserialize data!");
@@ -65,11 +75,22 @@ namespace ProjectStructure.Infrastructure.BL
                     crews = crews.Take(count);
 
                 var c = mapper.Map<IEnumerable<Crew>>(crews);
-                await Task.WhenAll
-                    (
-                    uow.Crews.InsertRangeAsync(mapper.Map<IEnumerable<Crew>>(c), ct),
-                    logService.WriteLogAsync(await logService.FormCrewsText(c, ct), ct)
-                    );
+                try
+                {
+                    
+                    await uow.Crews.InsertRangeAsync(mapper.Map<IEnumerable<Crew>>(c), ct);
+                    await uow.SaveChangesAsync(ct);
+                    await logService.WriteLogAsync(await logService.FormCrewsText(c, ct), ct);
+                    //await Task.WhenAll
+                    //(
+                    //,
+                    //,
+                    
+                    //);
+                }catch(Exception ex)
+                {
+                    throw ex;
+                }
             }
             finally
             {
