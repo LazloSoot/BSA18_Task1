@@ -31,6 +31,15 @@ namespace ProjectStructure.WebApi.Controllers
                 : Ok(mapper.Map<IEnumerable<FlightDTO>>(flights));
         }
 
+        // GET: api/flights/task3
+        [HttpGet]
+        public async Task<IActionResult> GetAllFlightsTask()
+        {
+            var flights = await service.GetAllFlightsInfoAsync();
+            return flights == null ? NotFound("No departures found!") as IActionResult
+                : Ok(mapper.Map<IEnumerable<FlightDTO>>(flights));
+        }
+
         // GET: api/flights/:id
         [HttpGet("{id}", Name = "GetFlight")]
         public async Task<IActionResult> GetFlight(long id)
