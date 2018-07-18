@@ -85,7 +85,7 @@ namespace ProjectStructure.Infrastructure.Shared.Helpers
                 }
                 if (startDirectory != null)
                 {
-                    startDirectory = Directory.GetParent(startDirectory).Parent.Parent.FullName;
+                   // startDirectory = Directory.GetParent(startDirectory).FullName;
                 }
                 return startDirectory;
             }
