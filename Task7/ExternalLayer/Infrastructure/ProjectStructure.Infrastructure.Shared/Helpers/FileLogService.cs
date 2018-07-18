@@ -63,7 +63,7 @@ namespace ProjectStructure.Infrastructure.Shared.Helpers
 
                 var fullPath = Path.Combine(path, $"{logFileNameBase}_{DateTimeOffset.UtcNow}.csv");
 
-                await File.AppendAllLinesAsync(Path.Combine(path, "file.txt"), dataLines, ct);
+                await File.AppendAllLinesAsync(path, dataLines, ct);
             }
             finally
             {

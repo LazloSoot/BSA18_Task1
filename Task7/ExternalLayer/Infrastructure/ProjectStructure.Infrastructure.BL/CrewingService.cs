@@ -62,7 +62,7 @@ namespace ProjectStructure.Infrastructure.BL
                     throw new ArgumentNullException("Failed to deserialize data!");
 
                 if (count > 0)
-                    crews.Take(count);
+                    crews = crews.Take(count);
 
                 var c = mapper.Map<IEnumerable<Crew>>(crews);
                 await Task.WhenAll
