@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ProjectStructure.Domain;
@@ -23,28 +24,29 @@ namespace ProjectStructure.WebApi.Controllers
 
         // GET: api/planes
         [HttpGet]
-        public IActionResult GetAllPlanes()
+        public async Task<IActionResult> GetAllPlanes()
         {
-            var planes = service.GetAllPlanesInfo();
+            var planes = await service.GetAllPlanesInfoAsync();
             return planes == null ? NotFound("Hangar is empty!") as IActionResult
                 : Ok(mapper.Map<IEnumerable<PlaneDTO>>(planes));
         }
 
         // GET: api/planes/:id
         [HttpGet("{id}", Name = "GetPlane")]
-        public IActionResult GetPlane(long id)
+        public async Task<IActionResult> GetPlane(long id)
         {
-            var plane = service.GetPlaneInfo(id);
+            var plane = await service.GetPlaneInfoAsync(id);
             return plane == null ? NotFound($"Plane with id = {id} not found!") as IActionResult
                 : Ok(mapper.Map<PlaneDTO>(plane));
         }
         
         // POST: api/planes
         [HttpPost]
-        public IActionResult AddPlane([FromBody]PlaneDTO plane)
+        public async Task<IActionResult> AddPlane([FromBody]PlaneDTO plane)
         {
             if (!ModelState.IsValid)
                 return BadRequest() as IActionResult;
+
             if(!plane.PlaneTypeId.HasValue)
                 return BadRequest("Plane type have to be defined!") as IActionResult;
 
@@ -54,7 +56,7 @@ namespace ProjectStructure.WebApi.Controllers
             //var newPlane = mapper.Map<Plane>(plane);
             //newPlane.Type = targetType;
 
-            var entity = service.AddPlane(mapper.Map<Plane>(plane));
+            var entity = await service.AddPlaneAsync(mapper.Map<Plane>(plane));
             return entity == null ? StatusCode(409) as IActionResult
                 : Created($"{Request?.Scheme}://{Request?.Host}{Request?.Path}{entity.Id}",
                 mapper.Map<PlaneDTO>(entity));
@@ -62,29 +64,29 @@ namespace ProjectStructure.WebApi.Controllers
         
         // PUT: api/planes/:id
         [HttpPut("{id}")]
-        public IActionResult ModifyPlane([FromBody]PlaneDTO plane)
+        public async Task<IActionResult> ModifyPlane(long id, [FromBody]PlaneDTO plane)
         {
             if (!ModelState.IsValid)
                 return BadRequest() as IActionResult;
             if (!plane.PlaneTypeId.HasValue)
                 return BadRequest("Plane type have to be defined!") as IActionResult;
 
-            var targetType = service.GetPlaneTypeInfo(plane.PlaneTypeId.Value);
+            var targetType = await service.GetPlaneTypeInfoAsync(plane.PlaneTypeId.Value);
             if (targetType == null)
                 return NotFound($"Plane type with id = {plane.PlaneTypeId} not found!Plane not added!");
             var mPlane = mapper.Map<Plane>(plane);
             mPlane.Type = targetType;
 
-            var entity = service.ModifyPlaneInfo(mPlane);
+            var entity = await service.ModifyPlaneInfoAsync(id, mPlane);
             return entity == null ? StatusCode(304) as IActionResult 
                 : Ok(mapper.Map<PlaneDTO>(entity));
         }
         
         // DELETE: api/planes/:id
         [HttpDelete("{id}")]
-        public IActionResult DeletePlane(long id)
+        public async Task<IActionResult> DeletePlane(long id)
         {
-            var successful = service.TryDeletePlane(id);
+            var successful = await service.TryDeletePlaneAsync(id);
             return successful ? Ok() : StatusCode(304) as IActionResult;
         }
     }

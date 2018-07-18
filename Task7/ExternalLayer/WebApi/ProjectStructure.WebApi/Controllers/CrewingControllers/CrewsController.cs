@@ -36,13 +36,13 @@ namespace ProjectStructure.WebApi.Controllers
                 : Ok(mapper.Map<IEnumerable<CrewDTO>>(crews));
         }
 
-        // GET: api/crews/outsource/load
-        [HttpGet("outsource/load")]
-        public async Task<IActionResult> LoadOutsourceCrews()
+        // GET: api/crews/outsource/load/:count
+        [HttpGet("outsource/load/{count}")]
+        public async Task<IActionResult> LoadOutsourceCrews(int count = -1)
         {
             try
             {
-                await service.LoadOutSourceCrewsAsync(outsourceCrewsUri, new System.Threading.CancellationToken());
+                await service.LoadOutSourceCrewsAsync(outsourceCrewsUri, count, new System.Threading.CancellationToken());
             }
             catch (Exception)
             {

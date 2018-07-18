@@ -4,6 +4,7 @@ using ProjectStructure.WebApi.Helpers;
 using ProjectStructure.Services.Interfaces;
 using ProjectStructure.Infrastructure.Shared;
 using AutoMapper;
+using System.Threading.Tasks;
 
 namespace ProjectStructure.WebApi.Controllers
 {
@@ -22,27 +23,27 @@ namespace ProjectStructure.WebApi.Controllers
 
         // GET: api/flights/departures
         [HttpGet("departures")]
-        public IActionResult GetAllDepartures()
+        public async Task<IActionResult> GetAllDepartures()
         {
-            var departures = service.GetAllDeparturesInfo();
+            var departures = await service.GetAllDeparturesInfoAsync();
             return departures == null ? NotFound("No departures found!") as IActionResult
                 : Ok(mapper.Map<IEnumerable<DepartureDTO>>(departures));
         }
 
         // GET: api/flights/departures/:id
         [HttpGet("departures/{id}", Name = "GetDeparture")]
-        public IActionResult GetDeparture(long id)
+        public async Task<IActionResult> GetDeparture(long id)
         {
-            var departure = service.GetDepartureInfo(id);
+            var departure = await service.GetDepartureInfoAsync(id);
             return departure == null ? NotFound($"Departure with id = {id} not found!") as IActionResult
                 : Ok(mapper.Map<DepartureDTO>(departure));
         }
 
         // GET: api/flights/:id/departures
         [HttpGet("{id}/departures", Name = "GetFlightDepartures")]
-        public IActionResult GetFlightDepartures(long id)
+        public async Task<IActionResult> GetFlightDepartures(long id)
         {
-            var departures = service.GetFlightDepartureInfo(id);
+            var departures = await service.GetFlightDepartureInfoAsync(id);
             return departures == null ? NotFound($"Flight with id = {id} have not departure yet!") as IActionResult
                 : Ok(mapper.Map<IEnumerable<DepartureDTO>>(departures));
         }

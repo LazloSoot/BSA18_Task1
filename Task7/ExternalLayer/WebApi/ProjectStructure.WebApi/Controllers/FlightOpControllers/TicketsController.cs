@@ -5,6 +5,7 @@ using ProjectStructure.Domain;
 using ProjectStructure.Services.Interfaces;
 using AutoMapper;
 using ProjectStructure.Infrastructure.Shared;
+using System.Threading.Tasks;
 
 namespace ProjectStructure.WebApi.Controllers
 {
@@ -23,39 +24,39 @@ namespace ProjectStructure.WebApi.Controllers
 
         // GET: api/flights/tickets
         [HttpGet("tickets")]
-        public IActionResult GetAllTickets()
+        public async Task<IActionResult> GetAllTickets()
         {
-            var tickets = service.GetAllTicketsInfo();
+            var tickets = await service.GetAllTicketsInfoAsync();
             return tickets == null ? NotFound("No tickets found!") as IActionResult
                 : Ok(mapper.Map<IEnumerable<TicketDTO>>(tickets));
         }
 
         // GET: api/flights/:id/tickets
         [HttpGet(RouteConstants.getById + "/tickets", Name ="GetFlightTickets")]
-        public IActionResult GetFlightTickets(int id)
+        public async Task<IActionResult> GetFlightTickets(int id)
         {
-            var tickets = service.GetFlightTicketsInfo(id);
+            var tickets = await service.GetFlightTicketsInfoAsync(id);
             return tickets == null ? NotFound($"No tickets for flight with id = {id} found!") as IActionResult
                 : Ok(mapper.Map<IEnumerable<TicketDTO>>(tickets));
         }
 
         // GET: api/flights/tickets/:id
         [HttpGet("tickets/{id}", Name = "GetTicket")]
-        public IActionResult GetTicket(int id)
+        public async Task<IActionResult> GetTicket(int id)
         {
-            var ticket = service.GetTicketInfo(id);
+            var ticket = await service.GetTicketInfoAsync(id);
             return ticket == null ? NotFound($"Ticket with id = {id} not found!") as IActionResult
                 : Ok(mapper.Map<TicketDTO>(ticket));
         }
 
         // POST: api/flights/tickets
         [HttpPost("tickets")]
-        public IActionResult AddTicket([FromBody]TicketDTO ticket)
+        public async Task<IActionResult> AddTicket([FromBody]TicketDTO ticket)
         {
             if (!ModelState.IsValid)
                 return BadRequest() as IActionResult;
 
-            var entity = service.AddTicket(mapper.Map<Ticket>(ticket));
+            var entity = await service.AddTicketAsync(mapper.Map<Ticket>(ticket));
             return entity == null ? StatusCode(409) as IActionResult
                 : Created($"{Request.Scheme}://{Request.Host}{Request.Path}{entity.Id}",
                 mapper.Map<TicketDTO>(entity));
@@ -63,21 +64,21 @@ namespace ProjectStructure.WebApi.Controllers
 
         // PUT: api/flights/tickets/:id
         [HttpPut("tickets/{id}")]
-        public IActionResult ModifyTicket([FromBody]TicketDTO ticket)
+        public async Task<IActionResult> ModifyTicket(long id, [FromBody]TicketDTO ticket)
         {
             if (!ModelState.IsValid)
                 return BadRequest() as IActionResult;
 
-            var entity = service.ModifyTicket(mapper.Map<Ticket>(ticket));
+            var entity = await service.ModifyTicketAsync(id, mapper.Map<Ticket>(ticket));
             return entity == null ? StatusCode(304) as IActionResult
                 : Ok(mapper.Map<Ticket>(entity));
         }
 
         // DELETE: api/flights/tickets/:id
         [HttpDelete("tickets/{id}")]
-        public IActionResult DeleteTicket(int id)
+        public async Task<IActionResult> DeleteTicket(int id)
         {
-            var entity = service.TryDeleteTicket(id);
+            var entity = await service.TryDeleteTicketAsync(id);
             return entity ? StatusCode(304) as IActionResult : Ok();
         }
     }

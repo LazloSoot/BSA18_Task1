@@ -4,6 +4,7 @@ using ProjectStructure.Domain;
 using ProjectStructure.Services.Interfaces;
 using AutoMapper;
 using ProjectStructure.Infrastructure.Shared;
+using System.Threading.Tasks;
 
 namespace ProjectStructure.WebApi.Controllers
 {
@@ -22,14 +23,15 @@ namespace ProjectStructure.WebApi.Controllers
         
         // POST: api/airport
         [HttpPost]
-        public IActionResult SheduleDeparture([FromBody]DepartureDTO departure)
+        public async Task<IActionResult> SheduleDeparture([FromBody]DepartureDTO departure)
         {
             if (!ModelState.IsValid)
                 return BadRequest() as IActionResult;
+
             Departure entity;
             try
             {
-                entity = service.SheduleDeparture(mapper.Map<Departure>(departure));
+                entity = await service.SheduleDepartureAsync(mapper.Map<Departure>(departure));
             }
             catch (System.ArgumentException ex)
             {
@@ -43,20 +45,21 @@ namespace ProjectStructure.WebApi.Controllers
         
         // PUT: api/Airport/:id
         [HttpPut("{id}")]
-        public IActionResult ModifyDeparture(long id, [FromBody]DepartureDTO departure)
+        public async Task<IActionResult> ModifyDeparture(long id, [FromBody]DepartureDTO departure)
         {
             if (!ModelState.IsValid)
                 return BadRequest() as IActionResult;
-            var entity = service.ModifyDeparture(id, mapper.Map<Departure>(departure));
+
+            var entity = await service.ModifyDepartureAsync(id, mapper.Map<Departure>(departure));
             return entity == null ? StatusCode(304) as IActionResult
                 : Ok(mapper.Map<DepartureDTO>(entity));
         }
 
         // DELETE: api/airport/:id
         [HttpDelete("{id}")]
-        public IActionResult DeleteDeparture(long id)
+        public async Task<IActionResult> DeleteDeparture(long id)
         {
-            var success = service.DeleteDeparture(id);
+            var success = await service.DeleteDepartureAsync(id);
             return success ? Ok() : StatusCode(304) as IActionResult;
         }
     }
