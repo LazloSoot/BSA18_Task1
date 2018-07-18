@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ProjectStructure.Domain;
@@ -23,30 +24,30 @@ namespace ProjectStructure.WebApi.Controllers
 
         // GET: api/crews/pilots
         [HttpGet("pilots")]
-        public IActionResult GetAllPilots()
+        public async Task<IActionResult> GetAllPilots()
         {
-            var pilots = service.GetAllPilotsInfo();
+            var pilots = await service.GetAllPilotsInfoAsync();
             return pilots == null ? NotFound("No pilots found!") as IActionResult
                 : Ok(mapper.Map<IEnumerable<PilotDTO>>(pilots));
         }
 
         // GET: api/crews/pilots/:id
         [HttpGet("pilots/{id}", Name = "GetPilot")]
-        public IActionResult GetPilot(long id)
+        public async Task<IActionResult> GetPilot(long id)
         {
-            var pilot = service.GetPilotInfo(id);
+            var pilot = await service.GetPilotInfoAsync(id);
             return pilot == null ? NotFound($"Pilot with id = {id} not found!") as IActionResult
                 : Ok(mapper.Map<PilotDTO>(pilot));
         }
 
         // POST: api/crews/pilots
         [HttpPost("pilots")]
-        public IActionResult AddPilot([FromBody]PilotDTO pilot)
+        public async Task<IActionResult> AddPilot([FromBody]PilotDTO pilot)
         {
             if (!ModelState.IsValid)
                 return BadRequest() as IActionResult;
 
-            var entity = service.HirePilot(mapper.Map<Pilot>(pilot));
+            var entity = await service.HirePilotAsync(mapper.Map<Pilot>(pilot));
             return entity == null ? StatusCode(409) as IActionResult
                 : Created($"{Request?.Scheme}://{Request?.Host}{Request?.Path}{entity.Id}",
                 mapper.Map<PilotDTO>(entity));
@@ -54,21 +55,21 @@ namespace ProjectStructure.WebApi.Controllers
 
         // PUT: api/crews/pilots/:id
         [HttpPut("pilots/{id}")]
-        public IActionResult ModifyPilot([FromBody]PilotDTO pilot)
+        public async Task<IActionResult> ModifyPilot(long id, [FromBody]PilotDTO pilot)
         {
             if (!ModelState.IsValid)
                 return BadRequest() as IActionResult;
 
-            var entity = service.UpdatePilotInfo(mapper.Map<Pilot>(pilot));
+            var entity = await service.UpdatePilotInfoAsync(id, mapper.Map<Pilot>(pilot));
             return entity == null ? StatusCode(304) as IActionResult
                 : Ok(mapper.Map<PilotDTO>(entity));
         }
 
         // DELETE: api/crews/pilots/5
         [HttpDelete("pilots/{id}")]
-        public IActionResult DeletePilot(long id)
+        public async Task<IActionResult> DeletePilot(long id)
         {
-            var success = service.TryDismissPilot(id);
+            var success = await service.TryDismissPilotAsync(id);
             return success ? Ok() : StatusCode(304) as IActionResult;
         }
     }
