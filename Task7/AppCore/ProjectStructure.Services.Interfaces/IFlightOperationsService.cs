@@ -72,13 +72,13 @@ namespace ProjectStructure.Services.Interfaces
 
         Task<IEnumerable<Ticket>> GetAllTicketsInfoAsync(CancellationToken ct = default(CancellationToken));
 
-        IEnumerable<Ticket> GetFlightTicketsInfo(int id);
+        IEnumerable<Ticket> GetFlightTicketsInfo(long id);
 
-        Task<IEnumerable<Ticket>> GetFlightTicketsInfoAsync(int id, CancellationToken ct = default(CancellationToken));
+        Task<IEnumerable<Ticket>> GetFlightTicketsInfoAsync(long id, CancellationToken ct = default(CancellationToken));
 
-        Ticket GetTicketInfo(int id);
+        Ticket GetTicketInfo(long id);
 
-        Task<Ticket> GetTicketInfoAsync(int id, CancellationToken ct = default(CancellationToken));
+        Task<Ticket> GetTicketInfoAsync(long id, CancellationToken ct = default(CancellationToken));
 
         Ticket AddTicket(Ticket ticket);
 
@@ -88,9 +88,9 @@ namespace ProjectStructure.Services.Interfaces
 
         Task<Ticket> ModifyTicketAsync(long id, Ticket ticket, CancellationToken ct = default(CancellationToken));
 
-        bool TryDeleteTicket(int id);
+        bool TryDeleteTicket(long id);
 
-        Task<bool> TryDeleteTicketAsync(int id, CancellationToken ct = default(CancellationToken));
+        Task<bool> TryDeleteTicketAsync(long id, CancellationToken ct = default(CancellationToken));
 
         #endregion
     }

@@ -43,7 +43,7 @@ namespace ProjectStructure.Services.Interfaces
 
         bool TryDeletePlane(long id);
 
-        Task<bool> TryDeletePlaneAsync(long id);
+        Task<bool> TryDeletePlaneAsync(long id, CancellationToken ct = default(CancellationToken));
 
         #endregion
 
