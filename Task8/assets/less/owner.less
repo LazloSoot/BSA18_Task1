@@ -1,0 +1,78 @@
+.owner {
+    margin-top: 50px;
+    padding: 25px 55px;
+    background: #E5E2DF;
+    box-shadow: inset 11px 31px 33px -19px rgba(31,27,31,1);
+}
+
+.owner__photo {
+    text-align: center;
+    margin-bottom: 25px;
+    
+    img {
+        border-radius: 50%;
+        overflow: hidden;
+    }
+}
+
+.owner__info {
+   // padding: 15px 25px;
+}
+
+.owner__social {
+    padding: 25px 0;
+}
+
+.owner__subscribe {
+    padding: 20px;
+    background-color: #f1f1f1;
+}
+
+.subscribe-form {
+    margin-bottom: 15px;
+    border: 4px solid #f1f1f1;
+    
+    input {
+        display: inline-block;
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 12px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+    
+    .subscribe-form__btn {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        
+        &:hover {
+            background-color: #339900;
+        }
+        
+        &:active {
+            background-color: #295F33;
+        }
+    }
+}
+
+.tags {
+    padding: 15px;
+    color: #4C8CF5;
+    font-weight: 500;
+    
+    &:hover {
+        color: red; //#6CA9E6
+    }
+}
+
+@media @desktop-width {
+    .owner {
+        min-width: 250px;
+        font-size: 12px;
+        padding: 10px 16px;
+        box-sizing: border-box;
+        margin: 0;
+        box-shadow: inset 11px 3px 13px -9px rgba(31,27,31,1);
+    }
+}
