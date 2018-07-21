@@ -1,0 +1,129 @@
+.posts{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+    
+    &>* {
+        flex: 1 1 30%;
+        margin: 10px;
+      }
+}
+
+.post{
+    min-width: 260px;
+   // outline: 1px solid red;
+
+    &__content {
+        padding: 0 15px;
+        padding-bottom: 35px;
+        
+        h2 {
+            text-align: center;
+        }
+    }
+    
+}
+
+.post__photo {
+    height: 280px;
+   // min-width: 280px;
+    width: 100%;
+    
+    
+        img {
+            width: 100%;
+            height: 100%;
+    }
+}
+
+
+.post__link {
+     float: right;
+     font-weight: 600;
+     padding: 0;
+     margin: 0;
+     color: #0078D7;
+     transition: all 0.6s ease-out;
+    
+    &:hover {
+        text-decoration: none;
+        font-size: 15px;
+        opacity: 0.8;
+    }
+    
+    &:active {
+        color: #1939B2;
+    }
+}
+
+.post__info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+   // border-radius: 0 0 10% 10%;
+    background: url("../img/texture-dark.png") repeat #222222;
+    padding: 5px 15px;
+    color: #fff;
+}
+
+.post__rating {
+    font-size: 0;
+    display: block;
+    padding: 0;
+    margin: 0;
+    width: auto;
+    height: auto;
+  //  outline: 1px solid red;
+}
+
+.icon-like,
+.icon-speech {
+    display: inline-block;
+    padding: 5px;
+    color: #F9B500;
+    font-size: 14px;
+}
+
+.post__comments-count,
+.post__like-count{
+    font-size: 0;
+    
+    &--value {
+        display: inline-block;
+        font-size: 14px;
+     //   outline: 1px solid red;
+    }
+}
+
+
+@media @tablet-width {
+    .posts {
+    justify-content: space-between;
+    }
+}
+
+@media @desktop-width {
+    .posts {
+        justify-content: space-between;
+    }
+    
+    .post__photo {
+    transition: all 0.5s ease-out;
+    overflow: hidden;
+    
+        img {
+            transition: all 0.8s ease-out;
+    }
+    
+    &:hover img {
+        opacity: 0.8;
+        transform: scale(1.2);
+    }
+}
+}

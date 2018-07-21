@@ -5,3 +5,4 @@
 2. ASP.NET MVC
 3. REST API (.NET)
 4. Project Structure
+5. ORM (Entity Framework)
