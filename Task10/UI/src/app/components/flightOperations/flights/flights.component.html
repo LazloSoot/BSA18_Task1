@@ -1,0 +1,68 @@
+<h1>Список рейсов</h1>
+<input type="button" value="Добавить рейс" class="btn btn-default" (click)="add()" />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>Пункт отправления</td>
+            <td>Пункт назначения</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let f of flights">
+                <a [routerLink]="[f.id]" class="nav-link">
+                    <td>{{f?.id}}</td>
+                    <td>{{f?.DeparturePoint}}</td>
+                    <td>{{f?.Destination}}</td>
+                </a>
+                    <td>
+                        <button class="btn btn-sm btn-primary" (click)="editFlight(f)">Изменить</button>
+                        <button class="btn btn-sm btn-danger" (click)="delete(f)">Удалить</button>
+                    </td>
+        </tr>
+    </tbody>
+</table>
+ 
+<!--шаблон для редактирования-->
+<ng-template #edit>
+  <!--  <td>
+        <input type="text" [(ngModel)]="product.name" class="form-control" />
+    </td>
+    <td>
+        <input type="text" [(ngModel)]="product.company" class="form-control" />
+    </td>
+    <td>
+        <input type="text" [(ngModel)]="product.price" class="form-control" />
+    </td>  !-->
+    <div>EDIT TEMPLATE</div>
+    <td>
+        <input type="button" value="Сохранить" (click)="save()" class="btn btn-sm btn-success" />
+        <input type="button" value="Отмена" (click)="cancel()" class="btn btn-sm btn-warning" />
+    </td>
+</ng-template>
+ 
+<!--шаблон для добавления-->
+<ng-template #create>
+  <div>CREATE TEMPLATE</div>
+<!--    <div class="form-group">
+        <label>Модель</label>
+        <input type="text" [(ngModel)]="product.name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Производитель</label>
+        <input type="text" [(ngModel)]="product.company" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Цена</label>
+        <input type="text" [(ngModel)]="product.price" class="form-control" />
+    </div>  !-->
+    <div>
+        <input type="button" value="Сохранить" (click)="save()" class="btn btn-success" />
+        <input type="button" value="Отмена" (click)="cancel()" class="btn btn-warning" />
+    </div>
+</ng-template>
+
+<a [routerLink]="['departures']" class="nav-link">Все вылеты</a>
+<a [routerLink]="['tickets']" class="nav-link">Все билеты</a>
+<router-outlet></router-outlet>

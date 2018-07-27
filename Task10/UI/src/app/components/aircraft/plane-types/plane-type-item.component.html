@@ -1,0 +1,23 @@
+<ng-template [ngIf]="details && planeType">
+    <h2>Тип №{{planeType?.id}}</h2>
+    <p><b>Модель:</b> {{planeType?.Model}}</p>
+    <p><b>Пассажирские места:</b> {{planeType?.Capacity}}</p>
+    <p><b>Грузоподьёмность:</b> {{planeType?.CargoCapacity}}</p>
+<div>
+    <input type="button" value="Удалить" (click)="delete()" class="btn btn-sm btn-danger" />
+</div>
+</ng-template>
+
+<ng-template [ngIf]="details==false">
+  <div>
+    <p><b>Модель:</b> <input type="text" [(ngModel)]="planeType.Model" placeholder="model" class="form-control" /></p>
+    <p><b>Пассажирские места:</b> <input type="text" [(ngModel)]="planeType.Capacity" placeholder="capacity" class="form-control" /></p>
+    <p><b>Грузоподьёмность:</b> <input type="text" [(ngModel)]="planeType.CargoCapacity" placeholder="cargo capacity" class="form-control" /></p>
+  </div>
+  <div>
+    <input type="button" value="Сохранить" (click)="save()" class="btn btn-sm btn-success" />
+    <input type="button" value="Отмена" (click)="cancel()" class="btn btn-sm btn-warning" />
+    <input type="button" value="Удалить" (click)="delete()" class="btn btn-sm btn-danger" />
+    <input type="button" value="Закрыть" (click)="close()" class="btn btn-sm btn-danger" />
+  </div>
+</ng-template>

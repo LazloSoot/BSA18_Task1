@@ -1,0 +1,10 @@
+<div *ngIf="loaded">
+    <h2>Вылет №{{departure?.id}}</h2>
+    <div>
+        <p><b>Время вылета:</b> {{departure?.DepartureTime}}</p>
+        <p><b>Id рейса:</b> {{departure?.FlightId}}</p>
+        <p><b>Id экипажа:</b> {{departure?.CrewId}}</p>
+        <p><b>Id самолёта:</b> {{departure?.PlaneId}}</p>
+        <p><a routerLink="/" class="nav-link">Назад</a></p>
+    </div>
+  </div>

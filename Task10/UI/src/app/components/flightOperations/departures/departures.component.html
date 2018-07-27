@@ -1,0 +1,24 @@
+<h1>Список вылетов</h1>
+<input type="button" value="Добавить вылет" class="btn btn-default" (click)="add()" />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Id вылета</td>
+            <td>Время вылета</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let d of departures">
+                <a [routerLink]="[d.id]" class="nav-link">
+                  <td>{{d.id}}</td>
+                  <td>{{d.DepartureTime}}</td>
+                </a>
+
+                <td>
+                    <button class="btn btn-sm btn-primary" (click)="editCrew(d)">Изменить</button>
+                    <button class="btn btn-sm btn-danger" (click)="delete(d)">Удалить</button>
+                </td>
+        </tr>
+    </tbody>
+</table>

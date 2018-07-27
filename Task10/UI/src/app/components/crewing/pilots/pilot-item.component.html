@@ -1,0 +1,28 @@
+<ng-template [ngIf]="details && pilot">
+    <h2>Пилот №{{pilot?.id}}</h2>
+    <div>
+        <p><b>Имя:</b> {{pilot?.Name}}</p>
+        <p><b>Фамилия:</b> {{pilot?.SurName}}</p>
+        <p><b>Дата рождения:</b> {{pilot?.Birth}}</p>
+        <p><b>Опыт:</b> {{pilot?.ExperienceYears}} лет</p>
+        <p><a routerLink="/" class="nav-link">Назад</a></p>
+    </div>
+    <div>
+        <input type="button" value="Удалить" (click)="delete()" class="btn btn-sm btn-danger" />
+    </div>
+</ng-template>
+
+<ng-template [ngIf]="details==false">
+  <div>
+      <p><b>Имя:</b><input type="text" [(ngModel)]="pilot.Name" placeholder="name" class="form-control" /></p>
+      <p><b>Фамилия:</b><input type="text" [(ngModel)]="pilot.SurName" placeholder="surname" class="form-control" /></p>
+      <p><b>Дата рождения:</b> <input type="text" [(ngModel)]="pilot.Birth" placeholder="birth date" class="form-control" /></p>
+      <p><b>Опыт:</b> <input type="text" [(ngModel)]="pilot.ExperienceYears" placeholder="experience" class="form-control" /></p>
+  </div>
+  <div>
+    <input type="button" value="Сохранить" (click)="save()" class="btn btn-sm btn-success" />
+    <input type="button" value="Отмена" (click)="cancel()" class="btn btn-sm btn-warning" />
+    <input type="button" value="Удалить" (click)="delete()" class="btn btn-sm btn-danger" />
+    <input type="button" value="Закрыть" (click)="close()" class="btn btn-sm btn-danger" />
+  </div>
+</ng-template>

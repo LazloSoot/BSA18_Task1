@@ -1,0 +1,29 @@
+    <ng-template [ngIf]="details && plane">
+                <h2>Самолёт №{{plane?.id}}</h2>
+                <p><b>Название:</b>     {{plane?.Name}}</p>
+                <p><b>Дата выпуска:</b> {{plane?.Release}}</p>
+                <p><b>Срок службы:</b>  {{plane?.LifeTime}}</p>
+                <p><b>D-проверка:</b>   {{plane?.HeavyMaintenceDate}}</p>
+                <p><b>Часы налёта:</b>  {{plane?.FlightHours}}</p>
+                <p><b>Тип самолёта:</b> {{plane?.PlaneTypeId}}</p>
+        <div>
+                <input type="button" value="Удалить" (click)="delete()" class="btn btn-sm btn-danger" />
+        </div>
+    </ng-template>
+
+    <ng-template [ngIf]="details==false">
+        <div>
+            <p><b>Название:</b> <input type="text" [(ngModel)]="plane.Name" placeholder="name" class="form-control" /></p>
+            <p><b>Дата выпуска:</b> <input type="text" [(ngModel)]="plane.Release" placeholder="release date" class="form-control" /></p>
+            <p><b>Срок службы:</b> <input type="text" [(ngModel)]="plane.LifeTime" placeholder="lifetime" class="form-control" /></p>
+            <p><b>D-проверка:</b> <input type="text" [(ngModel)]="plane.HeavyMaintenceDate" placeholder="heavy maintance date" class="form-control" /></p>
+            <p><b>Часы налёта:</b> <input type="text" [(ngModel)]="plane.FlightHours" placeholder="Flight hours" class="form-control" /></p>
+            <p><b>Тип самолёта:</b> <input type="text" [(ngModel)]="plane.PlaneTypeId" placeholder="plane type id" class="form-control" /></p>
+        </div>
+        <div>
+            <input type="button" value="Сохранить" (click)="save()" class="btn btn-sm btn-success" />
+            <input type="button" value="Отмена" (click)="cancel()" class="btn btn-sm btn-warning" />
+            <input type="button" value="Удалить" (click)="delete()" class="btn btn-sm btn-danger" />
+            <input type="button" value="Закрыть" (click)="close()" class="btn btn-sm btn-danger" />
+        </div>
+    </ng-template>

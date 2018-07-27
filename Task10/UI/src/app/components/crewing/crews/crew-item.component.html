@@ -1,0 +1,33 @@
+<ng-template [ngIf]="details && crew">
+        <h2>Экипаж №{{crew?.id}}</h2>
+        <p><b>Id пилота:</b>    {{crew?.PilotId}}</p>
+        <table class="table table-striped">
+                <caption>Стюардессы:</caption>
+                <thead>
+                    <tr>
+                        <td>Id стюардессы</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let s of crew?.StewardessesIds">
+                        <td>{{s}}</td>
+                    </tr>
+                </tbody>
+            </table>
+<div>
+        <input type="button" value="Удалить" (click)="delete()" class="btn btn-sm btn-danger" />
+</div>
+</ng-template>
+
+<ng-template [ngIf]="details==false">
+<div>
+    <p><b>Id пилота:</b> <input type="text" [(ngModel)]="crew.PilotId" placeholder="pilot id" class="form-control" /></p>
+   
+</div>
+<div>
+    <input type="button" value="Сохранить" (click)="save()" class="btn btn-sm btn-success" />
+    <input type="button" value="Отмена" (click)="cancel()" class="btn btn-sm btn-warning" />
+    <input type="button" value="Удалить" (click)="delete()" class="btn btn-sm btn-danger" />
+    <input type="button" value="Закрыть" (click)="close()" class="btn btn-sm btn-danger" />
+</div>
+</ng-template>
