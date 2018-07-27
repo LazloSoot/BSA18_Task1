@@ -10,7 +10,10 @@ import { Departure } from '../../../models/departure';
 })
 export class DeparturesComponent implements OnInit {
 
-  departures: Departure[];
+  departure: Departure[];
+
+  selectedDeparture: Departure;
+  details: boolean = true;
 
   constructor(private flightOpService: FlightsOperationsService) { }
 
@@ -20,12 +23,29 @@ export class DeparturesComponent implements OnInit {
 
   loadDepartures(){
     this.flightOpService.getDepartures()
-        .subscribe((data: Departure[]) => this.departures = data);
+        .subscribe((data: Departure[]) => this.departure = data);
   }
 
   delete(d: Departure){
     this.flightOpService.deleteDeparture(d.id)
         .subscribe(data => this.loadDepartures());
+  }
+
+  editDeparture(departure: Departure){
+    debugger;
+    this.details = false;
+    this.selectedDeparture = departure;
+  }
+
+  onSelect(departure: Departure){
+    debugger;
+    this.details = true;
+    this.selectedDeparture = departure;
+  }
+
+  add(){
+    this.details = false;
+    this.selectedDeparture = null;
   }
 
 }

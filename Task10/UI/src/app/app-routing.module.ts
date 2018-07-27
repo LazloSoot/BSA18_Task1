@@ -19,11 +19,11 @@ import { PlaneTypesComponent } from './components/aircraft/plane-types/plane-typ
 import { PlaneTypeItemComponent } from './components/aircraft/plane-types/plane-type-item.component';
 
 import { FlightsComponent } from './components/flightOperations/flights/flights.component';
-import { FlightComponent } from './components/flightOperations/flight/flight.component';
+import { FlightItemComponent } from './components/flightOperations/flights/flight-item.component';
 import { DeparturesComponent } from './components/flightOperations/departures/departures.component';
-import { DepartureComponent } from './components/flightOperations/departure/departure.component';
+import { DepartureItemComponent } from './components/flightOperations/departures/departure-item.component';
 import { TicketsComponent } from './components/flightOperations/tickets/tickets.component';
-import { TicketComponent } from './components/flightOperations/ticket/ticket.component';
+import { TicketItemComponent } from './components/flightOperations/tickets/ticket-item.component';
 
 const routes: Routes = [
   {
@@ -75,7 +75,7 @@ const routes: Routes = [
       {
         path: 'departures/:id',
         pathMatch: 'full',
-        component: DepartureComponent
+        component: DepartureItemComponent
       },
       {
         path: 'tickets',
@@ -85,11 +85,11 @@ const routes: Routes = [
       {
         path: 'tickets/:id',
         pathMatch: 'full',
-        component: TicketComponent
+        component: TicketItemComponent
       },
       {
         path: ':id',
-        component: FlightComponent
+        component: FlightItemComponent
       }]
   },
   {

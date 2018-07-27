@@ -1,5 +1,4 @@
-<h1>Список билетов</h1>
-<input type="button" value="Добавить билет" class="btn btn-default" (click)="add()" />
+<h1>Список всех билетов</h1>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -8,15 +7,18 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let t of ticket">
-                <a [routerLink]="[t.id]" class="nav-link">
+        <tr *ngFor="let t of tickets">
+            <div [class.selected]="t === selectedTicket"
+            (click)="onSelect(t)">
                   <td>{{t.id}}</td>
-                </a>
-
-                <td>
-                    <button class="btn btn-sm btn-primary" (click)="editTicket(t)">Изменить</button>
-                    <button class="btn btn-sm btn-danger" (click)="delete(t)">Удалить</button>
-                </td>
+            </div>
+                  <td>
+                        <button class="btn btn-sm btn-primary" (click)="editTicket(t)">Изменить</button>
+                        <button class="btn btn-sm btn-danger" (click)="delete(t)">Удалить</button>
+                  </td>
         </tr>
     </tbody>
 </table>
+<input type="button" value="Добавить билет" class="btn btn-default" (click)="add()" />
+      
+<app-ticket-item [ticket]="selectedTicket" [details]="details"></app-ticket-item>

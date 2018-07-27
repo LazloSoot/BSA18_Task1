@@ -1,8 +1,8 @@
     <ng-template [ngIf]="details && plane">
                 <h2>Самолёт №{{plane?.id}}</h2>
                 <p><b>Название:</b>     {{plane?.Name}}</p>
-                <p><b>Дата выпуска:</b> {{plane?.Release}}</p>
-                <p><b>Срок службы:</b>  {{plane?.LifeTime}}</p>
+                <p><b>Дата выпуска:</b> {{plane?.Release | date}}</p>
+                <p><b>Срок службы:</b>  {{plane?.LifeTime | date}}</p>
                 <p><b>D-проверка:</b>   {{plane?.HeavyMaintenceDate}}</p>
                 <p><b>Часы налёта:</b>  {{plane?.FlightHours}}</p>
                 <p><b>Тип самолёта:</b> {{plane?.PlaneTypeId}}</p>

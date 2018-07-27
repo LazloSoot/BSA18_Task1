@@ -1,0 +1,21 @@
+<ng-template [ngIf]="details && ticket">
+    <h2>Билет №{{ticket?.id}}</h2>
+    <p><b>Цена:</b>     {{ticket?.Price}}</p>
+    <p><b>Место:</b> {{ticket?.Seat}}</p>
+<div>
+    <input type="button" value="Удалить" (click)="delete()" class="btn btn-sm btn-danger" />
+</div>
+</ng-template>
+
+<ng-template [ngIf]="details==false">
+<div>
+<p><b>Цена:</b> <input type="text" [(ngModel)]="ticket.Price" placeholder="price" class="form-control" /></p>
+<p><b>Место:</b> <input type="text" [(ngModel)]="ticket.Seat" placeholder="seat" class="form-control" /></p>
+</div>
+<div>
+<input type="button" value="Сохранить" (click)="save()" class="btn btn-sm btn-success" />
+<input type="button" value="Отмена" (click)="cancel()" class="btn btn-sm btn-warning" />
+<input type="button" value="Удалить" (click)="delete()" class="btn btn-sm btn-danger" />
+<input type="button" value="Закрыть" (click)="close()" class="btn btn-sm btn-danger" />
+</div>
+</ng-template>

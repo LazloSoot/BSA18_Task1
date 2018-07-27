@@ -8,9 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { PilotItemComponent } from './components/crewing/pilots/pilot-item.component';
 import { StewardessItemComponent } from './components/crewing/stewardesses/stewardess-item.component';
-import { FlightComponent } from './components/flightOperations/flight/flight.component';
-import { TicketComponent } from './components/flightOperations/ticket/ticket.component';
-import { DepartureComponent } from './components/flightOperations/departure/departure.component';
+import { FlightItemComponent } from './components/flightOperations/flights/flight-item.component';
 import { AirportComponent } from './components/airport/airport.component';
 import { PilotsComponent } from './components/crewing/pilots/pilots.component';
 import { StewardessesComponent } from './components/crewing/stewardesses/stewardesses.component';
@@ -25,15 +23,14 @@ import { CrewListComponent } from './components/crewing/crews/crew-list.componen
 import { AircraftComponent } from './components/aircraft/aircraft.component';
 import { PlaneItemComponent } from './components/aircraft/planes/plane-item.component';
 import { PlaneTypeItemComponent } from './components/aircraft/plane-types/plane-type-item.component';
+import { TicketItemComponent } from './components/flightOperations/tickets/ticket-item.component';
+import { DepartureItemComponent } from './components/flightOperations/departures/departure-item.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     AirportComponent,
-    FlightComponent,
-    TicketComponent,
-    DepartureComponent,
     PilotsComponent,
     StewardessesComponent,
     PlanesComponent,
@@ -48,7 +45,10 @@ import { PlaneTypeItemComponent } from './components/aircraft/plane-types/plane-
     PlaneItemComponent,
     PlaneTypeItemComponent,
     StewardessItemComponent,
-    PilotItemComponent
+    PilotItemComponent,
+    TicketItemComponent,
+    FlightItemComponent,
+    DepartureItemComponent
   ],
   imports: [
     BrowserModule,

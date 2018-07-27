@@ -12,20 +12,39 @@ export class FlightsComponent implements OnInit {
 
   flights: Flight[];
 
-  constructor(private flightOpService: FlightsOperationsService) { }
+  selectedFlight: Flight;
+  details: boolean = true;
+
+  constructor(private flihtOpService: FlightsOperationsService) { }
 
   ngOnInit() {
     this.loadFlights();
   }
 
   loadFlights(){
-    this.flightOpService.getFlights()
+    this.flihtOpService.getFlights()
         .subscribe((data: Flight[]) => this.flights = data);
   }
 
   delete(f: Flight){
-    this.flightOpService.deleteFlight(f.id)
+    this.flihtOpService.deleteFlight(f.id)
         .subscribe(data => this.loadFlights());
   }
-  
+
+  editFlight(flight: Flight){
+    debugger;
+    this.details = false;
+    this.selectedFlight = flight;
+  }
+
+  onSelect(flight: Flight){
+    debugger;
+    this.details = true;
+    this.selectedFlight = flight;
+  }
+
+  add(){
+    this.details = false;
+    this.selectedFlight = null;
+  }
 }

@@ -1,0 +1,25 @@
+<ng-template [ngIf]="details && flight">
+    <h2>Рейс №{{flight?.id}}</h2>
+    <p><b>Пункт отправления:</b> {{flight?.DeparturePoint}}</p>
+    <p><b>Пункт назначения:</b> {{flight?.Destination}}</p>
+    <p><b>Время вылета:</b> {{flight?.DepartureTime | date:'medium'}}</p>
+    <p><b>Время прибытия:</b> {{flight?.ArrivalTime | date:'medium' }}</p>
+<div>
+    <input type="button" value="Удалить" (click)="delete()" class="btn btn-sm btn-danger" />
+</div>
+</ng-template>
+
+<ng-template [ngIf]="details==false">
+<div>
+<p><b>Пункт отправления:</b> <input type="text" [(ngModel)]="flight.DeparturePoint" placeholder="departure" class="form-control" /></p>
+<p><b>Пункт назначения:</b> <input type="text" [(ngModel)]="flight.Destination" placeholder="destination" class="form-control" /></p>
+<p><b>Время вылета:</b> <input type="text" [(ngModel)]="flight.DepartureTime" placeholder="departure time" class="form-control" /></p>
+<p><b>Времы прибытия:</b> <input type="text" [(ngModel)]="flight.ArrivalTime" placeholder="arrival time" class="form-control" /></p>
+</div>
+<div>
+<input type="button" value="Сохранить" (click)="save()" class="btn btn-sm btn-success" />
+<input type="button" value="Отмена" (click)="cancel()" class="btn btn-sm btn-warning" />
+<input type="button" value="Удалить" (click)="delete()" class="btn btn-sm btn-danger" />
+<input type="button" value="Закрыть" (click)="close()" class="btn btn-sm btn-danger" />
+</div>
+</ng-template>
