@@ -112,6 +112,7 @@
     <Compile Include="Models\Interfaces\ICrewingService.cs" />
     <Compile Include="Models\Interfaces\IFlightOperationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValueConverters\DateTimeToDateTimeOffsetConverter.cs" />
     <Compile Include="ValueConverters\DateTimeToStringConverter.cs" />
     <Compile Include="ValueConverters\StewardessIdsToString.cs" />
     <Compile Include="ViewModelLocator.cs" />

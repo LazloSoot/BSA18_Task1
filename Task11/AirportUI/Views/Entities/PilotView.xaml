@@ -10,7 +10,7 @@
     DataContext="{Binding PilotVMInstance, Source={StaticResource Locator}}">
 
     <Page.Resources>
-        <local1:DateTimeToStringConverter x:Key="myDateConverter" />
+        <local1:DateTimeToDateTimeOffsetConverter x:Key="myDateConverter" />
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -70,13 +70,16 @@
             Grid.Column="1"
             Grid.Row="4"/>
 
+        
         <TextBlock Text="Birth Date:"
             Style="{StaticResource DetailsHint}"
             Grid.Column="0"
             Grid.Row="5"/>
-        <TextBox Text="{Binding BirthDate, Mode=TwoWay, Converter={StaticResource myDateConverter}}"
+        <CalendarDatePicker
             Grid.Column="1"
-            Grid.Row="5"/>
+            Grid.Row="5"
+            Date="{Binding BirthDate, Mode=TwoWay,Converter={StaticResource myDateConverter}}"
+            />
 
         <TextBlock Text="Experience years:"
             Style="{StaticResource DetailsHint}"

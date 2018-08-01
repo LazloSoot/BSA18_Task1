@@ -9,9 +9,9 @@
     mc:Ignorable="d"
     DataContext="{Binding StewardessVMInstance, Source={StaticResource Locator}}">
     <Page.Resources>
-        <local1:DateTimeToStringConverter x:Key="myDateConverter" />
+        <local1:DateTimeToDateTimeOffsetConverter x:Key="myDateConverter" />
     </Page.Resources>
-    
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -72,9 +72,11 @@
             Style="{StaticResource DetailsHint}"
             Grid.Column="0"
             Grid.Row="5"/>
-        <TextBox Text="{Binding BirthDate, Mode=TwoWay, Converter={StaticResource myDateConverter}}"
+        <CalendarDatePicker
             Grid.Column="1"
-            Grid.Row="5"/>
+            Grid.Row="5"
+            Date="{Binding BirthDate, Mode=TwoWay,Converter={StaticResource myDateConverter}}"
+            />
 
         <Button Content = "Save" 
             Command="{Binding SaveCommand}"
