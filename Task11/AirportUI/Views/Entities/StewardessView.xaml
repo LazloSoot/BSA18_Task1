@@ -1,0 +1,95 @@
+﻿<Page
+    x:Class="AirportUI.Views.Entities.StewardessView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AirportUI.Views.Entities"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local1="using:AirportUI.ValueConverters"
+    mc:Ignorable="d"
+    DataContext="{Binding StewardessVMInstance, Source={StaticResource Locator}}">
+    <Page.Resources>
+        <local1:DateTimeToStringConverter x:Key="myDateConverter" />
+    </Page.Resources>
+    
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="55"/>
+            <RowDefinition Height="55"/>
+            <RowDefinition Height="55"/>
+            <RowDefinition Height="55"/>
+            <RowDefinition Height="55"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="170"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Rectangle Fill="{StaticResource IndigoBrush}" Grid.Row="0" Grid.ColumnSpan="2"/>
+        <TextBlock Text="{Binding Title}"
+            Margin="18"
+            Style="{StaticResource PageTitle}"
+            TextAlignment="Center"
+            Grid.Row="0"
+            Grid.ColumnSpan="2"/>
+        <Button Content="&#xE72B;"
+            FontFamily="Segoe MDL2 Assets"
+            Command="{Binding GoBackCommand}"
+            FontSize="20"
+            Foreground="White"
+            Margin="18"
+            Grid.Row="0"
+            Grid.Column="0"/>
+
+        <TextBlock Text="Id:"
+            Style="{StaticResource DetailsHint}"
+            Grid.Column="0"
+            Grid.Row="2"/>
+        <TextBlock Text="{Binding Id}"
+            Style="{StaticResource DetailsText}"
+            Grid.Column="1"
+            Grid.Row="2"/>
+
+        <TextBlock Text="Name:"
+            Style="{StaticResource DetailsHint}"
+            Grid.Column="0"
+            Grid.Row="3"/>
+        <TextBox Text="{Binding Name, Mode=TwoWay}"
+            Grid.Column="1"
+            Grid.Row="3"/>
+
+        <TextBlock Text="Last Name:"
+            Style="{StaticResource DetailsHint}"
+            Grid.Column="0"
+            Grid.Row="4"/>
+        <TextBox Text="{Binding SurName, Mode=TwoWay}"
+            Grid.Column="1"
+            Grid.Row="4"/>
+
+        <TextBlock Text="Birth Date:"
+            Style="{StaticResource DetailsHint}"
+            Grid.Column="0"
+            Grid.Row="5"/>
+        <TextBox Text="{Binding BirthDate, Mode=TwoWay, Converter={StaticResource myDateConverter}}"
+            Grid.Column="1"
+            Grid.Row="5"/>
+
+        <Button Content = "Save" 
+            Command="{Binding SaveCommand}"
+            FontSize="20"
+            Margin="18 0 0 0"
+            Grid.Row="7"
+            Grid.Column="2"
+                />
+        
+        <Button Content = "Delete" 
+            Command="{Binding DeleteCommand}"
+            FontSize="20"
+            Margin="100 0 0 0 "
+            Grid.Row="7"
+            Grid.Column="2"
+                />
+    </Grid>
+</Page>
